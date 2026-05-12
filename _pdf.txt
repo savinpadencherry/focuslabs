@@ -4,9 +4,6 @@ Know exactly who is ready and build
 everyone up from there
 A single AI layer that assesses any role, at hiring and throughout careers, then
 delivers the precise learning each person actually needs.
-Built by operators from:
-Unilever Tata Consumer Paper Boat Crompton Keka
-Simplilearn HDFC Bajaj Finserv
 
 -- 1 of 10 --
 
@@ -250,4 +247,3 @@ support
 Pilot pricing on request · Results in 6 weeks · No long-term commitment required	FOCUS CHAIN LABS
 
 -- 10 of 10 --
-

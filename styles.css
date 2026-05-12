@@ -402,41 +402,6 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
 }
 .footer-brand-text { display: flex; flex-direction: column; }
 
-/* ═══════════════════════════════════════════ RIBBON ═══════════════════════════════════════════ */
-.ribbon {
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  background: var(--paper-2);
-  padding: 22px 0;
-}
-.ribbon-inner {
-  max-width: 1320px;
-  margin: 0 auto;
-  padding: 0 36px;
-  display: flex; align-items: center; gap: 36px;
-  flex-wrap: wrap;
-}
-.ribbon-label {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink-4);
-}
-.ribbon-item {
-  font-family: var(--display);
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--ink-3);
-  letter-spacing: -0.01em;
-  position: relative;
-}
-.ribbon-item + .ribbon-item::before {
-  content: '·';
-  margin-right: 36px;
-  color: var(--ink-4);
-}
-
 /* ═══════════════════════════════════════════ PROBLEM ═══════════════════════════════════════════ */
 .section-problem .h-display em { color: var(--green-deep); }
 .section-problem .h-display { margin-bottom: 36px; }
@@ -1218,7 +1183,7 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
   .nav { grid-template-columns: 1fr auto; padding: 12px 18px; gap: 12px; }
   .nav-tabs { order: 3; grid-column: 1 / -1; justify-self: stretch; overflow-x: auto; padding: 4px; }
   .tab-btn { padding: 8px 14px; font-size: 12.5px; }
-  .container, .ribbon-inner { padding: 0 22px; }
+  .container { padding: 0 22px; }
   .hero { padding: 36px 22px 60px; }
   .section { padding: 90px 0; }
   .display { font-size: 44px; }
@@ -1235,6 +1200,5 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
   .cta-card { padding: 56px 28px; border-radius: 18px; }
   .hero-meta { gap: 18px; flex-wrap: wrap; }
   .hero-meta-divider { display: none; }
-  .ribbon-item + .ribbon-item::before { margin-right: 12px; }
   .footer-links { flex-wrap: wrap; gap: 16px; justify-content: center; }
 }
