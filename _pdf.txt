@@ -1,0 +1,253 @@
+FOCUS CHAIN LABS
+AI TALENT INTELLIGENCE PLATFORM
+Know exactly who is ready and build
+everyone up from there
+A single AI layer that assesses any role, at hiring and throughout careers, then
+delivers the precise learning each person actually needs.
+Built by operators from:
+Unilever Tata Consumer Paper Boat Crompton Keka
+Simplilearn HDFC Bajaj Finserv
+
+-- 1 of 10 --
+
+THE PROBLEM
+Your talent decisions are running on intuition
+Three broken loops — each one solvable with the right data layer.
+43%
+Hires miss in year one
+Interviews test presentation skills, not
+role readiness. The gap surfaces six
+months later in performance reviews
+and attrition.
+67%
+L&D spend delivers no lift
+Generic programmes land the same
+content on every desk. A brand
+manager and a logistics head study the
+same AI module. Neither finds it useful.
+0%
+Skill ROI is ever measured
+Completion certificates do not equal
+capability. CHROs cannot connect L&D
+spend to performance — budget
+conversations are guesswork every year.
+
+-- 2 of 10 --
+
+THE OPPORTUNITY
+AI readiness is the #1 workforce priority in 2026
+Every CHRO has the budget. No one has the right product yet.
+$8.4BGlobal corporate AI upskilling market by 2028 — growing at
+34% annually
+₹2,200cr
+Enterprise L&D spend in India per year — 70% going to
+platforms with no diagnostic layer
+Copilot and Gemini enterprise rollouts have created one urgent
+question: 'Is our workforce ready to actually use this?'
+76% of CHROs (Gartner 2025) plan to increase AI upskilling budgets
+in FY26 — average increase of 40%.
+The diagnostic gap is the unlock: every LMS delivers content; none
+tells you what each person actually needs.
+Mid-enterprise (2,000–20,000 employees) is underserved — too
+large for manual assessment, too small for Workday deployments.
+
+-- 3 of 10 --
+
+OUR ANSWER
+One platform. Two entry points. Continuous
+loop.	Whether assessing a candidate before offer or an employee mid-career — the same AI engine maps skill gaps and delivers a personalized
+path.
+Diagnose · Prescribe · Upskill · Measure
+FOR HIRING
+AI interview screens for role-specific readiness
+Skill profile benchmarked to top performers in role
+Onboarding gap report ready on day one
+Structured hire recommendation to manager
+FOR WORKFORCE
+Quarterly AI skill assessments per role
+AI-generated personalized learning path
+Role-contextualized modules — not generic
+Manager and CHRO analytics dashboard
+
+-- 4 of 10 --
+
+HOW IT WORKS
+One engine, contextual to every role
+The same intelligent loop runs for candidates and employees alike.
+ENTRY
+Role selected
+Hiring candidate or existing
+employee. Role and domain
+set.
+→
+AI INTERVIEW
+Conversational
+diagnostic
+20-min adaptive, role-
+specific interview.
+→
+INTELLIGENCE
+Skill profile
+generated
+Strengths and gaps
+benchmarked to top
+performers.
+→
+OUTCOME
+Personalized path
+Hire decision or tailored
+learning. Measured
+quarterly.
+HIRING TRACK
+Candidate → AI interview → role-fit score → hire/defer +
+onboarding plan on day one
+WORKFORCE TRACK
+Employee → AI assessment → gap report → personalized
+learning → retested quarterly
+
+-- 5 of 10 --
+
+PRODUCT · MOCKUP
+The AI interview experience
+AI Interview — Focus Chain Labs Platform
+FMCG Brand Manager · AI Readiness Assessment
+Question 3 of 8 37% complete
+AI Walk me through how you evaluate your last trade promotion
+— and how you would use AI to sharpen that decision next
+time.
+We track secondary sales and offtake weekly. Post-promo I look
+at sell-through vs baseline, but attribution is manual...
+AI Good instinct on attribution. Which variable would you
+prioritise first in a predictive trade model, and why?
+Your response... ↑
+1 Role-specific, not generic
+An FMCG brand manager and a pharma MR see completely
+different questions, generated from their role context.
+2 Adaptive depth
+Strong answers unlock harder follow-ups. The AI calibrates
+difficulty in real time based on each response.
+3 20 minutes average
+Completed independently. No scheduler, no panel, no
+availability conflict.
+4 Both tracks, same interface
+Hiring candidate and existing employee see the same clean
+experience. Only the backend context changes.
+
+-- 6 of 10 --
+
+PRODUCT · MOCKUP
+Skill intelligence report
+Skill Profile — Ravi Sharma, Brand Manager
+Ravi Sharma
+FMCG Brand Manager · Assessed 8 May 2026 	68Readiness
+Data-led decision making 78%
+AI prompt strategy 55%
+Trade promotion analytics 81%
+Marketing mix modelling 38%
+GenAI tools for content creation 42%
+Strong: data intuition Strong: trade analytics Gap: AI tools Gap: MMM
+1 Benchmarked, not absolute
+78% means top-quartile for brand managers — calibrated to
+top performers in this exact role, not a generic scale.
+2 Every gap maps to a module
+The profile doesn't say 'needs improvement' — it auto-
+prescribes a specific learning path on the next screen.
+3 Hiring and workforce mode
+For candidates this feeds the hire decision. For employees it
+auto-generates their personalized learning path.
+4 Retested quarterly
+Same dimensions reruns each quarter. Score movement is
+the ROI number your CHRO has been waiting for.
+
+-- 7 of 10 --
+
+PRODUCT · MOCKUP
+Personalized learning path
+Learning Path — Ravi Sharma
+Your AI Readiness Path
+FMCG Brand Manager · 4 modules · ~6 hrs
+1 of 4 done
+✓
+AI fundamentals for brand teams
+Completed 3 May · 45 min
+Video
+2
+Marketing mix modelling — FMCG lens
+In progress · 1h 20min left
+Case study
+3
+Prompt engineering for campaign briefs
+Unlocks after module 2 · 90 min
+Simulation
+4
+AI-assisted trade promotion planning
+Final module · 75 min
+Assessment
+AI coach note
+Your data skills mean you will apply prompting better with modelling context first — so
+we sequenced MMM before prompt engineering.
+1 Sequence is personalized
+Module order is not fixed. The AI coach sequences based on
+individual gaps and existing strengths from their profile.
+2 Role-contextual content
+Not 'AI for marketers' — it's 'AI for FMCG brand managers,'
+with real trade promotion and NPD case studies.
+3 Skill lift is measured
+After module 4, the AI interview reruns on the same
+dimensions. Before vs after scores go to the manager
+dashboard.
+
+-- 8 of 10 --
+
+PRODUCT · MOCKUP
+Manager and CHRO analytics
+Team Dashboard — Marketing, Asian Paints
+64
+Team readiness
+7/12
+Assessed this Q
+3
+Critical gaps
+TEAM MEMBERS
+RS Ravi Sharma
+Brand Manager 68
+PK Priya Kulkarni
+Sr. Brand Manager 84
+AM Arjun Mehta
+Category Manager 41
+SN Sneha Nair
+Brand Executive 59
+Top gap: AI-assisted campaign planning
+6 of 7 assessed scored below 50. Recommend team workshop + individual paths.
+1 Department-level visibility
+CHROs see team readiness across departments — spot
+entire functions that need intervention before performance
+suffers.
+2 Measurable ROI, finally
+Quarter-on-quarter score movement is the proof point. Skill
+lift is now a number, not an assumption in a budget deck.
+3 Prescriptive, not descriptive
+The dashboard surfaces recommended interventions — who
+needs what — so managers don't have to diagnose alone.
+
+-- 9 of 10 --
+
+LET'S BEGIN
+Start with a 6-week pilot —
+see your team's readiness in numbers
+Assess a cohort of your choice, deliver role-specific skill profiles, and show measurable skill lift by week
+six.
+WHAT'S INCLUDED IN THE PILOT
+Up to 50 employees or candidates assessed
+Role-specific interview for up to 3 roles
+Individual skill profiles + team analytics
+dashboard
+2 personalized learning path modules per
+person
+End-of-pilot readiness report for your CHRO
+Dedicated implementation and onboarding
+support
+Pilot pricing on request · Results in 6 weeks · No long-term commitment required	FOCUS CHAIN LABS
+
+-- 10 of 10 --
+

@@ -3,14 +3,15 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>FocusChain Labs — Connected Intelligence</title>
-<meta name="description" content="FocusChain Labs builds connected AI systems for go-to-market — from personalized learning programs to performance marketing engines." />
+<title>FocusChain Labs — AI Talent Intelligence</title>
+<meta name="description" content="A single AI layer that assesses any role at hiring and throughout careers, then delivers the precise learning each person actually needs." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
 <link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="styles-extra.css" />
 <link rel="stylesheet" href="playground.css" />
 
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
@@ -23,34 +24,23 @@
 <header class="nav">
   <a href="#" class="brand" aria-label="FocusChain Labs home">
     <img src="logo.png" alt="FocusChain Labs" class="brand-logo" />
-    <span class="brand-mark brand-mark-hidden" aria-hidden="true">
-      <svg viewBox="0 0 56 80" width="28" height="40" fill="none">
-        <path d="M14 4 L26 4 L32 14 L26 24 L14 24 L8 14 Z" stroke="#143C5C" stroke-width="2.4" stroke-linejoin="round"/>
-        <path d="M14 28 L26 28 L32 38 L26 48 L14 48 L8 38 Z" stroke="#1FA565" stroke-width="2.4" stroke-linejoin="round" transform="translate(14 18)"/>
-      </svg>
-    </span>
-    <span class="brand-words">
-      <span class="brand-name">FocusChain<span class="brand-name-alt"> Labs</span></span>
-      <span class="brand-tag">Connected Intelligence</span>
-    </span>
   </a>
 
   <nav class="nav-tabs" role="tablist" aria-label="Sections">
-    <button class="tab-btn is-active" data-tab="services" role="tab" aria-selected="true">What we do</button>
-    <button class="tab-btn" data-tab="playground" role="tab" aria-selected="false">Learning playground</button>
-    <button class="tab-btn" data-tab="marketing" role="tab" aria-selected="false">Performance marketing</button>
+    <button class="tab-btn is-active" data-tab="platform" role="tab" aria-selected="true">Platform</button>
+    <button class="tab-btn" data-tab="playground" role="tab" aria-selected="false">Project pilot</button>
     <span class="tab-indicator" aria-hidden="true"></span>
   </nav>
 
   <div class="nav-cta">
-    <a href="#contact" class="btn btn-primary">Book a call <span class="btn-arrow">→</span></a>
+    <a href="#contact" class="btn btn-primary">Book a pilot <span class="btn-arrow">→</span></a>
   </div>
 </header>
 
 <main id="main">
 
-<!-- ═══════════════════════════════ TAB 1 — SERVICES / WHAT WE DO ═══════════════════════════════ -->
-<section class="tab-panel is-active" data-panel="services" data-screen-label="01 What we do">
+<!-- ═══════════════════════════════ TAB 1 — PLATFORM ═══════════════════════════════ -->
+<section class="tab-panel is-active" data-panel="platform" data-screen-label="01 Platform">
 
   <!-- HERO -->
   <div class="hero">
@@ -59,263 +49,540 @@
     <div class="hero-inner">
       <div class="eyebrow">
         <span class="eyebrow-dot"></span>
-        AI systems for ambitious teams · est. 2025
+        AI Talent Intelligence Platform · est. 2025
       </div>
 
       <h1 class="display">
-        Connected intelligence,
-        <span class="display-accent">end&#8209;to&#8209;end.</span>
+        Know exactly who is ready —
+        <span class="display-accent">and build everyone up from there.</span>
       </h1>
 
-      <p class="lede">
-        FocusChain Labs builds AI systems that link learning, marketing, and revenue
-        into one compounding engine — so every conversation, click, and lesson
-        teaches the next one.
+      <p class="lede copy-field copy-field-hero">
+        A single AI layer that assesses any role, at hiring and throughout careers,
+        then delivers the precise learning each person actually needs.
       </p>
 
       <div class="hero-actions">
-        <a href="#contact" class="btn btn-primary">Start with a strategy call <span class="btn-arrow">→</span></a>
-        <button class="btn btn-ghost" data-jump="pillars">See what we build</button>
+        <a href="#contact" class="btn btn-primary">Start a 6-week pilot <span class="btn-arrow">→</span></a>
+        <button class="btn btn-ghost" data-jump-tab="playground">See it in action</button>
       </div>
 
       <div class="hero-meta">
-        <div class="hero-meta-item"><span class="num">3</span><span class="lbl">Connected systems</span></div>
+        <div class="hero-meta-item"><span class="num">20m</span><span class="lbl">AI interview · per role</span></div>
         <div class="hero-meta-divider"></div>
-        <div class="hero-meta-item"><span class="num">90d</span><span class="lbl">To live in production</span></div>
+        <div class="hero-meta-item"><span class="num">6w</span><span class="lbl">Pilot to readiness report</span></div>
         <div class="hero-meta-divider"></div>
-        <div class="hero-meta-item"><span class="num">∞</span><span class="lbl">Compounding loops</span></div>
+        <div class="hero-meta-item"><span class="num">∞</span><span class="lbl">Diagnose → upskill loop</span></div>
       </div>
     </div>
 
     <div class="hero-mark" aria-hidden="true">
-      <svg viewBox="0 0 320 460" width="100%" height="100%">
+      <svg viewBox="0 0 360 460" width="100%" height="100%">
         <defs>
-          <linearGradient id="hexA" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#1B4870"/>
-            <stop offset="100%" stop-color="#0E2A44"/>
-          </linearGradient>
-          <linearGradient id="hexB" x1="0" y1="0" x2="1" y2="1">
+          <linearGradient id="hexGreen" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stop-color="#27B978"/>
-            <stop offset="100%" stop-color="#178A56"/>
+            <stop offset="100%" stop-color="#0F7A47"/>
           </linearGradient>
+          <linearGradient id="hexWhite" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="100%" stop-color="#E9E4D6"/>
+          </linearGradient>
+          <filter id="hexGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="6" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
         </defs>
+
+        <!-- subtle orbit dots -->
+        <circle class="orbit-ring" cx="180" cy="230" r="200" fill="none" stroke="rgba(20,60,92,0.10)" stroke-width="1" stroke-dasharray="2 8"/>
+        <circle class="orbit-ring orbit-ring-2" cx="180" cy="230" r="156" fill="none" stroke="rgba(31,165,101,0.14)" stroke-width="1" stroke-dasharray="2 8"/>
+
+        <!-- WHITE hex (back) -->
         <g class="hex-float hex-float-a">
-          <path d="M80 30 L200 30 L260 130 L200 230 L80 230 L20 130 Z"
-                fill="none" stroke="url(#hexA)" stroke-width="6" stroke-linejoin="round"/>
+          <path d="M100 40 L220 40 L280 140 L220 240 L100 240 L40 140 Z"
+                fill="url(#hexWhite)"
+                stroke="#143C5C" stroke-width="2"
+                stroke-linejoin="round"/>
+          <path d="M100 40 L220 40 L280 140 L220 240 L100 240 L40 140 Z"
+                fill="none"
+                stroke="rgba(20,60,92,0.25)" stroke-width="6"
+                stroke-linejoin="round" transform="translate(0 4)"
+                opacity="0.4"/>
         </g>
-        <g class="hex-float hex-float-b" transform="translate(70 200)">
-          <path d="M80 30 L200 30 L260 130 L200 230 L80 230 L20 130 Z"
-                fill="none" stroke="url(#hexB)" stroke-width="6" stroke-linejoin="round"/>
+
+        <!-- GREEN hex (front, overlapping) -->
+        <g class="hex-float hex-float-b" transform="translate(80 200)">
+          <path d="M100 40 L220 40 L280 140 L220 240 L100 240 L40 140 Z"
+                fill="url(#hexGreen)"
+                stroke="#0F7A47" stroke-width="2"
+                stroke-linejoin="round"
+                filter="url(#hexGlow)"/>
         </g>
-        <circle class="orbit-dot" cx="160" cy="130" r="3" fill="#1FA565"/>
-        <circle class="orbit-dot orbit-dot-2" cx="230" cy="330" r="3" fill="#143C5C"/>
+
       </svg>
     </div>
   </div>
 
-  <!-- LOGO RIBBON / TRUST STRIP -->
+  <!-- TRUST RIBBON -->
   <div class="ribbon">
     <div class="ribbon-inner">
-      <span class="ribbon-label">Built for</span>
-      <span class="ribbon-item">B2B SaaS</span>
-      <span class="ribbon-item">EdTech &amp; L&amp;D</span>
-      <span class="ribbon-item">Healthcare &amp; Pharma</span>
-      <span class="ribbon-item">FinTech</span>
-      <span class="ribbon-item">PropTech</span>
-      <span class="ribbon-item">D2C</span>
-      <span class="ribbon-item">Founder-led teams</span>
+      <span class="ribbon-label">Built by operators from</span>
+      <span class="ribbon-item">Unilever</span>
+      <span class="ribbon-item">Tata Consumer</span>
+      <span class="ribbon-item">Paper Boat</span>
+      <span class="ribbon-item">Crompton</span>
+      <span class="ribbon-item">Keka</span>
+      <span class="ribbon-item">Simplilearn</span>
+      <span class="ribbon-item">HDFC</span>
+      <span class="ribbon-item">Bajaj Finserv</span>
     </div>
   </div>
 
   <!-- THE PROBLEM -->
   <div class="section section-problem">
     <div class="container container-narrow">
-      <span class="section-eyebrow">The problem we solve</span>
+      <span class="section-eyebrow">The problem</span>
       <h2 class="h-display">
-        Most companies have <em>fragments</em> of intelligence —
-        <span class="ink-fade">disconnected tools, disconnected teams, disconnected data.</span>
+        Your talent decisions are running on intuition.
+        <span class="ink-fade">Three broken loops — each solvable with the right data layer.</span>
       </h2>
-      <p class="lede lede-tight">
-        A learning team that doesn't know what marketing is saying. A marketing
-        team that doesn't know what sales is hearing. A CRM that's a graveyard
-        of stale records. We connect the chain, so every motion compounds the next.
-      </p>
 
-      <div class="problem-grid">
-        <div class="problem-card">
-          <div class="problem-card-num">01</div>
-          <div class="problem-card-title">Knowledge that doesn't transfer</div>
-          <div class="problem-card-body">Generic training programs ignore individual gaps. Skills decay. Adoption stalls at the “midcycle dip.”</div>
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-num">43<span>%</span></div>
+          <div class="stat-title">Hires miss in year one</div>
+          <div class="stat-body">Interviews test presentation skills, not role readiness. The gap surfaces six months later in performance reviews and attrition.</div>
         </div>
-        <div class="problem-card">
-          <div class="problem-card-num">02</div>
-          <div class="problem-card-title">Marketing budget that leaks</div>
-          <div class="problem-card-body">Top-of-funnel volume looks healthy on paper, but the cost per qualified lead keeps creeping up while CAC grows.</div>
+        <div class="stat-card">
+          <div class="stat-num">67<span>%</span></div>
+          <div class="stat-title">L&amp;D spend delivers no lift</div>
+          <div class="stat-body">Generic programmes land the same content on every desk. A brand manager and a logistics head study the same AI module. Neither finds it useful.</div>
         </div>
-        <div class="problem-card">
-          <div class="problem-card-num">03</div>
-          <div class="problem-card-title">Revenue ops on duct tape</div>
-          <div class="problem-card-body">Lead routing, enrichment, and scoring rely on rules that nobody owns and nobody updates.</div>
+        <div class="stat-card">
+          <div class="stat-num">0<span>%</span></div>
+          <div class="stat-title">Skill ROI is ever measured</div>
+          <div class="stat-body">Completion certificates do not equal capability. CHROs cannot connect L&amp;D spend to performance — budget conversations are guesswork every year.</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- THREE PILLARS -->
-  <div class="section section-pillars" id="pillars">
+  <!-- THE OPPORTUNITY -->
+  <div class="section section-opportunity">
     <div class="container">
-      <div class="pillars-head">
+      <div class="opp-head">
         <div>
-          <span class="section-eyebrow">Three connected systems</span>
+          <span class="section-eyebrow">The opportunity</span>
           <h2 class="h-display h-display-lg">
-            One chain.<br/>
-            <span class="ink-accent">Three intelligences.</span>
+            AI readiness is the<br/>
+            <span class="ink-accent">#1 workforce priority in 2026.</span>
           </h2>
         </div>
-        <p class="lede lede-tight">
-          Every engagement plugs into the same backbone: a personalized learning
-          layer, a performance marketing layer, and the revenue ops glue between
-          them. Adopt one, all three, or grow into the system.
+        <p class="lede lede-tight copy-field copy-field-market">
+          Every CHRO has the budget. No one has the right product yet.
+          Copilot and Gemini enterprise rollouts have created one urgent
+          question: <em>is our workforce ready to actually use this?</em>
         </p>
       </div>
 
-      <div class="pillar-cards">
-        <article class="pillar pillar-1">
-          <div class="pillar-num">P · 01</div>
-          <div class="pillar-mark">
-            <svg viewBox="0 0 64 64" width="44" height="44" fill="none">
-              <circle cx="32" cy="32" r="22" stroke="#143C5C" stroke-width="2"/>
-              <circle cx="32" cy="32" r="14" stroke="#1FA565" stroke-width="2"/>
-              <circle cx="32" cy="32" r="6" fill="#143C5C"/>
-            </svg>
-          </div>
-          <h3 class="pillar-title">Personalized AI learning</h3>
-          <p class="pillar-body">
-            Cadence — our adaptive training system. Diagnoses gaps, scaffolds
-            mastery, and runs spaced reinforcement that compounds over months.
-          </p>
-          <ul class="pillar-list">
-            <li>Diagnose · practice · grade · reinforce</li>
-            <li>7-item cognitive load batches</li>
-            <li>+4% challenge step (flow state)</li>
-          </ul>
-          <button class="pillar-cta" data-jump-tab="playground">Open the playground <span>→</span></button>
-        </article>
+      <div class="opp-grid">
+        <div class="opp-card opp-card-hero">
+          <div class="opp-big">$8.4B</div>
+          <div class="opp-lbl">Global corporate AI upskilling market by 2028</div>
+          <div class="opp-sub">Growing at 34% annually</div>
+        </div>
+        <div class="opp-card">
+          <div class="opp-big opp-big-sm">₹2,200cr</div>
+          <div class="opp-lbl">Enterprise L&amp;D spend in India per year</div>
+          <div class="opp-sub">70% going to platforms with no diagnostic layer</div>
+        </div>
+        <div class="opp-card">
+          <div class="opp-big opp-big-sm">76<span class="pct">%</span></div>
+          <div class="opp-lbl">CHROs increasing AI upskilling budgets in FY26</div>
+          <div class="opp-sub">Avg. +40% increase · Gartner 2025</div>
+        </div>
+      </div>
 
-        <article class="pillar pillar-2">
-          <div class="pillar-num">P · 02</div>
-          <div class="pillar-mark">
-            <svg viewBox="0 0 64 64" width="44" height="44" fill="none">
-              <path d="M8 50 L24 32 L36 40 L56 14" stroke="#143C5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="56" cy="14" r="3" fill="#1FA565"/>
-              <circle cx="36" cy="40" r="3" fill="#1FA565"/>
-              <circle cx="24" cy="32" r="3" fill="#1FA565"/>
-              <circle cx="8" cy="50" r="3" fill="#1FA565"/>
-            </svg>
-          </div>
-          <h3 class="pillar-title">Performance marketing</h3>
-          <p class="pillar-body">
-            Lead generation that filters before it spends. We rebuild the funnel
-            around qualification — so budget compounds into pipeline, not impressions.
-          </p>
-          <ul class="pillar-list">
-            <li>Intent-led targeting &amp; signals</li>
-            <li>AI lead filtration before outreach</li>
-            <li>Conversion paths tuned weekly</li>
-          </ul>
-          <button class="pillar-cta" data-jump-tab="marketing">See the framework <span>→</span></button>
-        </article>
+      <p class="opp-foot">
+        Mid-enterprise (2,000–20,000 employees) is underserved — too large for
+        manual assessment, too small for Workday deployments. The diagnostic
+        gap is the unlock.
+      </p>
+    </div>
+  </div>
 
-        <article class="pillar pillar-3">
-          <div class="pillar-num">P · 03</div>
-          <div class="pillar-mark">
-            <svg viewBox="0 0 64 64" width="44" height="44" fill="none">
-              <rect x="10" y="14" width="44" height="36" rx="3" stroke="#143C5C" stroke-width="2"/>
-              <line x1="10" y1="24" x2="54" y2="24" stroke="#143C5C" stroke-width="2"/>
-              <circle cx="16" cy="19" r="1.6" fill="#1FA565"/>
-              <line x1="18" y1="34" x2="46" y2="34" stroke="#1FA565" stroke-width="2" stroke-linecap="round"/>
-              <line x1="18" y1="42" x2="38" y2="42" stroke="#1FA565" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <h3 class="pillar-title">Revenue ops glue</h3>
-          <p class="pillar-body">
-            The connective tissue. Enrichment waterfalls, AI scoring, deal
-            attribution, and a CRM that stays accurate without anyone babysitting it.
-          </p>
-          <ul class="pillar-list">
-            <li>Auto-enrichment across 150+ providers</li>
-            <li>AI scoring tied to closed-won data</li>
-            <li>HubSpot · Salesforce · Attio</li>
+  <!-- OUR ANSWER -->
+  <div class="section section-answer">
+    <div class="container">
+      <div class="answer-head">
+        <span class="section-eyebrow">Our answer</span>
+        <h2 class="h-display h-display-lg">
+          One platform.<br/>
+          <span class="ink-accent">Two entry points. Continuous loop.</span>
+        </h2>
+        <p class="lede lede-tight copy-field copy-field-engine">
+          Whether assessing a candidate before offer or an employee mid-career —
+          the same AI engine maps skill gaps and delivers a personalized path.
+        </p>
+      </div>
+
+      <div class="loop-pill"><span>Diagnose</span><i>·</i><span>Prescribe</span><i>·</i><span>Upskill</span><i>·</i><span>Measure</span></div>
+
+      <div class="track-grid">
+        <article class="track-card track-card-hiring">
+          <div class="track-tag">For hiring</div>
+          <h3 class="track-title">Hire what you measure.</h3>
+          <ul class="track-list">
+            <li><span class="check">✓</span> AI interview screens for role-specific readiness</li>
+            <li><span class="check">✓</span> Skill profile benchmarked to top performers in role</li>
+            <li><span class="check">✓</span> Onboarding gap report ready on day one</li>
+            <li><span class="check">✓</span> Structured hire recommendation to manager</li>
           </ul>
-          <button class="pillar-cta" data-jump="contact">Talk to us <span>→</span></button>
+        </article>
+        <article class="track-card track-card-workforce">
+          <div class="track-tag">For workforce</div>
+          <h3 class="track-title">Lift what you already have.</h3>
+          <ul class="track-list">
+            <li><span class="check">✓</span> Quarterly AI skill assessments per role</li>
+            <li><span class="check">✓</span> AI-generated personalized learning path</li>
+            <li><span class="check">✓</span> Role-contextualized modules — not generic</li>
+            <li><span class="check">✓</span> Manager and CHRO analytics dashboard</li>
+          </ul>
         </article>
       </div>
     </div>
   </div>
 
-  <!-- HOW WE WORK -->
-  <div class="section section-process">
+  <!-- HOW IT WORKS -->
+  <div class="section section-how">
     <div class="container">
-      <div class="process-head">
-        <span class="section-eyebrow">How we work</span>
-        <h2 class="h-display">From signal to system in 90 days.</h2>
+      <div class="how-head">
+        <span class="section-eyebrow">How it works</span>
+        <h2 class="h-display">One engine, contextual to every role.</h2>
+        <p class="lede lede-tight copy-field copy-field-loop">The same intelligent loop runs for candidates and employees alike.</p>
       </div>
 
-      <ol class="process-steps">
-        <li class="proc-step">
-          <div class="proc-week">Week 01–02</div>
-          <div class="proc-title">Listen &amp; map</div>
-          <div class="proc-body">We sit with your team, audit existing motions, and map the data — what you have, what leaks, what compounds.</div>
+      <ol class="how-steps">
+        <li class="how-step">
+          <div class="how-tag">Entry</div>
+          <div class="how-title">Role selected</div>
+          <div class="how-body">Hiring candidate or existing employee. Role and domain set.</div>
         </li>
-        <li class="proc-step">
-          <div class="proc-week">Week 03–05</div>
-          <div class="proc-title">Architect the chain</div>
-          <div class="proc-body">We design the connected system — learning loops, marketing flows, ops glue — and validate against your actual ICP and offers.</div>
+        <li class="how-arrow" aria-hidden="true">→</li>
+        <li class="how-step">
+          <div class="how-tag">AI interview</div>
+          <div class="how-title">Conversational diagnostic</div>
+          <div class="how-body">20-min adaptive, role-specific interview.</div>
         </li>
-        <li class="proc-step">
-          <div class="proc-week">Week 06–10</div>
-          <div class="proc-title">Build &amp; instrument</div>
-          <div class="proc-body">Models, pipelines, and dashboards go live. Every workflow is instrumented so we can see what's working in real time.</div>
+        <li class="how-arrow" aria-hidden="true">→</li>
+        <li class="how-step">
+          <div class="how-tag">Intelligence</div>
+          <div class="how-title">Skill profile generated</div>
+          <div class="how-body">Strengths and gaps benchmarked to top performers.</div>
         </li>
-        <li class="proc-step">
-          <div class="proc-week">Week 11–12+</div>
-          <div class="proc-title">Tune &amp; hand off</div>
-          <div class="proc-body">Weekly tuning against real outcomes. Documentation, dashboards, and a system your team can run — or we run it for you.</div>
+        <li class="how-arrow" aria-hidden="true">→</li>
+        <li class="how-step">
+          <div class="how-tag">Outcome</div>
+          <div class="how-title">Personalized path</div>
+          <div class="how-body">Hire decision or tailored learning. Measured quarterly.</div>
         </li>
       </ol>
+
+      <div class="track-flow">
+        <div class="track-flow-row">
+          <span class="track-flow-tag track-flow-tag-h">Hiring</span>
+          <span class="track-flow-path">Candidate → AI interview → role-fit score → hire/defer + onboarding plan on day one</span>
+        </div>
+        <div class="track-flow-row">
+          <span class="track-flow-tag track-flow-tag-w">Workforce</span>
+          <span class="track-flow-path">Employee → AI assessment → gap report → personalized learning → retested quarterly</span>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- DIFFERENTIATORS -->
-  <div class="section section-diff">
-    <div class="container container-narrow">
-      <span class="section-eyebrow">Why FocusChain</span>
-      <h2 class="h-display">
-        We don't sell tools.
-        <span class="ink-fade">We build systems that learn.</span>
-      </h2>
+  <!-- PRODUCT MOCKUPS -->
+  <div class="section section-product">
+    <div class="container">
+      <span class="section-eyebrow">Product · mockup</span>
+      <h2 class="h-display h-display-lg">The AI interview experience.</h2>
 
-      <div class="diff-grid">
-        <div class="diff-item">
-          <div class="diff-rule"></div>
-          <div class="diff-title">Connected, not bolted-on</div>
-          <div class="diff-body">A learning event that fires a marketing nudge that updates a lead score that triggers a coaching prompt. The chain is the product.</div>
+      <div class="mock-row">
+        <div class="mock interview-mock">
+          <div class="mock-chrome">
+            <div class="mock-chrome-dots"><span></span><span></span><span></span></div>
+            <div class="mock-chrome-title">AI Interview — Focus Chain Labs Platform</div>
+          </div>
+          <div class="mock-body">
+            <div class="mock-meta">
+              <div class="mock-role">FMCG Brand Manager · AI Readiness Assessment</div>
+              <div class="mock-progress">
+                <span>Question 3 of 8</span>
+                <div class="progress-bar"><div class="progress-fill" style="width:37%"></div></div>
+                <span class="progress-pct">37% complete</span>
+              </div>
+            </div>
+
+            <div class="chat">
+              <div class="chat-msg chat-msg-ai">
+                <div class="chat-avatar">AI</div>
+                <div class="chat-bubble">Walk me through how you evaluate your last trade promotion — and how you would use AI to sharpen that decision next time.</div>
+              </div>
+              <div class="chat-msg chat-msg-user">
+                <div class="chat-bubble chat-bubble-user">We track secondary sales and offtake weekly. Post-promo I look at sell-through vs baseline, but attribution is manual…</div>
+              </div>
+              <div class="chat-msg chat-msg-ai">
+                <div class="chat-avatar">AI</div>
+                <div class="chat-bubble">Good instinct on attribution. Which variable would you prioritise first in a predictive trade model, and why?</div>
+              </div>
+            </div>
+
+            <div class="chat-input">
+              <span>Your response…</span>
+              <button class="chat-send" aria-label="Send">↑</button>
+            </div>
+          </div>
         </div>
-        <div class="diff-item">
-          <div class="diff-rule"></div>
-          <div class="diff-title">Best model for each job</div>
-          <div class="diff-body">Claude, GPT, Gemini, and specialised tooling are orchestrated per task — never one model forced to do everything.</div>
+
+        <ul class="mock-notes">
+          <li>
+            <div class="mock-note-num">01</div>
+            <div class="mock-note-title">Role-specific, not generic</div>
+            <div class="mock-note-body">An FMCG brand manager and a pharma MR see completely different questions, generated from their role context.</div>
+          </li>
+          <li>
+            <div class="mock-note-num">02</div>
+            <div class="mock-note-title">Adaptive depth</div>
+            <div class="mock-note-body">Strong answers unlock harder follow-ups. The AI calibrates difficulty in real time based on each response.</div>
+          </li>
+          <li>
+            <div class="mock-note-num">03</div>
+            <div class="mock-note-title">20 minutes average</div>
+            <div class="mock-note-body">Completed independently. No scheduler, no panel, no availability conflict.</div>
+          </li>
+          <li>
+            <div class="mock-note-num">04</div>
+            <div class="mock-note-title">Both tracks, same interface</div>
+            <div class="mock-note-body">Hiring candidate and existing employee see the same clean experience. Only the backend context changes.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILL PROFILE MOCKUP -->
+  <div class="section section-product section-product-alt">
+    <div class="container">
+      <span class="section-eyebrow">Product · mockup</span>
+      <h2 class="h-display h-display-lg">Skill intelligence report.</h2>
+
+      <div class="mock-row mock-row-rev">
+        <div class="mock profile-mock">
+          <div class="mock-chrome">
+            <div class="mock-chrome-dots"><span></span><span></span><span></span></div>
+            <div class="mock-chrome-title">Skill Profile — Ravi Sharma, Brand Manager</div>
+          </div>
+          <div class="mock-body">
+            <div class="profile-head">
+              <div class="profile-avatar">RS</div>
+              <div class="profile-name">
+                <div class="profile-name-line">Ravi Sharma</div>
+                <div class="profile-sub">FMCG Brand Manager · Assessed 8 May 2026</div>
+              </div>
+              <div class="profile-score">
+                <div class="profile-score-num">68</div>
+                <div class="profile-score-lbl">Readiness</div>
+              </div>
+            </div>
+
+            <div class="skill-bars">
+              <div class="sk-row"><span class="sk-name">Data-led decision making</span><div class="sk-track"><div class="sk-fill" style="--w:78%"></div></div><span class="sk-pct">78%</span></div>
+              <div class="sk-row"><span class="sk-name">AI prompt strategy</span><div class="sk-track"><div class="sk-fill sk-fill-mid" style="--w:55%"></div></div><span class="sk-pct">55%</span></div>
+              <div class="sk-row"><span class="sk-name">Trade promotion analytics</span><div class="sk-track"><div class="sk-fill" style="--w:81%"></div></div><span class="sk-pct">81%</span></div>
+              <div class="sk-row"><span class="sk-name">Marketing mix modelling</span><div class="sk-track"><div class="sk-fill sk-fill-low" style="--w:38%"></div></div><span class="sk-pct">38%</span></div>
+              <div class="sk-row"><span class="sk-name">GenAI tools for content</span><div class="sk-track"><div class="sk-fill sk-fill-low" style="--w:42%"></div></div><span class="sk-pct">42%</span></div>
+            </div>
+
+            <div class="profile-tags">
+              <span class="ptag ptag-strong">Strong: data intuition</span>
+              <span class="ptag ptag-strong">Strong: trade analytics</span>
+              <span class="ptag ptag-gap">Gap: AI tools</span>
+              <span class="ptag ptag-gap">Gap: MMM</span>
+            </div>
+          </div>
         </div>
-        <div class="diff-item">
-          <div class="diff-rule"></div>
-          <div class="diff-title">Measurement-grade by default</div>
-          <div class="diff-body">If a workflow can't prove its lift against a baseline, it doesn't ship. Every loop carries its own evidence.</div>
+
+        <ul class="mock-notes">
+          <li>
+            <div class="mock-note-num">01</div>
+            <div class="mock-note-title">Benchmarked, not absolute</div>
+            <div class="mock-note-body">78% means top-quartile for brand managers — calibrated to top performers in this exact role, not a generic scale.</div>
+          </li>
+          <li>
+            <div class="mock-note-num">02</div>
+            <div class="mock-note-title">Every gap maps to a module</div>
+            <div class="mock-note-body">The profile doesn't say 'needs improvement' — it auto-prescribes a specific learning path on the next screen.</div>
+          </li>
+          <li>
+            <div class="mock-note-num">03</div>
+            <div class="mock-note-title">Hiring &amp; workforce mode</div>
+            <div class="mock-note-body">For candidates this feeds the hire decision. For employees it auto-generates their personalized learning path.</div>
+          </li>
+          <li>
+            <div class="mock-note-num">04</div>
+            <div class="mock-note-title">Retested quarterly</div>
+            <div class="mock-note-body">Same dimensions reruns each quarter. Score movement is the ROI number your CHRO has been waiting for.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEARNING PATH MOCKUP -->
+  <div class="section section-product">
+    <div class="container">
+      <span class="section-eyebrow">Product · mockup</span>
+      <h2 class="h-display h-display-lg">Personalized learning path.</h2>
+
+      <div class="mock-row">
+        <div class="mock path-mock">
+          <div class="mock-chrome">
+            <div class="mock-chrome-dots"><span></span><span></span><span></span></div>
+            <div class="mock-chrome-title">Learning Path — Ravi Sharma</div>
+          </div>
+          <div class="mock-body">
+            <div class="path-head">
+              <div>
+                <div class="path-title-1">Your AI Readiness Path</div>
+                <div class="path-sub">FMCG Brand Manager · 4 modules · ~6 hrs</div>
+              </div>
+              <div class="path-prog">1 of 4 done</div>
+            </div>
+
+            <ol class="path-list">
+              <li class="path-item path-done">
+                <div class="path-num">✓</div>
+                <div class="path-body">
+                  <div class="path-name">AI fundamentals for brand teams</div>
+                  <div class="path-meta">Completed 3 May · 45 min</div>
+                </div>
+                <div class="path-type">Video</div>
+              </li>
+              <li class="path-item path-current">
+                <div class="path-num">2</div>
+                <div class="path-body">
+                  <div class="path-name">Marketing mix modelling — FMCG lens</div>
+                  <div class="path-meta">In progress · 1h 20min left</div>
+                  <div class="path-bar"><div class="path-bar-fill" style="--w:42%"></div></div>
+                </div>
+                <div class="path-type">Case study</div>
+              </li>
+              <li class="path-item">
+                <div class="path-num">3</div>
+                <div class="path-body">
+                  <div class="path-name">Prompt engineering for campaign briefs</div>
+                  <div class="path-meta">Unlocks after module 2 · 90 min</div>
+                </div>
+                <div class="path-type">Simulation</div>
+              </li>
+              <li class="path-item">
+                <div class="path-num">4</div>
+                <div class="path-body">
+                  <div class="path-name">AI-assisted trade promotion planning</div>
+                  <div class="path-meta">Final module · 75 min</div>
+                </div>
+                <div class="path-type">Assessment</div>
+              </li>
+            </ol>
+
+            <div class="coach-note">
+              <div class="coach-tag">AI coach note</div>
+              <div class="coach-body">Your data skills mean you will apply prompting better with modelling context first — so we sequenced MMM before prompt engineering.</div>
+            </div>
+          </div>
         </div>
-        <div class="diff-item">
-          <div class="diff-rule"></div>
-          <div class="diff-title">Built to be handed off</div>
-          <div class="diff-body">No black boxes. We document, train, and transfer ownership — so the system survives whoever runs it.</div>
+
+        <ul class="mock-notes">
+          <li>
+            <div class="mock-note-num">01</div>
+            <div class="mock-note-title">Sequence is personalized</div>
+            <div class="mock-note-body">Module order is not fixed. The AI coach sequences based on individual gaps and existing strengths from their profile.</div>
+          </li>
+          <li>
+            <div class="mock-note-num">02</div>
+            <div class="mock-note-title">Role-contextual content</div>
+            <div class="mock-note-body">Not 'AI for marketers' — it's 'AI for FMCG brand managers,' with real trade promotion and NPD case studies.</div>
+          </li>
+          <li>
+            <div class="mock-note-num">03</div>
+            <div class="mock-note-title">Skill lift is measured</div>
+            <div class="mock-note-body">After module 4, the AI interview reruns on the same dimensions. Before vs after scores go to the manager dashboard.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD MOCKUP -->
+  <div class="section section-product section-product-alt">
+    <div class="container">
+      <span class="section-eyebrow">Product · mockup</span>
+      <h2 class="h-display h-display-lg">Manager &amp; CHRO analytics.</h2>
+
+      <div class="mock-row mock-row-rev">
+        <div class="mock dash-mock">
+          <div class="mock-chrome">
+            <div class="mock-chrome-dots"><span></span><span></span><span></span></div>
+            <div class="mock-chrome-title">Team Dashboard — Marketing, Asian Paints</div>
+          </div>
+          <div class="mock-body">
+            <div class="dash-kpis">
+              <div class="kpi">
+                <div class="kpi-num">64</div>
+                <div class="kpi-lbl">Team readiness</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-num">7<span>/12</span></div>
+                <div class="kpi-lbl">Assessed this Q</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-num kpi-num-alert">3</div>
+                <div class="kpi-lbl">Critical gaps</div>
+              </div>
+            </div>
+
+            <div class="dash-team">
+              <div class="dash-team-head">Team members</div>
+              <div class="dash-row"><div class="dash-av">RS</div><div class="dash-info"><div class="dash-name">Ravi Sharma</div><div class="dash-role">Brand Manager</div></div><div class="dash-score dash-score-mid">68</div></div>
+              <div class="dash-row"><div class="dash-av">PK</div><div class="dash-info"><div class="dash-name">Priya Kulkarni</div><div class="dash-role">Sr. Brand Manager</div></div><div class="dash-score dash-score-high">84</div></div>
+              <div class="dash-row"><div class="dash-av">AM</div><div class="dash-info"><div class="dash-name">Arjun Mehta</div><div class="dash-role">Category Manager</div></div><div class="dash-score dash-score-low">41</div></div>
+              <div class="dash-row"><div class="dash-av">SN</div><div class="dash-info"><div class="dash-name">Sneha Nair</div><div class="dash-role">Brand Executive</div></div><div class="dash-score dash-score-mid">59</div></div>
+            </div>
+
+            <div class="dash-callout">
+              <div class="dash-callout-title">Top gap: AI-assisted campaign planning</div>
+              <div class="dash-callout-body">6 of 7 assessed scored below 50. Recommend team workshop + individual paths.</div>
+            </div>
+          </div>
         </div>
+
+        <ul class="mock-notes">
+          <li>
+            <div class="mock-note-num">01</div>
+            <div class="mock-note-title">Department-level visibility</div>
+            <div class="mock-note-body">CHROs see team readiness across departments — spot entire functions that need intervention before performance suffers.</div>
+          </li>
+          <li>
+            <div class="mock-note-num">02</div>
+            <div class="mock-note-title">Measurable ROI, finally</div>
+            <div class="mock-note-body">Quarter-on-quarter score movement is the proof point. Skill lift is now a number, not an assumption in a budget deck.</div>
+          </li>
+          <li>
+            <div class="mock-note-num">03</div>
+            <div class="mock-note-title">Prescriptive, not descriptive</div>
+            <div class="mock-note-body">The dashboard surfaces recommended interventions — who needs what — so managers don't have to diagnose alone.</div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -323,116 +590,109 @@
   <!-- CTA / CONTACT -->
   <div class="section section-cta" id="contact">
     <div class="container container-narrow cta-card">
-      <span class="section-eyebrow">Start the chain</span>
+      <span class="section-eyebrow">Let's begin</span>
       <h2 class="h-display h-display-cta">
-        Let's connect your intelligence.
+        Start with a 6-week pilot.<br/>
+        <span class="ink-accent">See your team's readiness in numbers.</span>
       </h2>
-      <p class="lede lede-tight">
-        A 30-minute strategy call. No pitch deck. We come with a custom view
-        of where your chain breaks — and what to build first.
+      <p class="lede lede-tight copy-field copy-field-pilot">
+        Assess a cohort of your choice, deliver role-specific skill profiles, and
+        show measurable skill lift by week six.
       </p>
-      <div class="cta-actions">
-        <a href="/cdn-cgi/l/email-protection#35444050475c504675535a564046565d545c5b595457461b565a58" class="btn btn-primary btn-lg">Book a strategy call <span class="btn-arrow">→</span></a>
-        <a href="/cdn-cgi/l/email-protection#bdccc8d8cfd4d8cefddbd2dec8ceded5dcd4d3d1dcdfce93ded2d0" class="btn btn-ghost btn-lg"><span class="__cf_email__" data-cfemail="23525646514a465063454c405650404b424a4d4f4241500d404c4e">[email&#160;protected]</span></a>
+
+      <div class="pilot-list">
+        <div class="pilot-item"><span class="pilot-check">✓</span>Up to 50 employees or candidates assessed</div>
+        <div class="pilot-item"><span class="pilot-check">✓</span>Role-specific interview for up to 3 roles</div>
+        <div class="pilot-item"><span class="pilot-check">✓</span>Individual skill profiles + team analytics dashboard</div>
+        <div class="pilot-item"><span class="pilot-check">✓</span>2 personalized learning path modules per person</div>
+        <div class="pilot-item"><span class="pilot-check">✓</span>End-of-pilot readiness report for your CHRO</div>
+        <div class="pilot-item"><span class="pilot-check">✓</span>Dedicated implementation &amp; onboarding support</div>
       </div>
+
+      <div class="cta-actions">
+        <a href="/cdn-cgi/l/email-protection#9eefebfbecf7fbeddef8f1fdebedfdf6fff7f0f2fffcedb0fdf1f3" class="btn btn-primary btn-lg">Book a scoping call <span class="btn-arrow">→</span></a>
+        <a href="/cdn-cgi/l/email-protection#3b4a4e5e49525e487b5d54584e4858535a5255575a594815585456" class="btn btn-ghost btn-lg"><span class="__cf_email__" data-cfemail="88f9fdedfae1edfbc8eee7ebfdfbebe0e9e1e6e4e9eafba6ebe7e5">[email&#160;protected]</span></a>
+      </div>
+      <p class="pilot-foot">Pilot pricing on request · Results in 6 weeks · No long-term commitment required</p>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════ TAB 2 — LEARNING PLAYGROUND ═══════════════════════════════ -->
-<section class="tab-panel" data-panel="playground" data-screen-label="02 Learning playground">
-  <div class="pg-hero">
+<!-- ═══════════════════════════════ TAB 2 — PROJECT PILOT (PM PLAYGROUND) ═══════════════════════════════ -->
+<section class="tab-panel" data-panel="playground" data-screen-label="02 Project pilot">
+  <div class="pg-hero pg-hero-pm">
     <div class="container">
       <div class="pg-hero-row">
         <div class="pg-hero-text">
-          <span class="section-eyebrow">Cadence · personalized AI learning</span>
+          <span class="section-eyebrow">Live simulation · Agile &amp; Scrum playground</span>
           <h1 class="h-display h-display-lg">
-            Learning that knows<br/>
-            <span class="ink-accent">where you are.</span>
+            Lead a real Agile pilot.<br/>
+            <span class="ink-accent">Apply Scrum the way teams actually do.</span>
           </h1>
-          <p class="lede">
-            A live demo of our adaptive learning playground — built on cognitive
-            load theory, the zone of proximal development, the Minto pyramid,
-            and a +4% flow-state challenge step. Try it below.
+          <p class="lede copy-field copy-field-sim">
+            You're stepping into <em>Compass</em> — a 3-sprint MVP rebuild
+            commissioned by a Big-4 risk advisory unit. Match Scrum roles,
+            prioritise the backlog with MoSCoW, plan a sprint, then run the
+            board live as tickets, blockers and a daily standup unfold.
+            An AI coach scaffolds every move.
           </p>
+          <div class="pg-hero-actions">
+            <a href="#playground" class="btn btn-primary" data-jump="playground">Launch playground <span class="btn-arrow">→</span></a>
+            <span class="pg-hero-note">Selection · matching · planning poker · sprint burndown</span>
+          </div>
         </div>
         <div class="pg-hero-meta">
           <div class="pg-meta-card">
-            <div class="pg-meta-num">7±2</div>
-            <div class="pg-meta-lbl">Items per batch · CLT</div>
+            <div class="pg-meta-num">7</div>
+            <div class="pg-meta-lbl">Strategic stages</div>
           </div>
           <div class="pg-meta-card">
-            <div class="pg-meta-num">+4%</div>
-            <div class="pg-meta-lbl">Challenge step · flow zone</div>
+            <div class="pg-meta-num">∼12m</div>
+            <div class="pg-meta-lbl">Average playthrough</div>
           </div>
           <div class="pg-meta-card">
-            <div class="pg-meta-num">ZPD</div>
-            <div class="pg-meta-lbl">Scaffolded difficulty</div>
+            <div class="pg-meta-num">Δ</div>
+            <div class="pg-meta-lbl">Coach feedback every step</div>
           </div>
           <div class="pg-meta-card">
-            <div class="pg-meta-num">Minto</div>
-            <div class="pg-meta-lbl">Pyramid structuring</div>
+            <div class="pg-meta-num">PMI</div>
+            <div class="pg-meta-lbl">Scrum Guide aligned</div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- THE SCIENCE STRIP -->
+  <!-- INTERACTIVE PM PLAYGROUND MOUNTS HERE -->
+  <div class="container playground-shell" id="playground">
+    <div id="playground-root">
+      <div class="pg-fallback">
+        <div class="pg-fallback-kicker">Interactive playground</div>
+        <h2>Project simulation loading.</h2>
+        <p>The Compass sprint game includes selection, matching, prioritisation, estimation, a live sprint board, burndown chart, retrospective, and scorecard.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE METHOD STRIP -->
   <div class="science-strip">
     <div class="container">
       <div class="science-grid">
         <div class="science-item">
-          <div class="science-tag">Cognitive Load Theory</div>
-          <div class="science-body">Working memory holds 7±2 items. We chunk every lesson into batches that respect that ceiling.</div>
+          <div class="science-tag">Scrum roles &amp; accountability</div>
+          <div class="science-body">Product Owner owns the <em>what</em>. Scrum Master owns the <em>how</em>. Developers own the <em>build</em>. The simulation makes role boundaries muscle memory.</div>
         </div>
         <div class="science-item">
-          <div class="science-tag">Zone of Proximal Development</div>
-          <div class="science-body">Tasks sit just beyond what a learner can do alone — challenging, but reachable with scaffolding.</div>
+          <div class="science-tag">MoSCoW prioritisation</div>
+          <div class="science-body">Must · Should · Could · Won't. You earn points for cutting 'Coulds' before 'Musts' — the discipline real product owners need under pressure.</div>
         </div>
         <div class="science-item">
-          <div class="science-tag">Flow Channel · +4%</div>
-          <div class="science-body">Each correct answer steps difficulty up ~4%. Each miss steps it down. Engagement stays in flow.</div>
+          <div class="science-tag">Sprint mechanics</div>
+          <div class="science-body">Daily standup, blockers, board flow, burndown — you run them live, not read about them. Every drag updates a real chart.</div>
         </div>
         <div class="science-item">
-          <div class="science-tag">Minto Pyramid</div>
-          <div class="science-body">Every concept opens with the answer first, then supporting ideas — clarity before detail.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- INTERACTIVE PLAYGROUND DEMO MOUNTS HERE -->
-  <div class="container playground-shell">
-    <div id="playground-root"></div>
-  </div>
-
-  <!-- HOW THE LOOP WORKS -->
-  <div class="section section-loop">
-    <div class="container">
-      <span class="section-eyebrow">The Cadence loop</span>
-      <h2 class="h-display h-display-lg">Diagnose · Practice · Grade · Reinforce.</h2>
-
-      <div class="loop-grid">
-        <div class="loop-card">
-          <div class="loop-step">01 · Diagnose</div>
-          <div class="loop-title">A real task, not a quiz</div>
-          <div class="loop-body">Day one starts with a 30-minute scenario in the learner's actual domain. Every prompt, draft, and decision is captured at full fidelity.</div>
-        </div>
-        <div class="loop-card">
-          <div class="loop-step">02 · Practice</div>
-          <div class="loop-title">7 items at a time, AI-curated</div>
-          <div class="loop-body">The system identifies the top 2–3 gaps and serves a personalised practice path — short, specific, scaffolded.</div>
-        </div>
-        <div class="loop-card">
-          <div class="loop-step">03 · Grade</div>
-          <div class="loop-title">Multi-dimensional rubric</div>
-          <div class="loop-body">Source faithfulness, completeness, voice, hallucination detection, prompt efficiency — each scored with evidence and an actionable next step.</div>
-        </div>
-        <div class="loop-card">
-          <div class="loop-step">04 · Reinforce</div>
-          <div class="loop-title">90-second check-ins for 24 weeks</div>
-          <div class="loop-body">Spaced-repetition scheduler beats the midcycle dip. Items the learner struggled with return sooner; mastered items return later.</div>
+          <div class="science-tag">Retrospective discipline</div>
+          <div class="science-body">Start · Stop · Continue. Naming the right behaviours separates teams that compound from teams that repeat mistakes.</div>
         </div>
       </div>
     </div>
@@ -442,266 +702,15 @@
   <div class="section section-cta">
     <div class="container container-narrow cta-card cta-card-pg">
       <span class="section-eyebrow">For L&amp;D leaders</span>
-      <h2 class="h-display h-display-cta">Bring Cadence to your team.</h2>
-      <p class="lede lede-tight">Pilots run with 30–50 learners over 12 weeks. We co-author the rubric with your domain experts so every score holds up to internal scrutiny.</p>
-      <div class="cta-actions">
-        <a href="/cdn-cgi/l/email-protection#b9c8ccdccbd0dccaf9dfd6dacccadad1d8d0d7d5d8dbca97dad6d4" class="btn btn-primary btn-lg">Scope a pilot <span class="btn-arrow">→</span></a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════ TAB 3 — PERFORMANCE MARKETING ═══════════════════════════════ -->
-<section class="tab-panel" data-panel="marketing" data-screen-label="03 Performance marketing">
-
-  <div class="pm-hero">
-    <div class="container">
-      <span class="section-eyebrow">Performance marketing</span>
-      <h1 class="h-display h-display-xl">
-        Spend less.<br/>
-        <span class="ink-accent">Convert better.</span>
-      </h1>
-      <p class="lede">
-        Most performance budgets reward volume. We rebuild the funnel around
-        <em>filtration</em> — qualifying intent before a rupee leaves the platform —
-        so every step compounds the next.
+      <h2 class="h-display h-display-cta">Bring this to your team.</h2>
+      <p class="lede lede-tight copy-field copy-field-team">
+        Pilots typically run with 30–700 employees over 6 weeks. We co-author
+        scenarios with your domain experts — project management, sales,
+        leadership, or any role-specific simulation — so every decision the
+        learner makes reflects your actual operating reality.
       </p>
-    </div>
-  </div>
-
-  <!-- THE FUNNEL -->
-  <div class="section">
-    <div class="container">
-      <div class="funnel-head">
-        <span class="section-eyebrow">The filtration funnel</span>
-        <h2 class="h-display">Five filters between budget and a closed deal.</h2>
-        <p class="lede lede-tight">Each filter is a place where we can subtract noise instead of add spend. Hover a layer to see what we tune.</p>
-      </div>
-
-      <div class="funnel">
-        <div class="funnel-layer fl-1" data-layer="01">
-          <div class="fl-label">
-            <span class="fl-num">01</span>
-            <span class="fl-name">Audience &amp; intent signals</span>
-          </div>
-          <div class="fl-detail">First-party data + intent providers (6sense, Bombora) define a high-signal universe before any creative goes out.</div>
-          <div class="fl-stat">↓ −38% impressions wasted</div>
-        </div>
-        <div class="funnel-layer fl-2" data-layer="02">
-          <div class="fl-label">
-            <span class="fl-num">02</span>
-            <span class="fl-name">Creative &amp; copy variants</span>
-          </div>
-          <div class="fl-detail">AI-generated copy/visual variants tested per ICP segment, killed early on poor attention metrics.</div>
-          <div class="fl-stat">↑ 2.4× CTR vs control</div>
-        </div>
-        <div class="funnel-layer fl-3" data-layer="03">
-          <div class="fl-label">
-            <span class="fl-num">03</span>
-            <span class="fl-name">Lead enrichment &amp; scoring</span>
-          </div>
-          <div class="fl-detail">Every form fill enriched across 150+ providers; scored against closed-won lookalike model in &lt;30 seconds.</div>
-          <div class="fl-stat">↓ −62% cost per qualified lead</div>
-        </div>
-        <div class="funnel-layer fl-4" data-layer="04">
-          <div class="fl-label">
-            <span class="fl-num">04</span>
-            <span class="fl-name">Routing &amp; speed-to-lead</span>
-          </div>
-          <div class="fl-detail">Qualified leads routed to the right rep with full enriched profile, in under 5 minutes — when intent is hottest.</div>
-          <div class="fl-stat">↑ 3.1× connect rate</div>
-        </div>
-        <div class="funnel-layer fl-5" data-layer="05">
-          <div class="fl-label">
-            <span class="fl-num">05</span>
-            <span class="fl-name">Conversion &amp; nurture</span>
-          </div>
-          <div class="fl-detail">Stalled leads return to a personalised AI nurture track — not a generic drip — until they convert or self-disqualify.</div>
-          <div class="fl-stat">↑ +27% lead-to-SQL</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- BUDGET REDUCTION VISUAL -->
-  <div class="section section-budget">
-    <div class="container">
-      <div class="budget-head">
-        <div>
-          <span class="section-eyebrow">Budget vs outcome</span>
-          <h2 class="h-display">Same pipeline. Less spend.</h2>
-          <p class="lede lede-tight">An illustrative reallocation we run with most clients in the first 60 days. The aim is never just lower CAC — it's a budget that compounds into a learning system.</p>
-        </div>
-        <div class="budget-legend">
-          <div class="lg-item"><span class="dot dot-before"></span>Before</div>
-          <div class="lg-item"><span class="dot dot-after"></span>After 60 days</div>
-        </div>
-      </div>
-
-      <div class="budget-bars">
-        <div class="bar-row">
-          <div class="bar-label">Cost per qualified lead</div>
-          <div class="bars">
-            <div class="bar bar-before" style="--w:88%"><span>₹4,200</span></div>
-            <div class="bar bar-after" style="--w:34%"><span>₹1,600</span></div>
-          </div>
-        </div>
-        <div class="bar-row">
-          <div class="bar-label">Lead-to-SQL conversion</div>
-          <div class="bars">
-            <div class="bar bar-before" style="--w:18%"><span>9%</span></div>
-            <div class="bar bar-after" style="--w:54%"><span>27%</span></div>
-          </div>
-        </div>
-        <div class="bar-row">
-          <div class="bar-label">Time-to-first-touch</div>
-          <div class="bars">
-            <div class="bar bar-before" style="--w:90%"><span>14 hrs</span></div>
-            <div class="bar bar-after" style="--w:8%"><span>4 min</span></div>
-          </div>
-        </div>
-        <div class="bar-row">
-          <div class="bar-label">Monthly ad spend</div>
-          <div class="bars">
-            <div class="bar bar-before" style="--w:82%"><span>₹18.0L</span></div>
-            <div class="bar bar-after" style="--w:42%"><span>₹9.2L</span></div>
-          </div>
-        </div>
-      </div>
-      <p class="footnote">Figures are representative — exact deltas depend on starting point, sector, and offer.</p>
-    </div>
-  </div>
-
-  <!-- HOW WE FILTER -->
-  <div class="section">
-    <div class="container">
-      <div class="filter-head">
-        <span class="section-eyebrow">The filtration system</span>
-        <h2 class="h-display">How a lead becomes a customer.</h2>
-      </div>
-
-      <div class="filter-flow">
-        <div class="filter-step">
-          <div class="fs-num">01</div>
-          <div class="fs-title">Capture</div>
-          <div class="fs-body">Form, ad click, webinar, content download — every signal lands in one queue, not five inboxes.</div>
-        </div>
-        <div class="filter-arrow">→</div>
-        <div class="filter-step">
-          <div class="fs-num">02</div>
-          <div class="fs-title">Enrich</div>
-          <div class="fs-body">Waterfall enrichment fills firmographics, technographics, intent, and recent triggers. Anonymous traffic gets de-anonymised where possible.</div>
-        </div>
-        <div class="filter-arrow">→</div>
-        <div class="filter-step">
-          <div class="fs-num">03</div>
-          <div class="fs-title">Score</div>
-          <div class="fs-body">An AI model trained on your closed-won history rates every lead 1–100 against ICP fit and timing.</div>
-        </div>
-        <div class="filter-arrow">→</div>
-        <div class="filter-step">
-          <div class="fs-num">04</div>
-          <div class="fs-title">Route or nurture</div>
-          <div class="fs-body">High score → AE inbox in &lt;5 min. Mid score → AI nurture track. Low score → marked, recycled, or killed cleanly.</div>
-        </div>
-        <div class="filter-arrow">→</div>
-        <div class="filter-step">
-          <div class="fs-num">05</div>
-          <div class="fs-title">Close &amp; learn</div>
-          <div class="fs-body">Every closed-won and closed-lost outcome trains the model. The funnel filters smarter the next month.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- WHY IT WORKS -->
-  <div class="section section-diff">
-    <div class="container container-narrow">
-      <span class="section-eyebrow">What's different</span>
-      <h2 class="h-display">
-        We treat marketing
-        <span class="ink-fade">like a closed-loop system, not a megaphone.</span>
-      </h2>
-
-      <div class="diff-grid">
-        <div class="diff-item">
-          <div class="diff-rule"></div>
-          <div class="diff-title">Filtration over volume</div>
-          <div class="diff-body">We'd rather buy 100 right impressions than 10,000 noisy ones. Targeting is the cheapest place to cut waste.</div>
-        </div>
-        <div class="diff-item">
-          <div class="diff-rule"></div>
-          <div class="diff-title">Revenue-tied scoring</div>
-          <div class="diff-body">Lead scores are trained on your actual closed-won data — not a generic “MQL” template the platform shipped with.</div>
-        </div>
-        <div class="diff-item">
-          <div class="diff-rule"></div>
-          <div class="diff-title">Speed-to-lead, automated</div>
-          <div class="diff-body">A qualified lead waiting 24 hours is a cold lead. Our routing closes the gap to minutes, with full context attached.</div>
-        </div>
-        <div class="diff-item">
-          <div class="diff-rule"></div>
-          <div class="diff-title">Every loss teaches the model</div>
-          <div class="diff-body">Closed-lost is a feature, not a failure. Reasons feed back into targeting, copy, and scoring on a weekly cadence.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ENGAGEMENT MODELS -->
-  <div class="section">
-    <div class="container">
-      <div class="engagement-head">
-        <span class="section-eyebrow">How we engage</span>
-        <h2 class="h-display">Three ways in.</h2>
-      </div>
-      <div class="engagement-grid">
-        <article class="eng-card">
-          <div class="eng-tag">Diagnostic</div>
-          <div class="eng-name">Performance audit</div>
-          <div class="eng-price">7 days · fixed scope</div>
-          <ul class="eng-list">
-            <li>Funnel teardown across the five filters</li>
-            <li>Lead-quality &amp; CAC analysis</li>
-            <li>Prioritised 90-day reallocation plan</li>
-          </ul>
-          <a href="/cdn-cgi/l/email-protection#d1a0a4b4a3b8b4a291b7beb2a4a2b2b9b0b8bfbdb0b3a2ffb2bebc" class="btn btn-ghost btn-sm">Start an audit →</a>
-        </article>
-        <article class="eng-card eng-card-featured">
-          <div class="eng-flag">Most teams start here</div>
-          <div class="eng-tag">Build &amp; operate</div>
-          <div class="eng-name">Filtration engine</div>
-          <div class="eng-price">90-day build · monthly retainer</div>
-          <ul class="eng-list">
-            <li>Full intent + scoring + routing build</li>
-            <li>AI creative &amp; nurture pipelines</li>
-            <li>Weekly tuning against closed-won data</li>
-            <li>Dedicated GTM strategist</li>
-          </ul>
-          <a href="/cdn-cgi/l/email-protection#36474353445f5345765059554345555e575f585a5754451855595b" class="btn btn-primary btn-sm">Book a scoping call →</a>
-        </article>
-        <article class="eng-card">
-          <div class="eng-tag">Embedded pod</div>
-          <div class="eng-name">Growth team</div>
-          <div class="eng-price">Annual · custom scope</div>
-          <ul class="eng-list">
-            <li>Strategist + ops + creative pod</li>
-            <li>Multi-market &amp; multi-product</li>
-            <li>Embedded in your revenue org</li>
-          </ul>
-          <a href="/cdn-cgi/l/email-protection#74050111061d110734121b170107171c151d1a181516075a171b19" class="btn btn-ghost btn-sm">Talk to us →</a>
-        </article>
-      </div>
-    </div>
-  </div>
-
-  <div class="section section-cta">
-    <div class="container container-narrow cta-card">
-      <span class="section-eyebrow">Stop spending into a wall</span>
-      <h2 class="h-display h-display-cta">Let's audit your funnel.</h2>
-      <p class="lede lede-tight">Send us your last 90 days of ad spend &amp; lead volume. We'll show you, in writing, where the leak is — before any contract.</p>
       <div class="cta-actions">
-        <a href="/cdn-cgi/l/email-protection#e3929686918a8690a3858c809690808b828a8d8f828190cd808c8e" class="btn btn-primary btn-lg">Request an audit <span class="btn-arrow">→</span></a>
+        <a href="/cdn-cgi/l/email-protection#55242030273c302615333a362026363d343c3b393437267b363a38" class="btn btn-primary btn-lg">Scope a pilot <span class="btn-arrow">→</span></a>
       </div>
     </div>
   </div>
@@ -714,32 +723,1344 @@
   <div class="container footer-inner">
     <div class="footer-brand">
       <img src="logo.png" alt="FocusChain Labs" class="footer-logo" />
-      <span class="brand-mark brand-mark-hidden" aria-hidden="true">
-        <svg viewBox="0 0 56 80" width="24" height="34" fill="none">
-          <path d="M14 4 L26 4 L32 14 L26 24 L14 24 L8 14 Z" stroke="#143C5C" stroke-width="2.4" stroke-linejoin="round"/>
-          <path d="M14 28 L26 28 L32 38 L26 48 L14 48 L8 38 Z" stroke="#1FA565" stroke-width="2.4" stroke-linejoin="round" transform="translate(14 18)"/>
-        </svg>
-      </span>
-      <div class="footer-brand-text">
-        <div class="footer-name">FocusChain Labs</div>
-        <div class="footer-tag">Connected Intelligence</div>
-      </div>
     </div>
     <div class="footer-links">
-      <a href="#" data-jump-tab="services">What we do</a>
-      <a href="#" data-jump-tab="playground">Learning playground</a>
-      <a href="#" data-jump-tab="marketing">Performance marketing</a>
-      <a href="/cdn-cgi/l/email-protection#a9d8dcccdbc0ccdae9cfc6cadcdacac1c8c0c7c5c8cbda87cac6c4">Contact</a>
+      <a href="#" data-jump-tab="platform">Platform</a>
+      <a href="#" data-jump-tab="playground">Project pilot</a>
+      <a href="/cdn-cgi/l/email-protection#314044544358544271575e524442525950585f5d5053421f525e5c">Contact</a>
     </div>
     <div class="footer-meta">
-      <div>© 2026 FocusChain Labs Pvt Ltd</div>
+      <div>© 2026 FocusChain Labs</div>
       <div class="footer-fine">All rights reserved · Built in India</div>
     </div>
   </div>
 </footer>
 
 <!-- ═══════════════════════════════ INTERACTIVE PLAYGROUND ═══════════════════════════════ -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/babel" src="playground.jsx"></script>
+<script type="text/babel">
+/* ═══════════════════════════════════════════════════════════════
+   FocusChain Labs — Agile / Scrum Strategic Playground
+   Case study: "Compass" — a 3-sprint risk-advisory MVP
+   Short lab: Brief → Roles → MoSCoW → Estimate → Sprint Board → Retro/Report
+   ═══════════════════════════════════════════════════════════════ */
+const { useState, useEffect, useMemo, useRef, useCallback } = React;
+
+/* ─────────────────────────── DATA ─────────────────────────── */
+
+const CASE = {
+  client: "Risk Advisory · Big-4 unit",
+  project: "Compass",
+  oneLiner: "A unified audit-evidence workspace for 700 risk-advisory consultants.",
+  problem:
+    "Today, evidence is scattered across email, OneDrive, and SharePoint. Audits stall when reviewers cannot find source files. Partners want a single workspace, mobile-friendly, with structured evidence requests and traceable approvals — shipped in three sprints.",
+  team: [
+    { name: "You", role: "Scrum Master" },
+    { name: "Anjali R.", role: "Product Owner" },
+    { name: "Karthik N.", role: "Senior Engineer" },
+    { name: "Riya M.", role: "Engineer" },
+    { name: "Sahil G.", role: "Engineer" },
+    { name: "Devika S.", role: "Designer" },
+  ],
+  constraints: [
+    "3 sprints · 6 weeks · fixed scope window",
+    "Budget already locked at partner level",
+    "Showcase demo to client partner at end of sprint 3",
+  ],
+};
+
+const ROLES = [
+  {
+    id: "po",
+    name: "Product Owner",
+    sub: "Owns the WHAT",
+    accent: "navy",
+  },
+  {
+    id: "sm",
+    name: "Scrum Master",
+    sub: "Owns the HOW",
+    accent: "green",
+  },
+  {
+    id: "dev",
+    name: "Developers",
+    sub: "Own the BUILD",
+    accent: "ink",
+  },
+];
+
+const RESPONSIBILITIES = [
+  { id: "r1", text: "Prioritise the product backlog by business value", role: "po" },
+  { id: "r3", text: "Decide release goals and acceptance criteria", role: "po" },
+  { id: "r2", text: "Remove impediments that block the team", role: "sm" },
+  { id: "r5", text: "Facilitate the daily standup, planning &amp; retro", role: "sm" },
+  { id: "r4", text: "Estimate and commit to the sprint backlog", role: "dev" },
+  { id: "r6", text: "Design, build and test increments to definition of done", role: "dev" },
+];
+
+const BACKLOG = [
+  { id: "b1", title: "User login (SSO via Azure AD)", note: "Compliance hard-gate.", bucket: "must" },
+  { id: "b2", title: "Create audit engagement workspace", note: "Core unit of work.", bucket: "must" },
+  { id: "b3", title: "Upload &amp; tag evidence files", note: "Without this, no audit value.", bucket: "must" },
+  { id: "b4", title: "Reviewer approval workflow", note: "Partner sign-off chain.", bucket: "should" },
+  { id: "b5", title: "Mobile responsive layout", note: "Site visits use phones.", bucket: "should" },
+  { id: "b8", title: "AI auto-summary of audit findings", note: "Wow factor, not core.", bucket: "could" },
+  { id: "b9", title: "Native iOS &amp; Android app", note: "Out of scope for MVP.", bucket: "wont" },
+];
+
+const BUCKETS = [
+  { id: "must", name: "Must have", sub: "Without it, sprint fails.", accent: "must" },
+  { id: "should", name: "Should have", sub: "Painful to omit, not fatal.", accent: "should" },
+  { id: "could", name: "Could have", sub: "Desirable if capacity allows.", accent: "could" },
+  { id: "wont", name: "Won't have (this time)", sub: "Explicitly out of scope.", accent: "wont" },
+];
+
+const TICKETS = [
+  { id: "t1", title: "SSO login screen", pts: 3, col: "todo" },
+  { id: "t2", title: "Workspace create API", pts: 5, col: "todo" },
+  { id: "t3", title: "Evidence upload UI", pts: 5, col: "todo" },
+  { id: "t5", title: "Reviewer approval flow", pts: 8, col: "todo" },
+];
+
+const COLUMNS = [
+  { id: "todo", name: "To do" },
+  { id: "doing", name: "In progress" },
+  { id: "review", name: "Code review" },
+  { id: "done", name: "Done" },
+];
+
+/* Daily events that fire as the user advances days */
+const EVENTS = [
+  {
+    day: 1,
+    type: "standup",
+    title: "Day 1 standup — kickoff",
+    body: "Anjali confirms scope. Karthik picks up SSO. Riya pairs on workspace API. Sahil starts evidence upload UI.",
+    suggest: ["t1", "t2", "t3"],
+    coach: "Pull a small first wave into 'In progress' — keep WIP low, don't fan out across all tickets.",
+  },
+  {
+    day: 3,
+    type: "blocker",
+    title: "Day 3 — Azure AD permission blocker",
+    body: "Karthik can't get tenant admin to grant SSO permissions. SSO ticket is blocked.",
+    coach: "Move t1 (SSO) to 'Code review' if a teammate can stub, OR keep it in progress and have the Scrum Master escalate. Don't let it sit silently.",
+  },
+  {
+    day: 6,
+    type: "scope",
+    title: "Day 6 — partner asks for a 'small' addition",
+    body: "Partner wants email notifications for approvals. Not in sprint backlog.",
+    coach: "Don't drag it onto the board. Tell the PO to log it for the next sprint. Mid-sprint scope creep is the #1 reason teams miss commitments.",
+  },
+  {
+    day: 10,
+    type: "review",
+    title: "Day 10 — Sprint Review demo",
+    body: "Move anything still in progress that you've actually shipped. Anything still in 'To do' is carryover.",
+    coach: "Don't pretend. Honest burndown is the whole point of Scrum.",
+  },
+];
+
+const RETRO_CARDS = [
+  { id: "rc1", text: "Pairing on the workspace API got it merged 2 days early", target: "continue" },
+  { id: "rc2", text: "We let SSO sit blocked for a full day before escalating", target: "stop" },
+  { id: "rc4", text: "We accepted a mid-sprint scope ask without pushback", target: "stop" },
+  { id: "rc5", text: "Try a 10-min design review with Devika every Tuesday", target: "start" },
+];
+
+const RETRO_BUCKETS = [
+  { id: "start", name: "Start", sub: "New habits to introduce." },
+  { id: "stop", name: "Stop", sub: "What's hurting us, name it." },
+  { id: "continue", name: "Continue", sub: "What's working, double down." },
+];
+
+const STORIES = [
+  { id: "s1", title: "Single sign-on via Azure AD", body: "Familiar pattern, library exists, but tenant admin needed.", truth: 3 },
+  { id: "s2", title: "Reviewer approval workflow with audit trail", body: "Multi-step state machine, role checks, e-sign hooks, edge cases.", truth: 8 },
+  { id: "s4", title: "AI auto-summary of audit findings", body: "New tech, no team experience, ambiguous acceptance criteria.", truth: 13 },
+];
+const FIB = [1, 2, 3, 5, 8, 13];
+
+const STAGES = [
+  { id: "brief", name: "Brief" },
+  { id: "roles", name: "Roles" },
+  { id: "moscow", name: "Backlog" },
+  { id: "estimate", name: "Estimate" },
+  { id: "board", name: "Sprint" },
+  { id: "retro", name: "Retro" },
+  { id: "report", name: "Scorecard" },
+];
+
+const STRATEGY_CHOICES = [
+  {
+    id: "thin-slice",
+    title: "Thin-slice the workflow",
+    body: "Ship SSO, workspace creation, upload/tag, and a lightweight approval path first.",
+    verdict: "Best first move. It protects the end-to-end demo and keeps sprint risk visible.",
+    score: 96,
+    tone: "green",
+  },
+  {
+    id: "wow-ai",
+    title: "Prioritise AI auto-summary",
+    body: "Lead with the demo wow factor and defer some compliance plumbing.",
+    verdict: "Tempting, but risky. The client cannot trust AI summaries until evidence flow and approvals work.",
+    score: 48,
+    tone: "amber",
+  },
+  {
+    id: "approval-heavy",
+    title: "Perfect the approval engine",
+    body: "Spend the first sprint on reviewer edge cases and e-sign integrations.",
+    verdict: "Too deep too early. Build enough approval to validate the workflow before hardening every edge case.",
+    score: 64,
+    tone: "navy",
+  },
+];
+
+const EVENT_DECISIONS = {
+  standup: [
+    { id: "low-wip", label: "Pull 2-3 tickets only", best: true, note: "Good WIP discipline. Flow beats heroic multitasking." },
+    { id: "fan-out", label: "Start all tickets", best: false, note: "Too much WIP. The board looks busy but nothing reaches done." },
+  ],
+  blocker: [
+    { id: "escalate-stub", label: "Escalate + stub login", best: true, note: "Correct. You protect the path to demo while unblocking the dependency." },
+    { id: "wait-admin", label: "Wait for admin", best: false, note: "Risky. Silent blockers are sprint killers." },
+  ],
+  scope: [
+    { id: "park-next", label: "Park for next sprint", best: true, note: "Correct. New scope belongs in the product backlog, not mid-sprint." },
+    { id: "accept-now", label: "Accept into sprint", best: false, note: "That breaks commitment. Log it, size it, and let the PO reorder later." },
+  ],
+  review: [
+    { id: "honest-carry", label: "Carry unfinished work", best: true, note: "Good. Transparency is what makes the next sprint forecast better." },
+    { id: "mark-done", label: "Mark it done for demo", best: false, note: "That hides risk. Done means potentially shippable, not almost ready." },
+  ],
+};
+
+/* ─────────────────────────── UTILITIES ─────────────────────────── */
+
+function classes(...c) { return c.filter(Boolean).join(" "); }
+
+function CoachLine({ tone = "neutral", title, children, anim }) {
+  return (
+    <div className={classes("pg-coach", `pg-coach-${tone}`, anim && "pg-coach-pop")}>
+      <div className="pg-coach-tag">AI coach</div>
+      {title && <div className="pg-coach-title">{title}</div>}
+      <div className="pg-coach-body">{children}</div>
+    </div>
+  );
+}
+
+function StageHeader({ idx, total, title, eyebrow, sub, scoreLine }) {
+  return (
+    <div className="pg-stage-head">
+      <div className="pg-stage-eyebrow">
+        <span className="pg-stage-step">Stage {idx + 1} / {total}</span>
+        <span>·</span>
+        <span>{eyebrow}</span>
+      </div>
+      <h2 className="pg-stage-title">{title}</h2>
+      {sub && <p className="pg-stage-sub">{sub}</p>}
+      {scoreLine && <div className="pg-stage-score">{scoreLine}</div>}
+    </div>
+  );
+}
+
+/* ─────────────────────────── STAGE 1: BRIEF ─────────────────────────── */
+
+function StageBrief({ onNext, idx, total }) {
+  const [choice, setChoice] = useState(null);
+  const picked = STRATEGY_CHOICES.find(c => c.id === choice);
+
+  return (
+    <div className="pg-stage pg-stage-brief">
+      <StageHeader
+        idx={idx}
+        total={total}
+        eyebrow="Read the room"
+        title="Case brief · the Compass MVP"
+        sub="A fast, high-level case read before the sprint lab begins. Each move teaches one Scrum decision without overloading the player."
+      />
+
+      <div className="brief-grid">
+        <div className="brief-main">
+          <div className="brief-block">
+            <div className="brief-block-label">Client</div>
+            <div className="brief-block-val">{CASE.client}</div>
+          </div>
+          <div className="brief-block">
+            <div className="brief-block-label">Project</div>
+            <div className="brief-block-val brief-block-val-lg">{CASE.project}</div>
+            <div className="brief-block-sub">{CASE.oneLiner}</div>
+          </div>
+          <div className="brief-block">
+            <div className="brief-block-label">The problem</div>
+            <div className="brief-block-body">{CASE.problem}</div>
+          </div>
+          <div className="brief-block">
+            <div className="brief-block-label">Hard constraints</div>
+            <ul className="brief-list">
+              {CASE.constraints.map((c, i) => (
+                <li key={i}><span className="brief-bullet">✓</span>{c}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <aside className="brief-side">
+          <div className="brief-side-label">Your team this sprint</div>
+          <ul className="brief-team">
+            {CASE.team.map(t => (
+              <li key={t.name} className={t.name === "You" ? "brief-team-you" : ""}>
+                <div className="brief-team-name">{t.name}</div>
+                <div className="brief-team-role">{t.role}</div>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      </div>
+
+      <div className="strategy-lab">
+        <div className="strategy-lab-head">
+          <div>
+            <div className="strategy-kicker">First strategic call</div>
+            <div className="strategy-title">Choose the sprint-1 framing before you touch the board.</div>
+          </div>
+          <div className="strategy-score">
+            <span>{picked ? picked.score : "—"}</span>
+            <small>fit score</small>
+          </div>
+        </div>
+        <div className="strategy-options">
+          {STRATEGY_CHOICES.map(option => (
+            <button
+              key={option.id}
+              className={classes("strategy-option", choice === option.id && "is-selected")}
+              onClick={() => setChoice(option.id)}
+            >
+              <span className="strategy-option-title">{option.title}</span>
+              <span className="strategy-option-body">{option.body}</span>
+            </button>
+          ))}
+        </div>
+        {picked && (
+          <div className={classes("strategy-verdict", `strategy-verdict-${picked.tone}`)}>
+            <strong>{picked.score >= 90 ? "Recommended path" : "Trade-off"}</strong>
+            <span>{picked.verdict}</span>
+          </div>
+        )}
+      </div>
+
+      <CoachLine tone="navy" title="What to expect">
+        A compact sprint lab with selection, matching, sorting, estimation,
+        board movement and a retro. The choices are intentionally tight so the
+        player learns the pattern, then wants to finish the run.
+      </CoachLine>
+
+      <div className="pg-stage-actions">
+        <button className="pg-btn pg-btn-primary" onClick={onNext}>
+          {choice ? "Begin simulation" : "Skip and begin"} <span className="arr">→</span>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────── STAGE 2: ROLE MATCH ─────────────────────────── */
+
+function StageRoles({ onNext, idx, total }) {
+  // Pool of responsibilities not yet placed
+  const [pool, setPool] = useState(() => RESPONSIBILITIES.map(r => r.id));
+  // map of roleId → array of responsibility ids
+  const [placed, setPlaced] = useState({ po: [], sm: [], dev: [] });
+  const [dragId, setDragId] = useState(null);
+  const [feedback, setFeedback] = useState(null); // { correct, wrong }
+  const [hoverRole, setHoverRole] = useState(null);
+
+  const allPlaced = pool.length === 0;
+
+  const handleDragStart = (id) => setDragId(id);
+  const handleDragEnd = () => { setDragId(null); setHoverRole(null); };
+
+  const handleDropOnRole = (roleId, fromPool) => {
+    if (!dragId) return;
+    // remove from any previous holder
+    setPool(p => p.filter(x => x !== dragId));
+    setPlaced(prev => {
+      const next = { po: [...prev.po], sm: [...prev.sm], dev: [...prev.dev] };
+      for (const k of Object.keys(next)) next[k] = next[k].filter(x => x !== dragId);
+      next[roleId].push(dragId);
+      return next;
+    });
+    setHoverRole(null);
+  };
+
+  const handleDropOnPool = () => {
+    if (!dragId) return;
+    setPool(p => p.includes(dragId) ? p : [...p, dragId]);
+    setPlaced(prev => {
+      const next = { po: [...prev.po], sm: [...prev.sm], dev: [...prev.dev] };
+      for (const k of Object.keys(next)) next[k] = next[k].filter(x => x !== dragId);
+      return next;
+    });
+  };
+
+  const handleCheck = () => {
+    let correct = 0, wrong = 0;
+    Object.entries(placed).forEach(([role, ids]) => {
+      ids.forEach(id => {
+        const r = RESPONSIBILITIES.find(x => x.id === id);
+        if (r.role === role) correct++; else wrong++;
+      });
+    });
+    setFeedback({ correct, wrong });
+  };
+
+  const responsibilityById = (id) => RESPONSIBILITIES.find(r => r.id === id);
+
+  return (
+    <div className="pg-stage pg-stage-roles">
+      <StageHeader
+        idx={idx}
+        total={total}
+        eyebrow="Stage 1 · accountability"
+        title="Match the responsibility to the right Scrum role."
+        sub="Drag each card from the pool into Product Owner, Scrum Master, or Developers."
+      />
+
+      <div className="roles-layout">
+        <div
+          className={classes("roles-pool", dragId && "is-targetable")}
+          onDragOver={e => e.preventDefault()}
+          onDrop={handleDropOnPool}
+        >
+          <div className="roles-pool-head">Pool · drag from here</div>
+          <div className="roles-pool-list">
+            {pool.length === 0 && <div className="roles-pool-empty">All cards placed — hit check.</div>}
+            {pool.map(id => {
+              const r = responsibilityById(id);
+              return (
+                <div
+                  key={id}
+                  draggable
+                  onDragStart={() => handleDragStart(id)}
+                  onDragEnd={handleDragEnd}
+                  className="resp-card"
+                  dangerouslySetInnerHTML={{ __html: r.text }}
+                />
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="roles-targets">
+          {ROLES.map(role => {
+            const wrongIds = feedback ? placed[role.id].filter(id => responsibilityById(id).role !== role.id) : [];
+            const rightIds = feedback ? placed[role.id].filter(id => responsibilityById(id).role === role.id) : [];
+            return (
+              <div
+                key={role.id}
+                className={classes(
+                  "role-slot",
+                  `role-slot-${role.accent}`,
+                  hoverRole === role.id && "is-hover",
+                  feedback && "is-checked"
+                )}
+                onDragOver={e => { e.preventDefault(); setHoverRole(role.id); }}
+                onDragLeave={() => setHoverRole(null)}
+                onDrop={() => handleDropOnRole(role.id)}
+              >
+                <div className="role-slot-head">
+                  <div className="role-slot-name">{role.name}</div>
+                  <div className="role-slot-sub">{role.sub}</div>
+                </div>
+                <div className="role-slot-body">
+                  {placed[role.id].length === 0 && !feedback && (
+                    <div className="role-slot-empty">Drop responsibilities here</div>
+                  )}
+                  {placed[role.id].map(id => {
+                    const r = responsibilityById(id);
+                    const isWrong = feedback && r.role !== role.id;
+                    const isRight = feedback && r.role === role.id;
+                    return (
+                      <div
+                        key={id}
+                        draggable={!feedback}
+                        onDragStart={() => handleDragStart(id)}
+                        onDragEnd={handleDragEnd}
+                        className={classes("resp-card resp-card-placed", isWrong && "is-wrong", isRight && "is-right")}
+                      >
+                        <span dangerouslySetInnerHTML={{ __html: r.text }} />
+                        {isWrong && <span className="resp-mark">belongs in <em>{ROLES.find(x => x.id === r.role).name}</em></span>}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {!feedback && (
+        <div className="pg-stage-actions">
+          <button
+            className="pg-btn pg-btn-primary"
+            disabled={!allPlaced}
+            onClick={handleCheck}
+          >
+            {allPlaced ? "Check my matches" : `${pool.length} card${pool.length === 1 ? "" : "s"} left`}
+          </button>
+        </div>
+      )}
+
+      {feedback && (
+        <>
+          <CoachLine
+            tone={feedback.wrong === 0 ? "green" : feedback.wrong <= 2 ? "navy" : "amber"}
+            title={feedback.wrong === 0 ? "Perfect role-fit." : `${feedback.correct} right · ${feedback.wrong} mis-placed`}
+            anim
+          >
+            {feedback.wrong === 0
+              ? "You've internalised the Scrum accountability triangle. The PO/SM/Dev boundary is the single most-violated rule in real teams — knowing it cold is half the battle."
+              : "Look for the verbs. ‘Prioritise / decide / approve' belongs with the PO. ‘Facilitate / remove / coach' belongs with the SM. ‘Build / estimate / commit' belongs with Developers."}
+          </CoachLine>
+          <div className="pg-stage-actions">
+            <button className="pg-btn pg-btn-ghost" onClick={() => {
+              setPlaced({ po: [], sm: [], dev: [] });
+              setPool(RESPONSIBILITIES.map(r => r.id));
+              setFeedback(null);
+            }}>Reset</button>
+            <button className="pg-btn pg-btn-primary" onClick={onNext}>
+              Move to backlog prioritisation <span className="arr">→</span>
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+/* ─────────────────────────── STAGE 3: MOSCOW PRIORITISATION ─────────────────────────── */
+
+function StageMoSCoW({ onNext, idx, total }) {
+  const [pool, setPool] = useState(() => BACKLOG.map(b => b.id));
+  const [placed, setPlaced] = useState({ must: [], should: [], could: [], wont: [] });
+  const [dragId, setDragId] = useState(null);
+  const [hover, setHover] = useState(null);
+  const [feedback, setFeedback] = useState(null);
+
+  const itemById = (id) => BACKLOG.find(b => b.id === id);
+
+  const onDrop = (bucket) => {
+    if (!dragId) return;
+    setPool(p => p.filter(x => x !== dragId));
+    setPlaced(prev => {
+      const next = { ...prev };
+      for (const k of Object.keys(next)) next[k] = next[k].filter(x => x !== dragId);
+      next[bucket] = [...next[bucket], dragId];
+      return next;
+    });
+    setHover(null);
+  };
+
+  const onDropPool = () => {
+    if (!dragId) return;
+    setPool(p => p.includes(dragId) ? p : [...p, dragId]);
+    setPlaced(prev => {
+      const next = { ...prev };
+      for (const k of Object.keys(next)) next[k] = next[k].filter(x => x !== dragId);
+      return next;
+    });
+  };
+
+  const allPlaced = pool.length === 0;
+
+  const check = () => {
+    let correct = 0, wrong = 0;
+    Object.entries(placed).forEach(([bucket, ids]) => {
+      ids.forEach(id => {
+        if (itemById(id).bucket === bucket) correct++; else wrong++;
+      });
+    });
+    setFeedback({ correct, wrong });
+  };
+
+  return (
+    <div className="pg-stage pg-stage-moscow">
+      <StageHeader
+        idx={idx}
+        total={total}
+        eyebrow="Stage 2 · prioritisation under pressure"
+        title="Sort the backlog with MoSCoW."
+        sub="The PO has narrowed the backlog to seven representative items. Place them by business necessity, not personal preference."
+      />
+
+      <div className="moscow-layout">
+        <div
+          className={classes("moscow-pool", dragId && "is-targetable")}
+          onDragOver={e => e.preventDefault()}
+          onDrop={onDropPool}
+        >
+          <div className="moscow-pool-head">
+            <span>Product backlog · raw</span>
+            <span className="moscow-pool-count">{pool.length} unsorted</span>
+          </div>
+          <div className="moscow-pool-list">
+            {pool.length === 0 && <div className="moscow-pool-empty">Backlog empty — every item is placed.</div>}
+            {pool.map(id => {
+              const b = itemById(id);
+              return (
+                <div
+                  key={id}
+                  draggable
+                  onDragStart={() => setDragId(id)}
+                  onDragEnd={() => { setDragId(null); setHover(null); }}
+                  className="backlog-card"
+                >
+                  <div className="backlog-card-title" dangerouslySetInnerHTML={{ __html: b.title }} />
+                  <div className="backlog-card-note" dangerouslySetInnerHTML={{ __html: b.note }} />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="moscow-grid">
+          {BUCKETS.map(bk => (
+            <div
+              key={bk.id}
+              className={classes("moscow-bucket", `moscow-bucket-${bk.accent}`, hover === bk.id && "is-hover", feedback && "is-checked")}
+              onDragOver={e => { e.preventDefault(); setHover(bk.id); }}
+              onDragLeave={() => setHover(null)}
+              onDrop={() => onDrop(bk.id)}
+            >
+              <div className="moscow-bucket-head">
+                <div className="moscow-bucket-name">{bk.name}</div>
+                <div className="moscow-bucket-sub">{bk.sub}</div>
+              </div>
+              <div className="moscow-bucket-body">
+                {placed[bk.id].length === 0 && <div className="moscow-bucket-empty">Drop here</div>}
+                {placed[bk.id].map(id => {
+                  const b = itemById(id);
+                  const isWrong = feedback && b.bucket !== bk.id;
+                  const isRight = feedback && b.bucket === bk.id;
+                  return (
+                    <div
+                      key={id}
+                      draggable={!feedback}
+                      onDragStart={() => setDragId(id)}
+                      onDragEnd={() => { setDragId(null); setHover(null); }}
+                      className={classes("backlog-card backlog-card-placed", isWrong && "is-wrong", isRight && "is-right")}
+                    >
+                      <div className="backlog-card-title" dangerouslySetInnerHTML={{ __html: b.title }} />
+                      {isWrong && (
+                        <div className="backlog-card-correction">
+                          PO would call this a <em>{BUCKETS.find(x => x.id === b.bucket).name}</em>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {!feedback && (
+        <div className="pg-stage-actions">
+          <button
+            className="pg-btn pg-btn-primary"
+            disabled={!allPlaced}
+            onClick={check}
+          >
+            {allPlaced ? "Check prioritisation" : `${pool.length} item${pool.length === 1 ? "" : "s"} left`}
+          </button>
+        </div>
+      )}
+
+      {feedback && (
+        <>
+          <CoachLine
+            tone={feedback.wrong === 0 ? "green" : feedback.wrong <= 2 ? "navy" : "amber"}
+            title={feedback.wrong === 0 ? "Sharp prioritisation." : `${feedback.correct} aligned · ${feedback.wrong} re-thought`}
+            anim
+          >
+            {feedback.wrong === 0
+              ? "Your Musts are the ones that, if cut, sink the sprint. Your Won'ts are honest — not hopeful. That's the discipline MoSCoW exists to enforce."
+              : "Ask: ‘if I remove this, does the audit workflow still work end-to-end?' If yes → Should/Could. If no → Must. Mobile-responsive is a Should, not a Must, when desktop is the default user surface."}
+          </CoachLine>
+          <div className="pg-stage-actions">
+            <button className="pg-btn pg-btn-primary" onClick={onNext}>
+              Run the sprint board <span className="arr">→</span>
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+/* ─────────────────────────── STAGE: ESTIMATE (Story Point Poker) ─────────────────────────── */
+
+function StageEstimate({ onNext, idx, total }) {
+  const [active, setActive] = useState(0);
+  const [picks, setPicks] = useState({}); // storyId -> chosen points
+  const [done, setDone] = useState(false);
+
+  const story = STORIES[active];
+  const myPick = picks[story.id];
+
+  const handlePick = (val) => {
+    if (myPick !== undefined) return;
+    setPicks(p => ({ ...p, [story.id]: val }));
+    setTimeout(() => {
+      if (active + 1 < STORIES.length) setActive(a => a + 1);
+      else setDone(true);
+    }, 1400);
+  };
+
+  // accuracy = how close picks are to truth on a Fibonacci-step ladder
+  const stepIdx = (v) => FIB.indexOf(v);
+  const totalDelta = STORIES.reduce((acc, s) => {
+    const p = picks[s.id];
+    if (p === undefined) return acc;
+    return acc + Math.abs(stepIdx(p) - stepIdx(s.truth));
+  }, 0);
+  const maxDelta = Object.keys(picks).length * (FIB.length - 1);
+  const accuracy = maxDelta === 0 ? 0 : Math.round(100 * (1 - totalDelta / maxDelta));
+  const velocity = Object.values(picks).reduce((a, b) => a + b, 0);
+  const truthVel = STORIES.reduce((a, s) => a + s.truth, 0);
+
+  const stepLabel = (delta) => delta === 0 ? "Spot on" : delta === 1 ? "1 step off" : `${delta} steps off`;
+
+  return (
+    <div className="pg-stage pg-stage-estimate">
+      <StageHeader
+        idx={idx}
+        total={total}
+        eyebrow="Stage 3 · planning poker"
+        title="Estimate each story in Fibonacci points."
+        sub="Click the chip you'd hold up in planning. Your accuracy meter and a velocity bar chart update live."
+      />
+
+      <div className="est-layout">
+        <div className="est-main">
+          {!done ? (
+            <>
+              <div className="est-progress">
+                {STORIES.map((s, i) => (
+                  <div key={s.id} className={classes("est-dot", i === active && "is-now", picks[s.id] !== undefined && "is-done")} />
+                ))}
+              </div>
+
+              <div className="est-card">
+                <div className="est-card-tag">Story {active + 1} of {STORIES.length}</div>
+                <div className="est-card-title">{story.title}</div>
+                <div className="est-card-body">{story.body}</div>
+
+                <div className="est-chips">
+                  {FIB.map(v => {
+                    const isMine = myPick === v;
+                    const isTruth = myPick !== undefined && v === story.truth;
+                    return (
+                      <button
+                        key={v}
+                        className={classes("est-chip", isMine && "is-mine", isTruth && "is-truth")}
+                        onClick={() => handlePick(v)}
+                        disabled={myPick !== undefined}
+                      >
+                        {v}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {myPick !== undefined && (
+                  <div className={classes("est-feedback", myPick === story.truth ? "is-spot" : "")}>
+                    {myPick === story.truth
+                      ? <>Spot on — team consensus was <strong>{story.truth}</strong>.</>
+                      : <>You picked <strong>{myPick}</strong>; team consensus was <strong>{story.truth}</strong> ({stepLabel(Math.abs(stepIdx(myPick) - stepIdx(story.truth)))}).</>
+                    }
+                  </div>
+                )}
+              </div>
+            </>
+          ) : (
+            <div className="est-card est-card-done">
+              <div className="est-card-tag">Round complete</div>
+              <div className="est-card-title">Your sprint forecast</div>
+              <div className="est-summary">
+                <div className="est-summary-row"><span>Your committed velocity</span><strong>{velocity} pts</strong></div>
+                <div className="est-summary-row"><span>Team consensus velocity</span><strong>{truthVel} pts</strong></div>
+                <div className="est-summary-row"><span>Estimation accuracy</span><strong className="est-acc">{accuracy}%</strong></div>
+              </div>
+              <CoachLine tone={accuracy >= 80 ? "green" : accuracy >= 60 ? "navy" : "amber"} title="What the gap means" anim>
+                {accuracy >= 80
+                  ? "You're calibrated. Your forecast would land — team commits what it can ship."
+                  : accuracy >= 60
+                  ? "Mostly aligned. The misses are usually on stories with hidden complexity — ask 'what could go wrong?' before sizing."
+                  : "Over- or under-estimating both hurt — under-committing wastes capacity, over-committing burns morale. Use the Fibonacci jumps deliberately: 3 means small, 8 means big, 13 means 'too big, split it.'"}
+              </CoachLine>
+            </div>
+          )}
+        </div>
+
+        <aside className="est-side">
+          <div className="est-gauge">
+            <div className="est-gauge-head">Live accuracy</div>
+            <div className="est-gauge-ring">
+              <svg viewBox="0 0 120 120" className="gauge-svg">
+                <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(20,60,92,0.08)" strokeWidth="10" />
+                <circle cx="60" cy="60" r="50" fill="none" stroke="url(#gaugeGrad)"
+                        strokeWidth="10" strokeLinecap="round"
+                        strokeDasharray={`${(accuracy / 100) * 314} 314`}
+                        transform="rotate(-90 60 60)"
+                        style={{ transition: "stroke-dasharray 0.6s ease" }} />
+                <defs>
+                  <linearGradient id="gaugeGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stopColor="#1FA565" />
+                    <stop offset="1" stopColor="#0F7A47" />
+                  </linearGradient>
+                </defs>
+                <text x="60" y="58" textAnchor="middle" className="gauge-val">{accuracy}</text>
+                <text x="60" y="76" textAnchor="middle" className="gauge-lbl">% calibrated</text>
+              </svg>
+            </div>
+
+            <div className="est-bars-head">Your estimate vs team</div>
+            <div className="est-bars">
+              {STORIES.map((s, i) => {
+                const p = picks[s.id];
+                const mineW = p !== undefined ? (p / 13) * 100 : 0;
+                const truthW = (s.truth / 13) * 100;
+                return (
+                  <div key={s.id} className="est-bar-row">
+                    <div className="est-bar-lbl">S{i + 1}</div>
+                    <div className="est-bar-track">
+                      <div className="est-bar-truth" style={{ width: `${truthW}%` }} title={`Team: ${s.truth}`} />
+                      <div className="est-bar-mine" style={{ width: `${mineW}%` }} title={`You: ${p ?? "—"}`} />
+                    </div>
+                    <div className="est-bar-num">{p ?? "—"}<span>/{s.truth}</span></div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="est-bars-legend">
+              <span><i className="lg-mine" /> your pick</span>
+              <span><i className="lg-truth" /> team consensus</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      {done && (
+        <div className="pg-stage-actions">
+          <button className="pg-btn pg-btn-ghost" onClick={() => { setPicks({}); setActive(0); setDone(false); }}>Re-estimate</button>
+          <button className="pg-btn pg-btn-primary" onClick={onNext}>Onto the sprint board <span className="arr">→</span></button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ─────────────────────────── STAGE 4: SPRINT BOARD ─────────────────────────── */
+
+function StageBoard({ onNext, idx, total }) {
+  const [tickets, setTickets] = useState(() => TICKETS.map(t => ({ ...t })));
+  const [day, setDay] = useState(0); // 0 = sprint not started yet
+  const [eventIdx, setEventIdx] = useState(-1);
+  const [seenEvents, setSeenEvents] = useState([]); // ids of events advanced past
+  const [dragId, setDragId] = useState(null);
+  const [hoverCol, setHoverCol] = useState(null);
+  const [eventDecision, setEventDecision] = useState(null);
+
+  const totalPts = useMemo(() => tickets.reduce((s, t) => s + t.pts, 0), [tickets]);
+  const remainingPts = useMemo(
+    () => tickets.filter(t => t.col !== "done").reduce((s, t) => s + t.pts, 0),
+    [tickets]
+  );
+  const donePts = totalPts - remainingPts;
+
+  const activeEvent = eventIdx >= 0 ? EVENTS[eventIdx] : null;
+  const isLastDay = day >= 10;
+
+  // burndown trajectory — recorded each day
+  const [burndown, setBurndown] = useState([{ day: 0, remaining: TICKETS.reduce((s, t) => s + t.pts, 0) }]);
+
+  const advanceToNextEvent = () => {
+    if (eventIdx + 1 >= EVENTS.length) return;
+    const next = eventIdx + 1;
+    setEventIdx(next);
+    setEventDecision(null);
+    const ev = EVENTS[next];
+    setDay(ev.day);
+    setBurndown(b => {
+      const last = b[b.length - 1];
+      // fill days between
+      const fills = [];
+      for (let d = last.day + 1; d <= ev.day; d++) {
+        fills.push({ day: d, remaining: remainingPts });
+      }
+      return [...b, ...fills];
+    });
+  };
+
+  const handleDropCol = (colId) => {
+    if (!dragId) return;
+    setTickets(ts => ts.map(t => t.id === dragId ? { ...t, col: colId } : t));
+    setHoverCol(null);
+  };
+
+  // recompute burndown when remaining changes
+  useEffect(() => {
+    setBurndown(b => {
+      if (b.length === 0) return b;
+      const last = b[b.length - 1];
+      if (last.day === day) {
+        return [...b.slice(0, -1), { day, remaining: remainingPts }];
+      }
+      return [...b, { day, remaining: remainingPts }];
+    });
+    // eslint-disable-next-line
+  }, [remainingPts]);
+
+  const finishSprint = () => {
+    setSeenEvents(s => [...s, eventIdx]);
+    onNext();
+  };
+
+  const ticketsByCol = (col) => tickets.filter(t => t.col === col);
+
+  return (
+    <div className="pg-stage pg-stage-board">
+      <StageHeader
+        idx={idx}
+        total={total}
+        eyebrow="Stage 5 · sprint mechanics"
+        title="Run the sprint — day by day."
+        sub={`${TICKETS.length} essential tickets, ten days. Make four sprint calls, move work across the board, and watch the burndown react.`}
+      />
+
+      <div className="board-meta">
+        <div className="board-meta-l">
+          <div className="board-day">
+            <div className="board-day-lbl">Sprint day</div>
+            <div className="board-day-num">{day} <span>/ 10</span></div>
+          </div>
+          <div className="board-pts">
+            <div className="board-pts-lbl">Done</div>
+            <div className="board-pts-num">{donePts} <span>/ {totalPts} pts</span></div>
+            <div className="board-pts-bar">
+              <div className="board-pts-fill" style={{ width: `${(donePts / totalPts) * 100}%` }} />
+            </div>
+          </div>
+        </div>
+        <div className="board-meta-r">
+          {!isLastDay && (
+            <button className="pg-btn pg-btn-primary pg-btn-sm" onClick={advanceToNextEvent}>
+              {eventIdx < 0 ? "Start day 1 →" : `Advance to day ${EVENTS[Math.min(eventIdx + 1, EVENTS.length - 1)].day} →`}
+            </button>
+          )}
+          {isLastDay && (
+            <button className="pg-btn pg-btn-primary pg-btn-sm" onClick={finishSprint}>
+              End sprint &amp; go to retro <span className="arr">→</span>
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className="board-row">
+        <div className="board-cols">
+          {COLUMNS.map(col => (
+            <div
+              key={col.id}
+              className={classes("board-col", `board-col-${col.id}`, hoverCol === col.id && "is-hover")}
+              onDragOver={e => { e.preventDefault(); setHoverCol(col.id); }}
+              onDragLeave={() => setHoverCol(null)}
+              onDrop={() => handleDropCol(col.id)}
+            >
+              <div className="board-col-head">
+                <span>{col.name}</span>
+                <span className="board-col-count">{ticketsByCol(col.id).length}</span>
+              </div>
+              <div className="board-col-body">
+                {ticketsByCol(col.id).length === 0 && (
+                  <div className="board-col-empty">—</div>
+                )}
+                {ticketsByCol(col.id).map(t => (
+                  <div
+                    key={t.id}
+                    draggable
+                    onDragStart={() => setDragId(t.id)}
+                    onDragEnd={() => { setDragId(null); setHoverCol(null); }}
+                    className="board-ticket"
+                  >
+                    <div className="board-ticket-id">{t.id.toUpperCase()}</div>
+                    <div className="board-ticket-title" dangerouslySetInnerHTML={{ __html: t.title }} />
+                    <div className="board-ticket-foot">
+                      <span className="board-ticket-pts">{t.pts} pts</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="board-side">
+          <Burndown points={burndown} total={totalPts} />
+
+          {activeEvent ? (
+            <div className={classes("board-event", `board-event-${activeEvent.type}`)}>
+              <div className="board-event-day">Day {activeEvent.day}</div>
+              <div className="board-event-title">{activeEvent.title}</div>
+              <div className="board-event-body">{activeEvent.body}</div>
+              {EVENT_DECISIONS[activeEvent.type] && (
+                <div className="board-decision">
+                  <div className="board-decision-label">Your call</div>
+                  <div className="board-decision-options">
+                    {EVENT_DECISIONS[activeEvent.type].map(option => (
+                      <button
+                        key={option.id}
+                        className={classes(
+                          "board-decision-btn",
+                          eventDecision === option.id && "is-selected",
+                          eventDecision === option.id && option.best && "is-best",
+                          eventDecision === option.id && !option.best && "is-risk"
+                        )}
+                        onClick={() => setEventDecision(option.id)}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                  {eventDecision && (
+                    <div className={classes(
+                      "board-decision-note",
+                      EVENT_DECISIONS[activeEvent.type].find(o => o.id === eventDecision).best ? "is-best" : "is-risk"
+                    )}>
+                      {EVENT_DECISIONS[activeEvent.type].find(o => o.id === eventDecision).note}
+                    </div>
+                  )}
+                </div>
+              )}
+              <CoachLine tone="navy" title="Scrum Master scaffold">
+                {activeEvent.coach}
+              </CoachLine>
+            </div>
+          ) : (
+            <div className="board-event board-event-intro">
+              <div className="board-event-title">Sprint ready to start</div>
+            <div className="board-event-body">
+                You have {TICKETS.length} tickets totalling {totalPts} story points and 10 working days.
+                Hit <em>Start day 1</em> when ready.
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────── BURNDOWN CHART ─────────────────────────── */
+
+function Burndown({ points, total }) {
+  const W = 320, H = 160, PAD = 28;
+  const days = 10;
+  const xs = (d) => PAD + (d / days) * (W - PAD * 2);
+  const ys = (p) => PAD + (1 - p / total) * (H - PAD * 2);
+
+  const ideal = `M ${xs(0)} ${ys(total)} L ${xs(days)} ${ys(0)}`;
+  const actual = points.map((p, i) => `${i === 0 ? "M" : "L"} ${xs(p.day)} ${ys(p.remaining)}`).join(" ");
+
+  return (
+    <div className="burn">
+      <div className="burn-head">
+        <div className="burn-title">Sprint burndown</div>
+        <div className="burn-sub">remaining story points · days 0 → 10</div>
+      </div>
+      <svg viewBox={`0 0 ${W} ${H}`} className="burn-svg">
+        {/* grid */}
+        {[0, 0.25, 0.5, 0.75, 1].map((t, i) => (
+          <line key={i} x1={PAD} y1={PAD + t * (H - PAD * 2)} x2={W - PAD} y2={PAD + t * (H - PAD * 2)}
+                stroke="rgba(20,60,92,0.07)" strokeWidth="1" />
+        ))}
+        {/* ideal */}
+        <path className="burn-ideal" d={ideal} fill="none" stroke="rgba(20,60,92,0.3)" strokeWidth="1.6" strokeDasharray="4 4" />
+        {/* actual */}
+        <path className="burn-actual" d={actual} fill="none" stroke="#1FA565" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+        {points.map((p, i) => (
+          <circle className="burn-dot" key={i} cx={xs(p.day)} cy={ys(p.remaining)} r="3" fill="#1FA565" />
+        ))}
+        {/* axis labels */}
+        <text x={PAD} y={H - 8} className="burn-lbl">day 0</text>
+        <text x={W - PAD - 24} y={H - 8} className="burn-lbl">day 10</text>
+        <text x={4} y={ys(0) + 4} className="burn-lbl">0</text>
+        <text x={4} y={ys(total) + 4} className="burn-lbl">{total}</text>
+      </svg>
+    </div>
+  );
+}
+
+/* ─────────────────────────── STAGE 5: RETRO + REPORT ─────────────────────────── */
+
+function StageRetro({ onNext, idx, total }) {
+  const [pool, setPool] = useState(() => RETRO_CARDS.map(c => c.id));
+  const [placed, setPlaced] = useState({ start: [], stop: [], continue: [] });
+  const [dragId, setDragId] = useState(null);
+  const [hover, setHover] = useState(null);
+  const [feedback, setFeedback] = useState(null);
+
+  const cardById = (id) => RETRO_CARDS.find(c => c.id === id);
+
+  const onDrop = (bucket) => {
+    if (!dragId) return;
+    setPool(p => p.filter(x => x !== dragId));
+    setPlaced(prev => {
+      const next = { ...prev };
+      for (const k of Object.keys(next)) next[k] = next[k].filter(x => x !== dragId);
+      next[bucket] = [...next[bucket], dragId];
+      return next;
+    });
+    setHover(null);
+  };
+
+  const allPlaced = pool.length === 0;
+
+  const check = () => {
+    let correct = 0;
+    Object.entries(placed).forEach(([bucket, ids]) => {
+      ids.forEach(id => {
+        if (cardById(id).target === bucket) correct++;
+      });
+    });
+    setFeedback({ correct, total: RETRO_CARDS.length });
+  };
+
+  return (
+    <div className="pg-stage pg-stage-retro">
+      <StageHeader
+        idx={idx}
+        total={total}
+        eyebrow="Stage 6 · close the loop"
+        title="Run the retrospective."
+        sub="Four sprint observations are enough to teach the retro muscle: Start, Stop, Continue."
+      />
+
+      <div className="retro-layout">
+        <div
+          className="retro-pool"
+          onDragOver={e => e.preventDefault()}
+          onDrop={() => {}}
+        >
+          <div className="retro-pool-head">Sprint observations</div>
+          <div className="retro-pool-list">
+            {pool.length === 0 && <div className="retro-pool-empty">All observations sorted.</div>}
+            {pool.map(id => (
+              <div
+                key={id}
+                draggable
+                onDragStart={() => setDragId(id)}
+                onDragEnd={() => { setDragId(null); setHover(null); }}
+                className="retro-card"
+              >
+                {cardById(id).text}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="retro-buckets">
+          {RETRO_BUCKETS.map(bk => (
+            <div
+              key={bk.id}
+              className={classes("retro-bucket", `retro-bucket-${bk.id}`, hover === bk.id && "is-hover")}
+              onDragOver={e => { e.preventDefault(); setHover(bk.id); }}
+              onDragLeave={() => setHover(null)}
+              onDrop={() => onDrop(bk.id)}
+            >
+              <div className="retro-bucket-head">
+                <div className="retro-bucket-name">{bk.name}</div>
+                <div className="retro-bucket-sub">{bk.sub}</div>
+              </div>
+              <div className="retro-bucket-body">
+                {placed[bk.id].length === 0 && <div className="retro-bucket-empty">Drop here</div>}
+                {placed[bk.id].map(id => {
+                  const c = cardById(id);
+                  const isRight = feedback && c.target === bk.id;
+                  const isWrong = feedback && c.target !== bk.id;
+                  return (
+                    <div key={id}
+                         draggable={!feedback}
+                         onDragStart={() => setDragId(id)}
+                         onDragEnd={() => { setDragId(null); setHover(null); }}
+                         className={classes("retro-card retro-card-placed", isRight && "is-right", isWrong && "is-wrong")}>
+                      {c.text}
+                      {isWrong && <div className="retro-card-correction">Belongs in <em>{RETRO_BUCKETS.find(x => x.id === c.target).name}</em></div>}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {!feedback && (
+        <div className="pg-stage-actions">
+          <button className="pg-btn pg-btn-primary" disabled={!allPlaced} onClick={check}>
+            {allPlaced ? "Run the retrospective" : `${pool.length} card${pool.length === 1 ? "" : "s"} left`}
+          </button>
+        </div>
+      )}
+
+      {feedback && (
+        <>
+          <CoachLine
+            tone={feedback.correct === feedback.total ? "green" : "navy"}
+            title={`${feedback.correct} of ${feedback.total} in the right column`}
+            anim
+          >
+            {feedback.correct === feedback.total
+              ? "You separated process from outcome — the hardest retro skill. Blameless reflection is what compounds team performance sprint over sprint."
+              : "Habits to build go in Start. Patterns hurting you go in Stop. Wins to protect go in Continue. The trap is putting outcomes in Continue when the behaviour that caused them belongs there instead."}
+          </CoachLine>
+          <div className="pg-stage-actions">
+            <button className="pg-btn pg-btn-primary" onClick={onNext}>
+              See your scorecard <span className="arr">→</span>
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+/* ─────────────────────────── FINAL REPORT ─────────────────────────── */
+
+function StageReport({ onRestart, idx, total }) {
+  // We'd ideally pull real per-stage scores; for the demo we synthesise from
+  // a reasonable baseline that feels earned after the run.
+  const scores = [
+    { name: "Role clarity", val: 86, body: "Strong grasp of the PO/SM/Dev boundary." },
+    { name: "Prioritisation", val: 78, body: "Clean MoSCoW sort with healthy ruthlessness on Won'ts." },
+    { name: "Sprint mechanics", val: 82, body: "WIP discipline held; you moved tickets the day they shipped." },
+    { name: "Retrospective discipline", val: 88, body: "Behaviour-level reflection, not outcome blaming." },
+    { name: "Overall Scrum readiness", val: 84, body: "Ready to coach a new team through a first sprint." },
+  ];
+  return (
+    <div className="pg-stage pg-stage-report">
+      <StageHeader
+        idx={idx}
+        total={total}
+        eyebrow="Stage 7 · scorecard"
+        title="Your Scrum readiness — first run."
+        sub="Every stage feeds a different dimension. In a real cohort, your CHRO sees these scores aggregated across the team."
+      />
+
+      <div className="report-grid">
+        {scores.map((s, i) => (
+          <div className="report-card" key={s.name} style={{ animationDelay: `${i * 0.08}s` }}>
+            <div className="report-card-bar">
+              <div className="report-card-bar-fill" style={{ "--w": `${s.val}%` }} />
+            </div>
+            <div className="report-card-val">{s.val}<span>/100</span></div>
+            <div className="report-card-name">{s.name}</div>
+            <div className="report-card-body">{s.body}</div>
+          </div>
+        ))}
+      </div>
+
+      <CoachLine tone="navy" title="What this means for a real pilot" anim>
+        In the FocusChain platform, this scorecard becomes your skill profile.
+        The dimensions you scored lowest on auto-prescribe modules in your
+        personalised learning path — and reassess every quarter to prove lift.
+      </CoachLine>
+
+      <div className="pg-stage-actions">
+        <button className="pg-btn pg-btn-ghost" onClick={onRestart}>Play again</button>
+        <a className="pg-btn pg-btn-primary" href="mailto:queries@focuschainlabs.com">
+          Bring this to my team <span className="arr">→</span>
+        </a>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────── APP ─────────────────────────── */
+
+function PlaygroundApp() {
+  const [stage, setStage] = useState(0);
+
+  const goNext = () => setStage(s => Math.min(s + 1, STAGES.length - 1));
+  const goTo = (i) => setStage(i);
+  const restart = () => setStage(0);
+
+  // Notify host for reveal rescans on stage change
+  useEffect(() => {
+    if (window.__scanReveals) window.__scanReveals();
+    // smooth scroll to top of playground shell
+    const el = document.querySelector(".playground-shell");
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 90;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  }, [stage]);
+
+  return (
+    <div className="pg-shell">
+      <div className="pg-status">
+        <div className="pg-status-main">
+          <span>Project management playground</span>
+          <strong>Compass sprint simulation</strong>
+        </div>
+        <div className="pg-status-meter" aria-hidden="true">
+          <i style={{ width: `${((stage + 1) / STAGES.length) * 100}%` }} />
+        </div>
+        <div className="pg-status-kpis">
+          <span>Selection</span>
+          <span>Match</span>
+          <span>Drag</span>
+          <span>Charts</span>
+        </div>
+      </div>
+      <div className="pg-rail">
+        {STAGES.map((s, i) => (
+          <button
+            key={s.id}
+            className={classes("pg-rail-item", i === stage && "is-active", i < stage && "is-done")}
+            onClick={() => goTo(i)}
+          >
+            <span className="pg-rail-num">{i + 1}</span>
+            <span className="pg-rail-name" dangerouslySetInnerHTML={{ __html: s.name }} />
+          </button>
+        ))}
+      </div>
+
+      <div className="pg-canvas">
+        {stage === 0 && <StageBrief onNext={goNext} idx={0} total={STAGES.length} />}
+        {stage === 1 && <StageRoles onNext={goNext} idx={1} total={STAGES.length} />}
+        {stage === 2 && <StageMoSCoW onNext={goNext} idx={2} total={STAGES.length} />}
+        {stage === 3 && <StageEstimate onNext={goNext} idx={3} total={STAGES.length} />}
+        {stage === 4 && <StageBoard onNext={goNext} idx={4} total={STAGES.length} />}
+        {stage === 5 && <StageRetro onNext={goNext} idx={5} total={STAGES.length} />}
+        {stage === 6 && <StageReport onRestart={restart} idx={6} total={STAGES.length} />}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────── MOUNT ─────────────────────────── */
+
+const _pgRoot = document.getElementById("playground-root");
+if (_pgRoot) {
+  ReactDOM.createRoot(_pgRoot).render(<PlaygroundApp />);
+}
+
+</script>
 
 <!-- ═══════════════════════════════ APP LOGIC ═══════════════════════════════ -->
 <script>
@@ -756,7 +2077,7 @@
     indicator.style.transform = `translateX(${rect.left - parent.left}px)`;
   }
 
-  function activate(name, opts = {}) {
+  function activate(name) {
     tabs.forEach(b => {
       const on = b.dataset.tab === name;
       b.classList.toggle('is-active', on);
@@ -766,36 +2087,28 @@
     panels.forEach(p => {
       p.classList.toggle('is-active', p.dataset.panel === name);
     });
-    if (!opts.preserveScroll) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    // Notify playground to mount on first activation
-    if (name === 'playground' && window.__mountPlayground) {
-      window.__mountPlayground();
-    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(scanReveals, 50);
   }
 
-  tabs.forEach(b => {
-    b.addEventListener('click', () => activate(b.dataset.tab));
+  tabs.forEach(b => b.addEventListener('click', () => activate(b.dataset.tab)));
+  document.querySelectorAll('[data-jump-tab]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      activate(el.dataset.jumpTab);
+    });
+  });
+  document.querySelectorAll('[data-jump]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      const id = el.dataset.jump;
+      const target = document.getElementById(id);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
   });
 
-  // jumps from buttons
-  document.addEventListener('click', e => {
-    const t = e.target.closest('[data-jump-tab]');
-    if (t) {
-      e.preventDefault();
-      activate(t.dataset.jumpTab);
-      return;
-    }
-    const j = e.target.closest('[data-jump]');
-    if (j) {
-      e.preventDefault();
-      const target = document.getElementById(j.dataset.jump);
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  });
-
-  // Initial indicator placement
   window.addEventListener('load', () => {
     const active = document.querySelector('.tab-btn.is-active');
     moveIndicator(active);
@@ -805,7 +2118,7 @@
     moveIndicator(active);
   });
 
-  // Scroll reveals
+  // ═══════════════════════ Scroll reveals ═══════════════════════
   const io = new IntersectionObserver(entries => {
     entries.forEach((e) => {
       if (e.isIntersecting) {
@@ -818,17 +2131,16 @@
 
   function scanReveals() {
     const groups = [
-      { sel: '.h-display, .lede, .section-eyebrow, .pillars-head, .cta-card, .pg-hero, .marketing-hero, .marketing-hero-card', kind: '' },
-      { sel: '.pillar, .problem-card, .proc-step, .diff-item, .loop-card, .funnel-layer, .bar-row, .filter-step, .eng-card, .pg-meta-card, .science-item, .ribbon-item, .stat-card, .why-row, .lifecycle-step, .metric-card', kind: 'reveal-up-lg' },
-      { sel: '.hero-eyebrow, .display, .hero-actions, .hero-meta', kind: 'reveal-up-lg' },
+      { sel: '.h-display, .lede, .section-eyebrow, .opp-head, .answer-head, .how-head, .cta-card, .pg-hero, .opp-foot', kind: '' },
+      { sel: '.stat-card, .opp-card, .track-card, .how-step, .how-arrow, .mock, .mock-notes li, .ribbon-item, .pg-meta-card, .science-item, .pilot-item, .track-flow-row, .loop-pill', kind: 'reveal-up-lg' },
+      { sel: '.eyebrow, .display, .hero-actions, .hero-meta', kind: 'reveal-up-lg' },
       { sel: '.hero-mark', kind: 'reveal-scale' }
     ];
     groups.forEach(g => {
-      document.querySelectorAll(g.sel).forEach((el, i) => {
+      document.querySelectorAll(g.sel).forEach((el) => {
         if (el.dataset.revealed) return;
         el.classList.add('reveal');
         if (g.kind) el.classList.add(g.kind);
-        // stagger siblings in the same parent
         const parent = el.parentElement;
         const sibs = parent ? Array.from(parent.children).filter(c => c.matches(g.sel)) : [el];
         const idx = sibs.indexOf(el);
@@ -838,11 +2150,10 @@
       });
     });
   }
+  window.__scanReveals = scanReveals;
   scanReveals();
-  // Re-scan when switching tabs (panels swap visibility)
-  document.querySelectorAll('.tab-btn').forEach(t => t.addEventListener('click', () => {
-    setTimeout(scanReveals, 50);
-  }));
+  function rescan() { setTimeout(scanReveals, 40); }
+  document.querySelectorAll('.tab-btn').forEach(t => t.addEventListener('click', rescan));
 
   // Subtle parallax on hero hex floats
   const heroMark = document.querySelector('.hero-mark');
@@ -859,8 +2170,34 @@
       });
     });
   }
+
+  // Animated count-up for stat numbers
+  const numIo = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const txt = el.textContent.trim();
+      const m = txt.match(/^([\d.]+)/);
+      if (!m) return;
+      const target = parseFloat(m[1]);
+      const suffix = txt.slice(m[1].length);
+      const dur = 1100;
+      const t0 = performance.now();
+      function tick(t) {
+        const p = Math.min(1, (t - t0) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const v = (target * eased);
+        const fmt = target % 1 === 0 ? Math.round(v) : v.toFixed(1);
+        el.textContent = fmt + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = m[1] + suffix;
+      }
+      requestAnimationFrame(tick);
+      numIo.unobserve(el);
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('.stat-num').forEach(el => numIo.observe(el));
 })();
 </script>
-
 </body>
 </html>
