@@ -1242,7 +1242,7 @@ function StageReport({ onRestart, idx, total }) {
 
       <div className="pg-stage-actions">
         <button className="pg-btn pg-btn-ghost" onClick={onRestart}>Play again</button>
-        <a className="pg-btn pg-btn-primary" href="mailto:queries@focuschainlabs.com">
+        <a className="pg-btn pg-btn-primary" href="mailto:queries@focuschainlabs.com?subject=FocusChain%20Labs%20Project%20Pilot&body=Hi%20FocusChain%20Labs%2C%0D%0A%0D%0AI%27d%20like%20to%20bring%20this%20simulation%20to%20my%20team.%0D%0A%0D%0ACompany%3A%0D%0AUse%20case%3A%0D%0ACohort%20size%3A">
           Bring this to my team <span className="arr">→</span>
         </a>
       </div>

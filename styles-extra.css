@@ -1395,6 +1395,83 @@
     rgba(31,165,101,0.035);
 }
 
+/* Problem stat insight copy: keep it premium and integrated, not boxed-in */
+.section-problem .stat-card {
+  display: flex;
+  flex-direction: column;
+}
+.section-problem .stat-title {
+  margin-bottom: 16px;
+}
+.section-problem .stat-body {
+  position: relative;
+  margin-top: auto;
+  padding: 48px 22px 22px;
+  min-height: 184px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.84), rgba(255,255,255,0.38)),
+    linear-gradient(180deg, rgba(31,165,101,0.075), rgba(20,60,92,0.018));
+  border: 1px solid rgba(20, 60, 92, 0.105);
+  border-radius: 18px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.74) inset,
+    0 24px 56px -48px rgba(20, 60, 92, 0.46);
+  color: rgba(20, 60, 92, 0.84);
+  font-size: 14.8px;
+  line-height: 1.6;
+  letter-spacing: 0;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease), background 0.35s var(--ease);
+}
+.section-problem .stat-body::before {
+  content: "Diagnostic signal";
+  position: absolute;
+  left: 22px;
+  top: 20px;
+  bottom: auto;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: transparent;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.17em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--green-deep);
+  opacity: 0.84;
+}
+.section-problem .stat-body::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  width: 100%;
+  height: 3px;
+  border-radius: 18px 18px 0 0;
+  background: linear-gradient(90deg, var(--green), #E2B75C 58%, transparent);
+  transform-origin: left;
+  transform: scaleX(0.42);
+  transition: transform 0.35s var(--ease), opacity 0.35s var(--ease);
+  opacity: 0.82;
+}
+.section-problem .stat-card:hover .stat-body {
+  transform: translateY(-2px);
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.92), rgba(255,255,255,0.54)),
+    linear-gradient(180deg, rgba(201,233,216,0.18), rgba(20,60,92,0.018));
+  border-color: rgba(31,165,101,0.28);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.82) inset,
+    0 30px 64px -48px rgba(20, 60, 92, 0.56);
+  color: var(--navy);
+}
+.section-problem .stat-card:hover .stat-body::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
 .how-steps {
   counter-reset: howStep;
 }
@@ -1809,6 +1886,14 @@
   max-width: 760px;
   margin-top: 28px;
   color: var(--ink-4);
+}
+.pilot-foot a {
+  color: var(--paper);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(31,165,101,0.5);
+}
+.pilot-foot a:hover {
+  color: var(--green);
 }
 
 @media (max-width: 1100px) {
