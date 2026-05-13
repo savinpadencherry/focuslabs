@@ -1643,6 +1643,7 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
   .hero-pipeline-orbit,
   .hero-pipeline-orbit::before,
   .hero-pipeline-orbit::after { animation: none !important; }
+  .hero-pipeline { transform: none !important; transition: none !important; }
 }
 
 /* ═══════════════════════════════════════════ RESPONSIVE ═══════════════════════════════════════════ */
