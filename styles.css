@@ -358,6 +358,44 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
   width: 1px; height: 36px; background: var(--line-2);
 }
 
+/* Hero flow — quick at-a-glance loop */
+.hero-flow {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 640px;
+}
+.hero-flow-step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: var(--r);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  box-shadow: 0 12px 28px -22px rgba(20, 60, 92, 0.3);
+}
+.hero-flow-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--ink-4);
+}
+.hero-flow-title {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--navy);
+  letter-spacing: -0.01em;
+}
+.hero-flow-sub {
+  font-size: 12px;
+  color: var(--ink-3);
+  line-height: 1.4;
+}
+
 /* hero hexagons */
 .hero-mark {
   position: relative;
@@ -1476,6 +1514,13 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
   transition: width 60ms linear;
 }
 
+/* Motion scroll layers */
+.motion-layer {
+  transform: translateY(var(--motion-y, 0px));
+  transition: transform 120ms linear;
+  will-change: transform;
+}
+
 /* Scroll-driven hero parallax — paired with --py/--po/--ps/--protate set in JS. */
 .hero-inner {
   transform: translateY(var(--py, 0));
@@ -1522,12 +1567,14 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; filter: none; transition: none; }
+  .motion-layer { transform: none !important; }
 }
 
 /* ═══════════════════════════════════════════ RESPONSIVE ═══════════════════════════════════════════ */
 @media (max-width: 1100px) {
   .hero { grid-template-columns: 1fr; }
   .hero-mark { display: none; }
+  .hero-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .pillars-head { grid-template-columns: 1fr; gap: 24px; align-items: start; }
   .pillar-cards { grid-template-columns: 1fr; }
   .process-steps { grid-template-columns: repeat(2, 1fr); gap: 36px; }
@@ -1553,6 +1600,7 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
   .tab-btn { padding: 8px 14px; font-size: 12.5px; }
   .container { padding: 0 22px; }
   .hero { padding: 36px 22px 60px; }
+  .hero-flow { grid-template-columns: 1fr; }
   .section { padding: 90px 0; }
   .display { font-size: 44px; }
   .h-display { font-size: 32px; }
