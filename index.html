@@ -65,6 +65,30 @@
         continuously, role by role.
       </p>
 
+      <div class="hero-flow" aria-label="Assess, score, and upskill loop">
+        <div class="hero-flow-step">
+          <span class="hero-flow-num">01</span>
+          <div>
+            <div class="hero-flow-title">Assess</div>
+            <div class="hero-flow-sub">20-min AI interview captures role signals.</div>
+          </div>
+        </div>
+        <div class="hero-flow-step">
+          <span class="hero-flow-num">02</span>
+          <div>
+            <div class="hero-flow-title">Score</div>
+            <div class="hero-flow-sub">Benchmark skill profile highlights gaps.</div>
+          </div>
+        </div>
+        <div class="hero-flow-step">
+          <span class="hero-flow-num">03</span>
+          <div>
+            <div class="hero-flow-title">Upskill</div>
+            <div class="hero-flow-sub">Auto-built path closes every gap.</div>
+          </div>
+        </div>
+      </div>
+
       <div class="hero-actions">
         <a href="#contact" class="btn btn-primary">Start a 6-week pilot <span class="btn-arrow">→</span></a>
         <button class="btn btn-ghost" data-jump-tab="playground">See it in action</button>
@@ -169,7 +193,7 @@
   </div>
 
   <!-- OUR ANSWER -->
-  <div class="section section-answer">
+  <div class="section section-answer motion-layer" data-motion="0.06">
     <div class="container">
       <div class="answer-head">
         <span class="section-eyebrow">Our answer</span>
@@ -211,7 +235,7 @@
   </div>
 
   <!-- HOW IT WORKS -->
-  <div class="section section-how">
+  <div class="section section-how motion-layer" data-motion="-0.04">
     <div class="container">
       <div class="how-head">
         <span class="section-eyebrow">How it works</span>
@@ -259,7 +283,7 @@
   </div>
 
   <!-- SKILL PROFILE MOCKUP -->
-  <div class="section section-product section-product-alt">
+  <div class="section section-product section-product-alt motion-layer" data-motion="0.05">
     <div class="container">
       <span class="section-eyebrow">Product · mockup</span>
       <h2 class="h-display h-display-lg">Skill intelligence report.</h2>
@@ -285,17 +309,17 @@
 
             <div class="skill-bars">
               <div class="sk-row"><span class="sk-name">Data-led decision making</span><div class="sk-track"><div class="sk-fill" style="--w:78%"></div></div><span class="sk-pct">78%</span></div>
-              <div class="sk-row"><span class="sk-name">AI prompt strategy</span><div class="sk-track"><div class="sk-fill sk-fill-mid" style="--w:55%"></div></div><span class="sk-pct">55%</span></div>
+              <div class="sk-row"><span class="sk-name">AI prompting</span><div class="sk-track"><div class="sk-fill sk-fill-mid" style="--w:55%"></div></div><span class="sk-pct">55%</span></div>
+              <div class="sk-row"><span class="sk-name">Critical thinking</span><div class="sk-track"><div class="sk-fill sk-fill-low" style="--w:46%"></div></div><span class="sk-pct">46%</span></div>
               <div class="sk-row"><span class="sk-name">Trade promotion analytics</span><div class="sk-track"><div class="sk-fill" style="--w:81%"></div></div><span class="sk-pct">81%</span></div>
               <div class="sk-row"><span class="sk-name">Marketing mix modelling</span><div class="sk-track"><div class="sk-fill sk-fill-low" style="--w:38%"></div></div><span class="sk-pct">38%</span></div>
-              <div class="sk-row"><span class="sk-name">GenAI tools for content</span><div class="sk-track"><div class="sk-fill sk-fill-low" style="--w:42%"></div></div><span class="sk-pct">42%</span></div>
             </div>
 
             <div class="profile-tags">
               <span class="ptag ptag-strong">Strong: data intuition</span>
               <span class="ptag ptag-strong">Strong: trade analytics</span>
-              <span class="ptag ptag-gap">Gap: AI tools</span>
-              <span class="ptag ptag-gap">Gap: MMM</span>
+              <span class="ptag ptag-gap">Gap: AI prompting</span>
+              <span class="ptag ptag-gap">Gap: critical thinking</span>
             </div>
           </div>
         </div>
@@ -327,7 +351,7 @@
   </div>
 
   <!-- CTA / CONTACT -->
-  <div class="section section-cta" id="contact">
+  <div class="section section-cta motion-layer" data-motion="-0.03" id="contact">
     <div class="container container-narrow cta-card">
       <span class="section-eyebrow">Let's begin</span>
       <h2 class="h-display h-display-cta">
@@ -438,7 +462,7 @@
   </div>
 
   <!-- CTA -->
-  <div class="section section-cta">
+  <div class="section section-cta motion-layer" data-motion="0.04">
     <div class="container container-narrow cta-card cta-card-pg">
       <span class="section-eyebrow">For L&amp;D leaders</span>
       <h2 class="h-display h-display-cta">Bring this to your team.</h2>
@@ -3241,6 +3265,7 @@ if (_pgRoot) {
   window.addEventListener('resize', () => {
     const active = document.querySelector('.tab-btn.is-active');
     moveIndicator(active);
+    onScroll();
   });
 
   // ═══════════════════════ Scroll reveals ═══════════════════════
@@ -3257,8 +3282,8 @@ if (_pgRoot) {
   function scanReveals() {
     const groups = [
       { sel: '.h-display, .lede, .section-eyebrow, .opp-head, .answer-head, .how-head, .cta-card, .pg-hero, .opp-foot', kind: '' },
-      { sel: '.stat-card, .opp-card, .track-card, .how-step, .how-arrow, .mock, .mock-notes li, .pg-meta-card, .science-item, .pilot-item, .track-flow-row, .loop-pill', kind: 'reveal-up-lg' },
-      { sel: '.eyebrow, .display, .hero-actions, .hero-meta', kind: 'reveal-up-lg' },
+      { sel: '.stat-card, .opp-card, .track-card, .how-step, .how-arrow, .mock, .mock-notes li, .pg-meta-card, .science-item, .pilot-item, .track-flow-row, .loop-pill, .hero-flow-step', kind: 'reveal-up-lg' },
+      { sel: '.eyebrow, .display, .hero-actions, .hero-meta, .hero-flow', kind: 'reveal-up-lg' },
       { sel: '.hero-mark', kind: 'reveal-scale' }
     ];
     groups.forEach(g => {
@@ -3302,6 +3327,11 @@ if (_pgRoot) {
     heroInner: document.querySelector('.hero-inner'),
     progress: document.querySelector('.scroll-progress'),
   };
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const motionItems = Array.from(document.querySelectorAll('[data-motion]')).map((el) => ({
+    el,
+    speed: parseFloat(el.dataset.motion || '0'),
+  }));
   let scrollRaf = null;
   function onScroll() {
     if (scrollRaf) return;
@@ -3328,6 +3358,17 @@ if (_pgRoot) {
       // Scroll progress
       if (scrollEls.progress) {
         scrollEls.progress.style.setProperty('--p', p.toFixed(4));
+      }
+
+      // Section motion layers
+      if (!reduceMotion && motionItems.length) {
+        const vh = window.innerHeight || 1;
+        motionItems.forEach((item) => {
+          if (!item.speed) return;
+          const rect = item.el.getBoundingClientRect();
+          const offset = (rect.top - vh * 0.6) * item.speed;
+          item.el.style.setProperty('--motion-y', `${offset.toFixed(2)}px`);
+        });
       }
 
       scrollRaf = null;
