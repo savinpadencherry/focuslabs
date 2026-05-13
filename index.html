@@ -3218,9 +3218,9 @@ if (_pgRoot) {
   const tabs = document.querySelectorAll('.tab-btn');
   const panels = document.querySelectorAll('.tab-panel');
   const indicator = document.querySelector('.tab-indicator');
-  const REVEAL_ACTIVATE_DELAY_MS = 50;
-  const REVEAL_RESCAN_DELAY_MS = 40;
-  const MOTION_OFFSET_UPDATE_DELAY_MS = 80;
+  const REVEAL_ACTIVATE_TIMEOUT_MS = 50;
+  const REVEAL_RESCAN_TIMEOUT_MS = 40;
+  const MOTION_OFFSET_REFRESH_TIMEOUT_MS = 80;
 
   function moveIndicator(el) {
     if (!el || !indicator) return;
@@ -3241,8 +3241,8 @@ if (_pgRoot) {
       p.classList.toggle('is-active', p.dataset.panel === name);
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    setTimeout(scanReveals, REVEAL_ACTIVATE_DELAY_MS);
-    setTimeout(refreshMotion, MOTION_OFFSET_UPDATE_DELAY_MS);
+    setTimeout(scanReveals, REVEAL_ACTIVATE_TIMEOUT_MS);
+    setTimeout(refreshMotion, MOTION_OFFSET_REFRESH_TIMEOUT_MS);
   }
 
   tabs.forEach(b => b.addEventListener('click', () => activate(b.dataset.tab)));
@@ -3353,8 +3353,8 @@ if (_pgRoot) {
   window.__scanReveals = scanReveals;
   scanReveals();
   function rescan() {
-    setTimeout(scanReveals, REVEAL_RESCAN_DELAY_MS);
-    setTimeout(refreshMotion, MOTION_OFFSET_UPDATE_DELAY_MS);
+    setTimeout(scanReveals, REVEAL_RESCAN_TIMEOUT_MS);
+    setTimeout(refreshMotion, MOTION_OFFSET_REFRESH_TIMEOUT_MS);
   }
   document.querySelectorAll('.tab-btn').forEach(t => t.addEventListener('click', rescan));
 
@@ -3387,7 +3387,7 @@ if (_pgRoot) {
     speed: parseFloat(el.dataset.motion || '0'),
     top: 0,
   }));
-  const MOTION_CENTER_VIEWPORT_RATIO = 0.6; // Biased toward the lower viewport for smoother section drift.
+  const MOTION_CENTER_VIEWPORT_RATIO = 0.6; // Slightly below center (60% from top) for smoother section drift.
   function updateMotionOffsets() {
     if (!motionItems.length) return;
     const rects = motionItems.map((item) => item.el.getBoundingClientRect());
@@ -3396,6 +3396,7 @@ if (_pgRoot) {
     });
   }
   function refreshMotion() {
+    // Call after layout changes (tabs, resize, dynamic content) to refresh cached offsets.
     updateMotionOffsets();
     handleScroll();
   }
