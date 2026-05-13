@@ -424,6 +424,10 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
      Each step animates in sequence; connector pulses travel between them. ═══ */
 .hero-mark-pipeline {
   --mx: 0; --my: 0;
+  --hero-tilt-shift-x: 10px;
+  --hero-tilt-shift-y: 8px;
+  --hero-tilt-rotate-y: 8deg;
+  --hero-tilt-rotate-x: -5deg;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -463,7 +467,12 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
   align-items: stretch;
   gap: 4px;
   font-family: var(--display);
-  transform: translate(calc(var(--mx, 0) * 10px), calc(var(--my, 0) * 8px)) rotateY(calc(var(--mx, 0) * 8deg)) rotateX(calc(var(--my, 0) * -5deg));
+  transform: translate(
+      calc(var(--mx, 0) * var(--hero-tilt-shift-x)),
+      calc(var(--my, 0) * var(--hero-tilt-shift-y))
+    )
+    rotateY(calc(var(--mx, 0) * var(--hero-tilt-rotate-y)))
+    rotateX(calc(var(--my, 0) * var(--hero-tilt-rotate-x)));
   transform-style: preserve-3d;
   transition: transform 380ms cubic-bezier(.2, .8, .2, 1);
   z-index: 1;
