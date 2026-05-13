@@ -3238,6 +3238,7 @@ if (_pgRoot) {
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setTimeout(scanReveals, 50);
+    setTimeout(updateMotionOffsets, 80);
   }
 
   tabs.forEach(b => b.addEventListener('click', () => activate(b.dataset.tab)));
@@ -3268,6 +3269,7 @@ if (_pgRoot) {
     resizeRaf = requestAnimationFrame(() => {
       const active = document.querySelector('.tab-btn.is-active');
       moveIndicator(active);
+      updateMotionOffsets();
       onScroll();
       resizeRaf = null;
     });
@@ -3286,18 +3288,58 @@ if (_pgRoot) {
 
   function scanReveals() {
     const groups = [
-      { sel: '.h-display, .lede, .section-eyebrow, .opp-head, .answer-head, .how-head, .cta-card, .pg-hero, .opp-foot', kind: '' },
-      { sel: '.stat-card, .opp-card, .track-card, .how-step, .how-arrow, .mock, .mock-notes li, .pg-meta-card, .science-item, .pilot-item, .track-flow-row, .loop-pill, .hero-flow-step', kind: 'reveal-up-lg' },
-      { sel: '.eyebrow, .display, .hero-actions, .hero-meta, .hero-flow', kind: 'reveal-up-lg' },
-      { sel: '.hero-mark', kind: 'reveal-scale' }
+      {
+        sel: [
+          '.h-display',
+          '.lede',
+          '.section-eyebrow',
+          '.opp-head',
+          '.answer-head',
+          '.how-head',
+          '.cta-card',
+          '.pg-hero',
+          '.opp-foot',
+        ],
+        kind: '',
+      },
+      {
+        sel: [
+          '.stat-card',
+          '.opp-card',
+          '.track-card',
+          '.how-step',
+          '.how-arrow',
+          '.mock',
+          '.mock-notes li',
+          '.pg-meta-card',
+          '.science-item',
+          '.pilot-item',
+          '.track-flow-row',
+          '.loop-pill',
+          '.hero-flow-step',
+        ],
+        kind: 'reveal-up-lg',
+      },
+      {
+        sel: [
+          '.eyebrow',
+          '.display',
+          '.hero-actions',
+          '.hero-meta',
+          '.hero-flow',
+        ],
+        kind: 'reveal-up-lg',
+      },
+      { sel: ['.hero-mark'], kind: 'reveal-scale' },
     ];
     groups.forEach(g => {
-      document.querySelectorAll(g.sel).forEach((el) => {
+      const selector = g.sel.join(', ');
+      document.querySelectorAll(selector).forEach((el) => {
         if (el.dataset.revealed) return;
         el.classList.add('reveal');
         if (g.kind) el.classList.add(g.kind);
         const parent = el.parentElement;
-        const sibs = parent ? Array.from(parent.children).filter(c => c.matches(g.sel)) : [el];
+        const sibs = parent ? Array.from(parent.children).filter(c => c.matches(selector)) : [el];
         const idx = sibs.indexOf(el);
         el.dataset.revealDelay = Math.min(idx, 6) * 80;
         el.dataset.revealed = '1';
@@ -3307,7 +3349,10 @@ if (_pgRoot) {
   }
   window.__scanReveals = scanReveals;
   scanReveals();
-  function rescan() { setTimeout(scanReveals, 40); }
+  function rescan() {
+    setTimeout(scanReveals, 40);
+    setTimeout(updateMotionOffsets, 80);
+  }
   document.querySelectorAll('.tab-btn').forEach(t => t.addEventListener('click', rescan));
 
   // Subtle parallax on hero hex floats
@@ -3336,7 +3381,15 @@ if (_pgRoot) {
   const motionItems = Array.from(document.querySelectorAll('[data-motion]')).map((el) => ({
     el,
     speed: parseFloat(el.dataset.motion || '0'),
+    top: 0,
   }));
+  function updateMotionOffsets() {
+    if (!motionItems.length) return;
+    motionItems.forEach((item) => {
+      const rect = item.el.getBoundingClientRect();
+      item.top = rect.top + window.scrollY;
+    });
+  }
   let scrollRaf = null;
   function onScroll() {
     if (scrollRaf) return;
@@ -3368,13 +3421,10 @@ if (_pgRoot) {
       // Section motion layers
       if (!reduceMotion && motionItems.length) {
         const vh = window.innerHeight || 1;
-        const measurements = motionItems.map((item) => ({
-          item,
-          rect: item.el.getBoundingClientRect(),
-        }));
-        measurements.forEach(({ item, rect }) => {
+        const center = window.scrollY + vh * 0.6;
+        motionItems.forEach((item) => {
           if (!item.speed) return;
-          const offset = (rect.top - vh * 0.6) * item.speed;
+          const offset = (item.top - center) * item.speed;
           item.el.style.setProperty('--motion-y', `${offset.toFixed(2)}px`);
         });
       }
@@ -3383,6 +3433,7 @@ if (_pgRoot) {
     });
   }
   window.addEventListener('scroll', onScroll, { passive: true });
+  updateMotionOffsets();
   onScroll();
 
   // Animated count-up for stat numbers
