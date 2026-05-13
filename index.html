@@ -3361,21 +3361,17 @@ if (_pgRoot) {
   // Subtle parallax on hero hex floats
   const heroMark = document.querySelector('.hero-mark');
   const hero = document.querySelector('.hero');
-  if (heroMark || hero) {
+  if (heroMark && hero) {
     let raf;
     window.addEventListener('mousemove', e => {
       if (raf) return;
       raf = requestAnimationFrame(() => {
-        const x = (e.clientX / window.innerWidth - 0.5);
-        const y = (e.clientY / window.innerHeight - 0.5);
-        if (heroMark) {
-          heroMark.style.setProperty('--mx', x.toFixed(3));
-          heroMark.style.setProperty('--my', y.toFixed(3));
-        }
-        if (hero) {
-          hero.style.setProperty('--mx', x.toFixed(3));
-          hero.style.setProperty('--my', y.toFixed(3));
-        }
+        const normalizedX = (e.clientX / window.innerWidth - 0.5);
+        const normalizedY = (e.clientY / window.innerHeight - 0.5);
+        heroMark.style.setProperty('--mx', normalizedX.toFixed(3));
+        heroMark.style.setProperty('--my', normalizedY.toFixed(3));
+        hero.style.setProperty('--mx', normalizedX.toFixed(3));
+        hero.style.setProperty('--my', normalizedY.toFixed(3));
         raf = null;
       });
     });

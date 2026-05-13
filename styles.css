@@ -280,7 +280,7 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
 .hero {
   position: relative;
   padding: 70px 36px 100px;
-  min-height: min(calc(100vh - 70px), 960px);
+  min-height: clamp(760px, calc(100vh - 70px), 960px);
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 60px;
