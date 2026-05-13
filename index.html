@@ -313,6 +313,7 @@
               <div class="sk-row"><span class="sk-name">Critical thinking</span><div class="sk-track"><div class="sk-fill sk-fill-low" style="--w:46%"></div></div><span class="sk-pct">46%</span></div>
               <div class="sk-row"><span class="sk-name">Trade promotion analytics</span><div class="sk-track"><div class="sk-fill" style="--w:81%"></div></div><span class="sk-pct">81%</span></div>
               <div class="sk-row"><span class="sk-name">Marketing mix modelling</span><div class="sk-track"><div class="sk-fill sk-fill-low" style="--w:38%"></div></div><span class="sk-pct">38%</span></div>
+              <div class="sk-row"><span class="sk-name">GenAI tools for content</span><div class="sk-track"><div class="sk-fill sk-fill-low" style="--w:42%"></div></div><span class="sk-pct">42%</span></div>
             </div>
 
             <div class="profile-tags">
@@ -3270,7 +3271,7 @@ if (_pgRoot) {
       const active = document.querySelector('.tab-btn.is-active');
       moveIndicator(active);
       updateMotionOffsets();
-      onScroll();
+      handleScroll();
       resizeRaf = null;
     });
   });
@@ -3383,6 +3384,7 @@ if (_pgRoot) {
     speed: parseFloat(el.dataset.motion || '0'),
     top: 0,
   }));
+  const motionCenterRatio = 0.6;
   function updateMotionOffsets() {
     if (!motionItems.length) return;
     motionItems.forEach((item) => {
@@ -3390,51 +3392,53 @@ if (_pgRoot) {
       item.top = rect.top + window.scrollY;
     });
   }
+  function handleScroll() {
+    const y = window.scrollY;
+    const doc = document.documentElement;
+    const max = (doc.scrollHeight - window.innerHeight) || 1;
+    const p = Math.max(0, Math.min(1, y / max));
+
+    // Hero parallax — text drifts down + fades, mark drifts up + scales
+    // ~3x stronger than the original so it actually reads as parallax.
+    if (scrollEls.heroMark) {
+      const t = Math.min(1, y / 600);
+      scrollEls.heroMark.style.setProperty('--py', `${t * -140}px`);
+      scrollEls.heroMark.style.setProperty('--ps', (1 - t * 0.10).toFixed(3));
+      scrollEls.heroMark.style.setProperty('--protate', `${t * -4}deg`);
+    }
+    if (scrollEls.heroInner) {
+      const t = Math.min(1, y / 600);
+      scrollEls.heroInner.style.setProperty('--py', `${t * 64}px`);
+      scrollEls.heroInner.style.setProperty('--po', (1 - t * 0.65).toFixed(3));
+    }
+
+    // Scroll progress
+    if (scrollEls.progress) {
+      scrollEls.progress.style.setProperty('--p', p.toFixed(4));
+    }
+
+    // Section motion layers
+    if (!reduceMotion && motionItems.length) {
+      const vh = window.innerHeight || 1;
+      const center = y + vh * motionCenterRatio;
+      motionItems.forEach((item) => {
+        if (!item.speed) return;
+        const offset = (item.top - center) * item.speed;
+        item.el.style.setProperty('--motion-y', `${offset.toFixed(2)}px`);
+      });
+    }
+  }
   let scrollRaf = null;
   function onScroll() {
     if (scrollRaf) return;
     scrollRaf = requestAnimationFrame(() => {
-      const y = window.scrollY;
-      const doc = document.documentElement;
-      const max = (doc.scrollHeight - window.innerHeight) || 1;
-      const p = Math.max(0, Math.min(1, y / max));
-
-      // Hero parallax — text drifts down + fades, mark drifts up + scales
-      // ~3x stronger than the original so it actually reads as parallax.
-      if (scrollEls.heroMark) {
-        const t = Math.min(1, y / 600);
-        scrollEls.heroMark.style.setProperty('--py', `${t * -140}px`);
-        scrollEls.heroMark.style.setProperty('--ps', (1 - t * 0.10).toFixed(3));
-        scrollEls.heroMark.style.setProperty('--protate', `${t * -4}deg`);
-      }
-      if (scrollEls.heroInner) {
-        const t = Math.min(1, y / 600);
-        scrollEls.heroInner.style.setProperty('--py', `${t * 64}px`);
-        scrollEls.heroInner.style.setProperty('--po', (1 - t * 0.65).toFixed(3));
-      }
-
-      // Scroll progress
-      if (scrollEls.progress) {
-        scrollEls.progress.style.setProperty('--p', p.toFixed(4));
-      }
-
-      // Section motion layers
-      if (!reduceMotion && motionItems.length) {
-        const vh = window.innerHeight || 1;
-        const center = window.scrollY + vh * 0.6;
-        motionItems.forEach((item) => {
-          if (!item.speed) return;
-          const offset = (item.top - center) * item.speed;
-          item.el.style.setProperty('--motion-y', `${offset.toFixed(2)}px`);
-        });
-      }
-
+      handleScroll();
       scrollRaf = null;
     });
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   updateMotionOffsets();
-  onScroll();
+  handleScroll();
 
   // Animated count-up for stat numbers
   const numIo = new IntersectionObserver(entries => {
