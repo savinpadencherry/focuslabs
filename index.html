@@ -70,7 +70,7 @@
           <span class="hero-flow-num">01</span>
           <div>
             <div class="hero-flow-title">Assess</div>
-            <div class="hero-flow-sub">20-min AI interview captures role signals.</div>
+            <div class="hero-flow-sub">20-min AI interview receives role signals.</div>
           </div>
         </div>
         <div class="hero-flow-step">
@@ -3380,13 +3380,14 @@ if (_pgRoot) {
     heroInner: document.querySelector('.hero-inner'),
     progress: document.querySelector('.scroll-progress'),
   };
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const motionMedia = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let reduceMotion = motionMedia.matches;
   const motionItems = Array.from(document.querySelectorAll('[data-motion]')).map((el) => ({
     el,
     speed: parseFloat(el.dataset.motion || '0'),
     top: 0,
   }));
-  const motionCenterRatio = 0.6;
+  const motionCenterRatio = 0.6; // Bias towards lower viewport for smoother section drift.
   function updateMotionOffsets() {
     if (!motionItems.length) return;
     motionItems.forEach((item) => {
@@ -3398,6 +3399,14 @@ if (_pgRoot) {
     updateMotionOffsets();
     handleScroll();
   }
+  motionMedia.addEventListener('change', (event) => {
+    reduceMotion = event.matches;
+    if (reduceMotion) {
+      motionItems.forEach((item) => item.el.style.removeProperty('--motion-y'));
+    } else {
+      refreshMotion();
+    }
+  });
   function handleScroll() {
     const y = window.scrollY;
     const doc = document.documentElement;
