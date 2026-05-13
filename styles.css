@@ -440,6 +440,7 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
 }
 .hero-pipeline-orbit {
   --hero-orbit-x-start: -6px;
+  --hero-orbit-y-start: 0px;
   --hero-orbit-x-end: 8px;
   --hero-orbit-y-end: -12px;
   --hero-orbit-rotate-start: -0.55deg;
@@ -490,7 +491,7 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
 }
 @keyframes heroPipelineOrbit {
   0%, 100% {
-    transform: translate3d(var(--hero-orbit-x-start), 0, 0) rotate(var(--hero-orbit-rotate-start)) scale(var(--hero-orbit-scale-start));
+    transform: translate3d(var(--hero-orbit-x-start), var(--hero-orbit-y-start), 0) rotate(var(--hero-orbit-rotate-start)) scale(var(--hero-orbit-scale-start));
   }
   50% {
     transform: translate3d(var(--hero-orbit-x-end), var(--hero-orbit-y-end), 0) rotate(var(--hero-orbit-rotate-end)) scale(var(--hero-orbit-scale-end));
