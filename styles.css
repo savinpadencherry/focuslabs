@@ -280,7 +280,7 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
 .hero {
   position: relative;
   padding: 70px 36px 100px;
-  min-height: calc(100vh - 70px);
+  min-height: clamp(760px, calc(100vh - 70px), 960px);
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 60px;
@@ -365,6 +365,8 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   max-width: 640px;
+  transform: translate(calc(var(--mx, 0) * -10px), calc(var(--my, 0) * -6px));
+  transition: transform 220ms var(--ease);
 }
 .hero-flow-step {
   display: grid;
