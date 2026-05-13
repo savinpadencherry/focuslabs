@@ -3262,10 +3262,15 @@ if (_pgRoot) {
     const active = document.querySelector('.tab-btn.is-active');
     moveIndicator(active);
   });
+  let resizeRaf = null;
   window.addEventListener('resize', () => {
-    const active = document.querySelector('.tab-btn.is-active');
-    moveIndicator(active);
-    onScroll();
+    if (resizeRaf) return;
+    resizeRaf = requestAnimationFrame(() => {
+      const active = document.querySelector('.tab-btn.is-active');
+      moveIndicator(active);
+      onScroll();
+      resizeRaf = null;
+    });
   });
 
   // ═══════════════════════ Scroll reveals ═══════════════════════
@@ -3363,9 +3368,12 @@ if (_pgRoot) {
       // Section motion layers
       if (!reduceMotion && motionItems.length) {
         const vh = window.innerHeight || 1;
-        motionItems.forEach((item) => {
+        const measurements = motionItems.map((item) => ({
+          item,
+          rect: item.el.getBoundingClientRect(),
+        }));
+        measurements.forEach(({ item, rect }) => {
           if (!item.speed) return;
-          const rect = item.el.getBoundingClientRect();
           const offset = (rect.top - vh * 0.6) * item.speed;
           item.el.style.setProperty('--motion-y', `${offset.toFixed(2)}px`);
         });
