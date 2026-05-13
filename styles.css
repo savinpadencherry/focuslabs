@@ -37,6 +37,7 @@
 
   /* Motion */
   --ease: cubic-bezier(.22, 1, .36, 1);
+  --nav-height: 74px;
 }
 
 html { scroll-behavior: smooth; }
@@ -280,7 +281,7 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
 .hero {
   position: relative;
   padding: clamp(22px, 3.8vh, 40px) 36px clamp(22px, 4.2vh, 44px);
-  min-height: calc(100svh - 74px);
+  min-height: calc(100svh - var(--nav-height));
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: clamp(22px, 3vw, 42px);
@@ -435,6 +436,13 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
   perspective: 1400px;
 }
 .hero-pipeline-orbit {
+  --hero-orbit-x-start: -6px;
+  --hero-orbit-x-end: 8px;
+  --hero-orbit-y-end: -12px;
+  --hero-orbit-rotate-start: -0.55deg;
+  --hero-orbit-rotate-end: 0.55deg;
+  --hero-orbit-scale-start: 0.995;
+  --hero-orbit-scale-end: 1.01;
   position: relative;
   width: 100%;
   max-width: 420px;
@@ -478,8 +486,12 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
   z-index: 1;
 }
 @keyframes heroPipelineOrbit {
-  0%, 100% { transform: translate3d(-6px, 0, 0) rotate(-0.55deg) scale(0.995); }
-  50% { transform: translate3d(8px, -12px, 0) rotate(0.55deg) scale(1.01); }
+  0%, 100% {
+    transform: translate3d(var(--hero-orbit-x-start), 0, 0) rotate(var(--hero-orbit-rotate-start)) scale(var(--hero-orbit-scale-start));
+  }
+  50% {
+    transform: translate3d(var(--hero-orbit-x-end), var(--hero-orbit-y-end), 0) rotate(var(--hero-orbit-rotate-end)) scale(var(--hero-orbit-scale-end));
+  }
 }
 @keyframes heroGlowPulse {
   0%, 100% { transform: scale(0.92); opacity: 0.32; }
