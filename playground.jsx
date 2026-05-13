@@ -50,22 +50,17 @@ const ROLES = [
 ];
 
 const RESPONSIBILITIES = [
-  { id: "r1", text: "Prioritise the product backlog by business value", role: "po" },
-  { id: "r3", text: "Decide release goals and acceptance criteria", role: "po" },
-  { id: "r2", text: "Remove impediments that block the team", role: "sm" },
-  { id: "r5", text: "Facilitate the daily standup, planning &amp; retro", role: "sm" },
-  { id: "r4", text: "Estimate and commit to the sprint backlog", role: "dev" },
-  { id: "r6", text: "Design, build and test increments to definition of done", role: "dev" },
+  { id: "r1", text: "Decide what gets built (and in what order)", role: "po" },
+  { id: "r2", text: "Remove blockers and coach the team", role: "sm" },
+  { id: "r3", text: "Run the daily stand-up and retro", role: "sm" },
+  { id: "r4", text: "Build and test the actual work", role: "dev" },
 ];
 
 const BACKLOG = [
-  { id: "b1", title: "User login (SSO via Azure AD)", note: "Compliance hard-gate.", bucket: "must" },
-  { id: "b2", title: "Create audit engagement workspace", note: "Core unit of work.", bucket: "must" },
-  { id: "b3", title: "Upload &amp; tag evidence files", note: "Without this, no audit value.", bucket: "must" },
-  { id: "b4", title: "Reviewer approval workflow", note: "Partner sign-off chain.", bucket: "should" },
-  { id: "b5", title: "Mobile responsive layout", note: "Site visits use phones.", bucket: "should" },
-  { id: "b8", title: "AI auto-summary of audit findings", note: "Wow factor, not core.", bucket: "could" },
-  { id: "b9", title: "Native iOS &amp; Android app", note: "Out of scope for MVP.", bucket: "wont" },
+  { id: "b1", title: "Sign-in for the team",        note: "Nobody can use the product without it.",     bucket: "must" },
+  { id: "b2", title: "Upload &amp; organise files",     note: "The core thing the product actually does.",  bucket: "must" },
+  { id: "b3", title: "Mobile-friendly layout",      note: "Helpful, but desktop is the default flow.",  bucket: "should" },
+  { id: "b4", title: "AI summary of every page",    note: "Nice to have. The team can ship without it.", bucket: "wont" },
 ];
 
 const BUCKETS = [
@@ -151,6 +146,7 @@ const STAGES = [
   { id: "retro", name: "Retro" },
   { id: "report", name: "Scorecard" },
 ];
+
 
 const STRATEGY_CHOICES = [
   {
@@ -287,6 +283,63 @@ const INITIAL_KPIS = {
   devs: 74,      // Karthik / Riya / Sahil — morale + velocity health
   design: 72,    // Devika — design clarity
 };
+
+/* Scripted demo sequence for the autoplay phase. The user plays stages
+   1–3 (Brief, Roles, MoSCoW) hands-on; from stage 4 onward the system
+   plays itself with these scripted "best" decisions so the player sees
+   the full Scrum loop without sitting through every drag-drop. */
+const AUTOPLAY_SEQUENCE = [
+  {
+    stage: "moscow",
+    eyebrow: "Stage 03 · Prioritisation",
+    title: "Sorting the backlog with MoSCoW",
+    body: "The PO calls Sign-in and File upload as Must — without them, there's no product. Mobile is Should, AI summary is a Won't this sprint.",
+    actions: [
+      { delay:  500, label: "Sign-in for the team → Must",      deltas: { po: +3, partner: +2 }, sound: "tick" },
+      { delay: 1700, label: "Upload & organise files → Must",   deltas: { po: +3, partner: +2 }, sound: "tick" },
+      { delay: 2900, label: "Mobile-friendly layout → Should",  deltas: { po: +2, sm: +1 },     sound: "tick" },
+      { delay: 4100, label: "AI summary → Won't this sprint",   deltas: { po: +4, partner: +3 }, sound: "ding", note: "Discipline beats wishful thinking" },
+    ],
+    duration: 5200,
+  },
+  {
+    stage: "estimate",
+    eyebrow: "Stage 04 · Planning poker",
+    title: "Sizing the work in Fibonacci points",
+    body: "The team aligns on small / medium / large. Anything called 13 gets split — too big to commit to in one sprint.",
+    actions: [
+      { delay:  500, label: "Sign-in flow → 3 points",          deltas: { devs: +2, sm: +1 }, sound: "tick" },
+      { delay: 1700, label: "File upload → 5 points",           deltas: { devs: +2, sm: +1 }, sound: "tick" },
+      { delay: 2900, label: "Mobile layout → 8 (split it)",     deltas: { devs: +3, sm: +2 }, sound: "ding", note: "Forecast calibrated to 92%" },
+    ],
+    duration: 4000,
+  },
+  {
+    stage: "board",
+    eyebrow: "Stage 05 · Sprint mechanics",
+    title: "Running the 10-day sprint",
+    body: "Four sprint moments, four good calls. WIP stays low, the SSO blocker gets escalated, scope creep is parked, and the demo is honest.",
+    actions: [
+      { delay:  500, label: "Day 1 · Pull 2–3 tickets only",  deltas: { sm: +4, devs: +2 }, sound: "tick", note: "WIP discipline · standup" },
+      { delay: 1700, label: "Day 3 · Escalate SSO blocker",   deltas: { partner: +4, sm: +2 }, sound: "tick", note: "Stub login while admin grants access" },
+      { delay: 2900, label: "Day 6 · Park scope creep",       deltas: { po: +4, partner: +2 }, sound: "ding", note: "New scope → next sprint" },
+      { delay: 4100, label: "Day 10 · Honest demo",           deltas: { partner: +5, sm: +3 }, sound: "ding", note: "Done means shippable" },
+    ],
+    duration: 5200,
+  },
+  {
+    stage: "retro",
+    eyebrow: "Stage 06 · Close the loop",
+    title: "Running the retrospective",
+    body: "Stop the bad pattern, start the new habit, continue what worked. Blameless reflection — the muscle that compounds.",
+    actions: [
+      { delay:  500, label: "Stop · accepting mid-sprint scope", deltas: { sm: +3, devs: +2 }, sound: "tick" },
+      { delay: 1700, label: "Start · weekly design review",     deltas: { sm: +2, design: +4 }, sound: "tick" },
+      { delay: 2900, label: "Continue · pairing on tough work", deltas: { devs: +4, sm: +2 }, sound: "ding", note: "Behaviour, not blame" },
+    ],
+    duration: 4000,
+  },
+];
 
 /* Maps stage outcomes to which node pulses + the KPI delta applied. */
 function deltaForBriefChoice(id) {
@@ -2037,7 +2090,157 @@ function HintIntro({ stageId, stageIdx, totalStages, onDone }) {
   );
 }
 
-/* ─────────────────────────── HINTS RAIL (left) ─────────────────────────── */
+/* ─────────────────────────── HINTS FAB + PANEL (floating) ─────────────────────────── */
+
+/* Floating action button + slide-out panel. Replaces the old left-rail —
+   keeps hints always reachable without stealing canvas space. */
+function HintsFAB({ stageId }) {
+  const [open, setOpen] = useState(false);
+  const cards = HINTS[stageId] || [];
+  const intro = STAGE_INTROS[stageId] || { eyebrow: "", title: "" };
+
+  // Close on Escape
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  return (
+    <>
+      <button
+        className={classes("hints-fab", open && "is-open")}
+        onClick={() => setOpen(o => !o)}
+        aria-expanded={open}
+      >
+        <svg className="hints-fab-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M9 18h6m-5 3h4M12 3a7 7 0 0 1 4 12.7c-.6.5-1 1.2-1 2v.3H9v-.3c0-.8-.4-1.5-1-2A7 7 0 0 1 12 3z"
+                stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <span className="hints-fab-text">
+          <span className="hints-fab-count">{cards.length}</span>
+          <span className="hints-fab-lbl">{cards.length === 1 ? "hint" : "hints"}</span>
+        </span>
+      </button>
+
+      {open && (
+        <>
+          <div className="hints-panel-scrim" onClick={() => setOpen(false)} aria-hidden="true" />
+          <aside className="hints-panel" role="dialog" aria-label="Coach hints">
+            <header className="hints-panel-head">
+              <div>
+                <span className="hints-panel-tag">{intro.eyebrow || "Coach guide"}</span>
+                <div className="hints-panel-title">{intro.title || "Hints for this stage"}</div>
+              </div>
+              <button className="hints-panel-close" onClick={() => setOpen(false)} aria-label="Close hints">✕</button>
+            </header>
+            <div className="hints-panel-list">
+              {cards.map((h, i) => (
+                <div className="hints-panel-card" key={i} style={{ animationDelay: `${i * 0.06}s` }}>
+                  <span className="hints-panel-card-num">{String(i + 1).padStart(2, "0")}</span>
+                  <div className="hints-panel-card-content">
+                    <div className="hints-panel-card-tag">{h.tag}</div>
+                    <div className="hints-panel-card-body">{h.body}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </aside>
+        </>
+      )}
+    </>
+  );
+}
+
+/* ─────────────────────────── ORG IMPACT POPUP (auto-slides in) ─────────────────────────── */
+
+const NODE_LABELS = {
+  partner: "Client Partner",
+  po:      "Anjali R. · PO",
+  sm:      "You · Scrum Master",
+  devs:    "Engineering team",
+  design:  "Devika · Designer",
+};
+
+function OrgImpactPopup({ pulse, kpis }) {
+  if (!pulse || !pulse.targets || pulse.targets.length === 0) return null;
+  const avg = Math.round((kpis.partner + kpis.po + kpis.sm + kpis.devs + kpis.design) / 5);
+  const risk = Math.max(0, 100 - avg);
+  const deltas = pulse.deltas || {};
+  const targets = pulse.targets || [];
+
+  // Full team chart: every node always rendered, affected ones pulse +
+  // get a delta badge. This is the org chart the user has been missing.
+  const PartnerNode = { id: "partner", name: "Client Partner",   sub: "Risk Advisory", kpiLbl: "trust" };
+  const POnode      = { id: "po",      name: "Anjali R.",        sub: "Product Owner", kpiLbl: "scope" };
+  const SMnode      = { id: "sm",      name: "You",              sub: "Scrum Master",  kpiLbl: "flow" };
+  const Devsnode    = { id: "devs",    name: "Engineers",        sub: "K · R · S",     kpiLbl: "morale" };
+  const Designnode  = { id: "design",  name: "Devika S.",        sub: "Designer",      kpiLbl: "clarity" };
+
+  const renderNode = (node, compact = false) => {
+    const v = Math.max(0, Math.min(100, Math.round(kpis[node.id])));
+    const delta = deltas[node.id];
+    const isPulse = targets.includes(node.id);
+    const tone = v >= 75 ? "good" : v >= 55 ? "ok" : "warn";
+    return (
+      <div className={classes("op-node", `is-${tone}`, isPulse && "is-pulse", compact && "is-compact")}>
+        {delta !== undefined && delta !== 0 && (
+          <span className={classes("op-node-badge", delta > 0 ? "is-up" : "is-down")}>
+            {delta > 0 ? "+" : ""}{delta}
+          </span>
+        )}
+        <div className="op-node-name">{node.name}</div>
+        <div className="op-node-sub">{node.sub}</div>
+        <div className="op-node-bar"><i style={{ width: `${v}%` }} /></div>
+        <div className="op-node-kpi"><strong>{v}</strong><span>{node.kpiLbl}</span></div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="org-popup" key={pulse.ts} role="status">
+      <div className="org-popup-head">
+        <span className="org-popup-tag">Live impact</span>
+        <span className="org-popup-spark" aria-hidden="true" />
+      </div>
+
+      <div className="op-tree">
+        {renderNode(PartnerNode)}
+        <span className="op-stem" aria-hidden="true" />
+        {renderNode(POnode)}
+        <span className="op-stem" aria-hidden="true" />
+        {renderNode(SMnode)}
+        <div className="op-fork" aria-hidden="true">
+          <span className="op-fork-stem" />
+          <span className="op-fork-bar" />
+          <span className="op-fork-drop op-fork-drop-l" />
+          <span className="op-fork-drop op-fork-drop-r" />
+        </div>
+        <div className="op-pair">
+          {renderNode(Devsnode, true)}
+          {renderNode(Designnode, true)}
+        </div>
+      </div>
+
+      <div className="org-popup-foot">
+        <div className="org-popup-foot-row">
+          <span className="org-popup-foot-lbl">Delivery confidence</span>
+          <span className="org-popup-foot-val">{avg}<span>/100</span></span>
+        </div>
+        <div className="org-popup-foot-row">
+          <span className="org-popup-foot-lbl">Sprint risk</span>
+          <span className={classes("org-popup-foot-val", risk < 30 ? "is-good" : risk < 50 ? "is-ok" : "is-warn")}>
+            {risk}<span>/100</span>
+          </span>
+        </div>
+        {pulse.note && <div className="org-popup-note">{pulse.note}</div>}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────── HINTS RAIL (legacy — kept for reference) ─────────────────────────── */
 
 function HintsRail({ stageId }) {
   const cards = HINTS[stageId] || [];
@@ -2138,10 +2341,145 @@ function OrgChart({ kpis, pulse }) {
   );
 }
 
+/* ─────────────────────────── AUTOPLAY SHOWCASE ─────────────────────────── */
+
+/* Plays the scripted Estimate → Board → Retro sequence after the user
+   finishes stage 3, then hands off to the scorecard. Each scripted
+   action fires onImpact() so the same OrgImpactPopup the user has been
+   seeing keeps reacting in real time. */
+function AutoplayShowcase({ onDone, onImpact, onStageFlush }) {
+  const [stepIdx, setStepIdx] = useState(0);
+  const [actionsDone, setActionsDone] = useState([]); // labels fired this step
+  const stepTimersRef = useRef([]);
+  const advanceRef = useRef(null);
+
+  const step = AUTOPLAY_SEQUENCE[stepIdx];
+  const isLast = stepIdx >= AUTOPLAY_SEQUENCE.length;
+
+  // Schedule actions + auto-advance for the current step.
+  useEffect(() => {
+    if (isLast) {
+      const t = setTimeout(onDone, 600);
+      advanceRef.current = t;
+      return () => clearTimeout(t);
+    }
+    setActionsDone([]);
+    stepTimersRef.current = step.actions.map((a, i) =>
+      setTimeout(() => {
+        onImpact({
+          targets: Object.keys(a.deltas),
+          deltas: a.deltas,
+          sound: a.sound || "tick",
+          note: a.note,
+        });
+        setActionsDone(prev => [...prev, i]);
+      }, a.delay)
+    );
+    const t = setTimeout(() => {
+      // Stage complete — flush the summary popup before moving to next step.
+      if (onStageFlush) onStageFlush(step.title);
+      setStepIdx(i => i + 1);
+    }, step.duration);
+    advanceRef.current = t;
+    return () => {
+      stepTimersRef.current.forEach(clearTimeout);
+      clearTimeout(t);
+    };
+    // eslint-disable-next-line
+  }, [stepIdx]);
+
+  // Cleanup on unmount (Skip)
+  useEffect(() => () => {
+    stepTimersRef.current.forEach(clearTimeout);
+    if (advanceRef.current) clearTimeout(advanceRef.current);
+  }, []);
+
+  if (isLast) {
+    return (
+      <div className="autoplay autoplay-finished">
+        <div className="autoplay-finished-eyebrow">Autopilot complete</div>
+        <div className="autoplay-finished-title">Rolling into your scorecard…</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="autoplay">
+      <div className="autoplay-bg" aria-hidden="true" />
+
+      {/* Header strip */}
+      <header className="autoplay-head">
+        <div className="autoplay-head-l">
+          <span className="autoplay-head-tag">Autopilot · demo mode</span>
+          <div className="autoplay-head-sub">Stages 3–6 play themselves so you can watch the full Scrum loop close</div>
+        </div>
+        <button className="autoplay-skip" onClick={onDone}>Skip to scorecard →</button>
+      </header>
+
+      {/* Stage progress strip — one pill per autoplay step */}
+      <div className="autoplay-stages">
+        {AUTOPLAY_SEQUENCE.map((s, i) => (
+          <div key={s.stage} className={classes(
+            "autoplay-stage-pill",
+            i === stepIdx && "is-now",
+            i < stepIdx && "is-done",
+          )}>
+            <span className="autoplay-stage-pill-num">{String(i + 3).padStart(2, "0")}</span>
+            <span className="autoplay-stage-pill-name">{s.stage}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Current step — title + body + animated action checklist */}
+      <div className="autoplay-card" key={step.stage}>
+        <div className="autoplay-card-eyebrow">{step.eyebrow}</div>
+        <h3 className="autoplay-card-title">{step.title}</h3>
+        <p className="autoplay-card-body">{step.body}</p>
+
+        <ul className="autoplay-actions">
+          {step.actions.map((a, i) => {
+            const done = actionsDone.includes(i);
+            return (
+              <li key={i} className={classes("autoplay-action", done && "is-done")}>
+                <span className="autoplay-action-tick" aria-hidden="true">
+                  {done ? "✓" : ""}
+                </span>
+                <span className="autoplay-action-label">{a.label}</span>
+                {done && (
+                  <span className="autoplay-action-delta">
+                    {Object.entries(a.deltas).map(([k, v]) => (
+                      <span key={k} className={v > 0 ? "is-up" : "is-down"}>
+                        {NODE_LABELS[k]?.split(" ")[0] || k} {v > 0 ? "+" : ""}{v}
+                      </span>
+                    ))}
+                  </span>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+
+        <div className="autoplay-progress" aria-hidden="true">
+          <span
+            className="autoplay-progress-fill"
+            key={step.stage}
+            style={{ animationDuration: `${step.duration}ms` }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ─────────────────────────── APP ─────────────────────────── */
 
+/* Stage index after which the system takes over the keyboard. The user
+   plays Brief (0) and Roles (1) hands-on; autoplay then drives MoSCoW (2),
+   Estimate (3), Board (4), Retro (5) and the Scorecard (6) plays itself. */
+const PLAYABLE_THROUGH_STAGE = 1;
+
 function PlaygroundApp() {
-  const [mode, setMode] = useState("entry");      // entry | countdown | playing
+  const [mode, setMode] = useState("entry");      // entry | countdown | playing | autoplay
   const [stage, setStage] = useState(0);
   const [kpis, setKpis] = useState(INITIAL_KPIS);
   const [pulse, setPulse] = useState(null);       // { targets: [], note }
@@ -2162,10 +2500,10 @@ function PlaygroundApp() {
     return () => document.body.classList.remove("pg-locked");
   }, [mode]);
 
-  // Pulse auto-clears so consecutive same-target choices still animate
+  // Pulse auto-clears after the popup has time to fully display + animate out.
   useEffect(() => {
     if (!pulse) return;
-    const t = setTimeout(() => setPulse(null), 1500);
+    const t = setTimeout(() => setPulse(null), 4200);
     return () => clearTimeout(t);
   }, [pulse]);
 
@@ -2185,11 +2523,19 @@ function PlaygroundApp() {
     setKpis(INITIAL_KPIS);
     setPulse(null);
     setIntroShownIds([]);
+    stageBufferRef.current = { targets: new Set(), deltas: {}, notes: [] };
     audio.stopTimer();
     audio.stopCassette();
   };
 
+  // Per-choice impacts accumulate into this buffer. The popup fires once,
+  // on stage completion (goNext), with the rolled-up totals — not on every
+  // tiny drag-drop, which was both noisy and easy to miss.
+  const stageBufferRef = useRef({ targets: new Set(), deltas: {}, notes: [] });
+
   const applyImpact = useCallback(({ targets = [], deltas = {}, sound = "ding", note }) => {
+    // Live KPI update (so the chart numbers move in real time even if the
+    // popup waits for stage completion).
     setKpis(k => {
       const next = { ...k };
       for (const key of Object.keys(deltas)) {
@@ -2198,7 +2544,13 @@ function PlaygroundApp() {
       }
       return next;
     });
-    setPulse({ targets, note });
+    // Buffer for the stage-complete popup
+    targets.forEach(t => stageBufferRef.current.targets.add(t));
+    for (const k of Object.keys(deltas)) {
+      stageBufferRef.current.deltas[k] = (stageBufferRef.current.deltas[k] || 0) + deltas[k];
+    }
+    if (note) stageBufferRef.current.notes.push(note);
+    // Per-choice sound feedback (no popup)
     if (!muted) {
       if (sound === "ding") audio.ding();
       else if (sound === "buzz") audio.buzz();
@@ -2206,14 +2558,58 @@ function PlaygroundApp() {
     }
   }, [audio, muted]);
 
+  // Flush the accumulated buffer into a single end-of-stage popup.
+  const flushStagePopup = useCallback((stageLabel) => {
+    const b = stageBufferRef.current;
+    const targets = Array.from(b.targets);
+    const deltas = { ...b.deltas };
+    if (targets.length === 0 && Object.keys(deltas).length === 0) {
+      stageBufferRef.current = { targets: new Set(), deltas: {}, notes: [] };
+      return;
+    }
+    setPulse({
+      targets,
+      deltas,
+      note: stageLabel ? `${stageLabel} · stage complete` : (b.notes[b.notes.length - 1] || null),
+      ts: Date.now(),
+    });
+    stageBufferRef.current = { targets: new Set(), deltas: {}, notes: [] };
+  }, []);
+
   const toggleMute = () => {
     const m = audio.toggleMute();
     setMuted(m);
   };
 
-  const goNext = () => setStage(s => Math.min(s + 1, STAGES.length - 1));
+  const goNext = () => {
+    // Fire the stage-complete popup before advancing so the user sees a
+    // single summary of impact at the end of each stage.
+    flushStagePopup(STAGES[stage].name);
+    setTimeout(() => {
+      if (stage === PLAYABLE_THROUGH_STAGE) {
+        setMode("autoplay");
+        return;
+      }
+      setStage(s => Math.min(s + 1, STAGES.length - 1));
+    }, 250);
+  };
+  const finishAutoplay = () => {
+    // Land on the scorecard. Mark intervening intros as seen so the
+    // scorecard appears immediately rather than re-running their briefings.
+    setIntroShownIds(prev => {
+      const merged = new Set(prev);
+      ["moscow", "estimate", "board", "retro"].forEach(id => merged.add(id));
+      return Array.from(merged);
+    });
+    setStage(6);
+    setMode("playing");
+  };
   const goTo = (i) => setStage(i);
-  const restart = () => { setStage(0); setKpis(INITIAL_KPIS); setPulse(null); setIntroShownIds([]); };
+  const restart = () => {
+    setStage(0); setKpis(INITIAL_KPIS); setPulse(null);
+    setIntroShownIds([]); setMode("playing");
+    stageBufferRef.current = { targets: new Set(), deltas: {}, notes: [] };
+  };
 
   // Inline (collapsed) presentation when overlay isn't open.
   if (mode === "entry") {
@@ -2247,6 +2643,12 @@ function PlaygroundApp() {
         <main className="pg-overlay-cd-wrap">
           <Countdown onDone={beginGame} audio={audio} onCancel={exitOverlay} />
         </main>
+      ) : mode === "autoplay" ? (
+        <main className="pg-overlay-stage">
+          <AutoplayShowcase onDone={finishAutoplay} onImpact={applyImpact} onStageFlush={flushStagePopup} />
+          <HintsFAB stageId={STAGES[stage].id} />
+          <OrgImpactPopup pulse={pulse} kpis={kpis} />
+        </main>
       ) : !introShownIds.includes(STAGES[stage].id) ? (
         <main className="pg-overlay-cd-wrap pg-overlay-intro-wrap">
           <HintIntro
@@ -2277,10 +2679,8 @@ function PlaygroundApp() {
             </div>
           </div>
 
-          <main className="pg-overlay-grid">
-            <HintsRail stageId={stageId} />
-
-            <section className="pg-overlay-canvas">
+          <main className="pg-overlay-stage">
+            <section className="pg-overlay-canvas pg-overlay-canvas-wide">
               {stage === 0 && <StageBrief onNext={goNext} idx={0} total={STAGES.length} onImpact={applyImpact} />}
               {stage === 1 && <StageRoles onNext={goNext} idx={1} total={STAGES.length} onImpact={applyImpact} />}
               {stage === 2 && <StageMoSCoW onNext={goNext} idx={2} total={STAGES.length} onImpact={applyImpact} />}
@@ -2290,7 +2690,8 @@ function PlaygroundApp() {
               {stage === 6 && <StageReport onRestart={restart} idx={6} total={STAGES.length} onImpact={applyImpact} kpis={kpis} />}
             </section>
 
-            <OrgChart kpis={kpis} pulse={pulse} />
+            <HintsFAB stageId={stageId} />
+            <OrgImpactPopup pulse={pulse} kpis={kpis} />
           </main>
         </>
       )}
