@@ -37,7 +37,7 @@
 
   /* Motion */
   --ease: cubic-bezier(.22, 1, .36, 1);
-  /* Sticky nav baseline height (logo + vertical padding + border) */
+  /* Sticky nav baseline height: 44px logo + (14px * 2) vertical padding + ~1px border rounding */
   --nav-height: 74px;
   --hero-perspective: 1400px;
 }
@@ -284,7 +284,6 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
   position: relative;
   padding: clamp(22px, 3.8vh, 40px) 36px clamp(22px, 4.2vh, 44px);
   min-height: calc(100vh - var(--nav-height));
-  min-height: calc(100svh - var(--nav-height));
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: clamp(22px, 3vw, 42px);
@@ -292,6 +291,9 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
   max-width: 1320px;
   margin: 0 auto;
   overflow: hidden;
+}
+@supports (height: 100svh) {
+  .hero { min-height: calc(100svh - var(--nav-height)); }
 }
 
 .hero-grid {
