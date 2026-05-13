@@ -289,7 +289,7 @@
       <h2 class="h-display h-display-lg">Skill intelligence report.</h2>
 
       <div class="mock-row mock-row-rev">
-        <div class="mock profile-mock">
+        <div class="mock profile-mock" data-motion="-0.05">
           <div class="mock-chrome">
             <div class="mock-chrome-dots"><span></span><span></span><span></span></div>
             <div class="mock-chrome-title">Skill Profile — Ravi Sharma, Brand Manager</div>
@@ -325,7 +325,7 @@
           </div>
         </div>
 
-        <ul class="mock-notes">
+        <ul class="mock-notes" data-motion="0.04">
           <li>
             <div class="mock-note-num">01</div>
             <div class="mock-note-title">Benchmarked, not absolute</div>
@@ -3360,15 +3360,22 @@ if (_pgRoot) {
 
   // Subtle parallax on hero hex floats
   const heroMark = document.querySelector('.hero-mark');
-  if (heroMark) {
+  const hero = document.querySelector('.hero');
+  if (heroMark || hero) {
     let raf;
     window.addEventListener('mousemove', e => {
       if (raf) return;
       raf = requestAnimationFrame(() => {
         const x = (e.clientX / window.innerWidth - 0.5);
         const y = (e.clientY / window.innerHeight - 0.5);
-        heroMark.style.setProperty('--mx', x.toFixed(3));
-        heroMark.style.setProperty('--my', y.toFixed(3));
+        if (heroMark) {
+          heroMark.style.setProperty('--mx', x.toFixed(3));
+          heroMark.style.setProperty('--my', y.toFixed(3));
+        }
+        if (hero) {
+          hero.style.setProperty('--mx', x.toFixed(3));
+          hero.style.setProperty('--my', y.toFixed(3));
+        }
         raf = null;
       });
     });

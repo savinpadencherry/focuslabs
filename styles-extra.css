@@ -353,9 +353,10 @@
   border-radius: var(--r-lg);
   overflow: hidden;
   box-shadow: 0 40px 80px -40px rgba(20, 60, 92, 0.22);
+  transform: translateY(calc(var(--motion-y, 0px) + var(--mock-lift, 0px)));
   transition: transform 0.4s var(--ease);
 }
-.mock:hover { transform: translateY(-3px); }
+.mock:hover { --mock-lift: -3px; }
 .mock-chrome {
   display: flex; align-items: center; gap: 12px;
   padding: 12px 16px;
@@ -384,6 +385,8 @@
   list-style: none;
   display: flex; flex-direction: column; gap: 26px;
   padding-top: 12px;
+  transform: translateY(var(--motion-y, 0px));
+  transition: transform 0.4s var(--ease);
 }
 .mock-notes li {
   display: grid;
@@ -1783,7 +1786,7 @@
 
 .mock-row {
   gap: clamp(36px, 5vw, 64px);
-  align-items: center;
+  align-items: start;
 }
 .mock-notes {
   gap: 16px;
