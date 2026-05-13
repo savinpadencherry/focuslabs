@@ -198,6 +198,47 @@ const EVENT_DECISIONS = {
   ],
 };
 
+/* Stage-keyed copy used by the HintIntro briefing screen. Each stage
+   gets its own eyebrow + title + lede so the intro feels like opening
+   a fresh dossier, not a generic loading screen. */
+const STAGE_INTROS = {
+  brief: {
+    eyebrow: "Read the room",
+    title:   "Case brief · the Compass MVP",
+    lede:    "A 3-sprint risk-advisory build. Three things to keep in your head before you open the brief.",
+  },
+  roles: {
+    eyebrow: "Accountability",
+    title:   "Match each responsibility to its role",
+    lede:    "PO, SM, Devs — the boundary every real team blurs. Lock it before you drag a card.",
+  },
+  moscow: {
+    eyebrow: "Prioritisation under pressure",
+    title:   "Sort the backlog with MoSCoW",
+    lede:    "Must / Should / Could / Won't. The discipline lives in what you cut, not what you keep.",
+  },
+  estimate: {
+    eyebrow: "Planning poker",
+    title:   "Size each story in Fibonacci points",
+    lede:    "Jumps reflect cognitive load — not hours. The 13 is a signal to split, not a heroic estimate.",
+  },
+  board: {
+    eyebrow: "Sprint mechanics",
+    title:   "Run the sprint, day by day",
+    lede:    "Stand-ups, blockers, scope creep, demo. Your moves on the board change what the partner sees.",
+  },
+  retro: {
+    eyebrow: "Close the loop",
+    title:   "Run the retrospective",
+    lede:    "Behaviour, not blame. Start, Stop, Continue is what compounds team performance.",
+  },
+  report: {
+    eyebrow: "Scorecard",
+    title:   "Your Scrum readiness — first run",
+    lede:    "Every stage you played fed a different dimension. This is your skill profile.",
+  },
+};
+
 /* Stage-keyed hint cards rendered in the left rail of the overlay. */
 const HINTS = {
   brief: [
@@ -1870,18 +1911,18 @@ function CassetteVisual() {
 
 /* ─────────────────────────── HINT INTRO (center stage) ─────────────────────────── */
 
-/* Plays once at game start. Each hint card pops at the centre of the
-   screen one after another to grab the user's attention, then the whole
-   stack settles into the left rail and the game becomes interactive. */
-function HintIntro({ stageId, onDone }) {
+/* Per-stage briefing dossier. Plays once at the start of every stage:
+   case-file header, large active hint, mini-previews of upcoming hints,
+   live progress bar tied to the per-card display window, then the whole
+   stack docks to the left rail and the game becomes interactive. */
+const PER_CARD_MS = 4000;
+const DOCK_MS = 750;
+
+function HintIntro({ stageId, stageIdx, totalStages, onDone }) {
   const cards = HINTS[stageId] || [];
+  const intro = STAGE_INTROS[stageId] || { eyebrow: "Coach guide", title: "Briefing", lede: "" };
   const [idx, setIdx] = useState(0);
   const [docking, setDocking] = useState(false);
-  // ~4s per card so the player has time to actually read it. Total intro
-  // lands around 12–16s depending on hint count; the Skip button is the
-  // escape hatch for repeat plays.
-  const PER_CARD_MS = 4000;
-  const DOCK_MS = 700;
   const timersRef = useRef([]);
 
   useEffect(() => {
@@ -1890,7 +1931,6 @@ function HintIntro({ stageId, onDone }) {
       timersRef.current.push(t);
       return () => clearTimeout(t);
     }
-    // All hints shown — dock the stack to the left, then hand off.
     setDocking(true);
     const t = setTimeout(onDone, DOCK_MS);
     timersRef.current.push(t);
@@ -1900,37 +1940,99 @@ function HintIntro({ stageId, onDone }) {
 
   useEffect(() => () => timersRef.current.forEach(clearTimeout), []);
 
+  const skip = () => {
+    if (docking) return;
+    setIdx(cards.length);
+  };
+  const advance = () => {
+    if (idx >= cards.length) return;
+    setIdx(i => i + 1);
+  };
+
+  const activeCard = cards[Math.min(idx, cards.length - 1)];
+  const upcoming = cards.slice(idx + 1);
+  const passed   = cards.slice(0, idx);
+
   return (
     <div className={classes("hint-intro", docking && "is-docking")}>
       <div className="hint-intro-bg" aria-hidden="true" />
-      <div className="hint-intro-eyebrow">Coach guide</div>
-      <div className="hint-intro-title">Read the room before you decide.</div>
 
-      <div className="hint-intro-stack">
-        {cards.map((h, i) => {
-          const state = i < idx ? "past" : i === idx ? "active" : "next";
-          return (
-            <div
-              key={i}
-              className={classes("hint-intro-card", `is-${state}`)}
-              style={{ "--i": i, "--n": cards.length }}
-            >
-              <div className="hint-intro-card-tag">{h.tag}</div>
-              <div className="hint-intro-card-body">{h.body}</div>
+      {/* Case-file header strip */}
+      <header className="hint-intro-head">
+        <div className="hint-intro-head-l">
+          <span className="hint-intro-stage-tag">Stage {String(stageIdx + 1).padStart(2, "0")} / {String(totalStages).padStart(2, "0")}</span>
+          <span className="hint-intro-stage-dot" aria-hidden="true" />
+          <span className="hint-intro-stage-name">{intro.eyebrow}</span>
+        </div>
+        <div className="hint-intro-head-r">
+          <span className="hint-intro-doc">CASE · COMPASS</span>
+        </div>
+      </header>
+
+      <h2 className="hint-intro-title">{intro.title}</h2>
+      {intro.lede && <p className="hint-intro-lede">{intro.lede}</p>}
+
+      <div className="hint-intro-divider" aria-hidden="true">
+        <span className="hint-intro-divider-tag">Coach guide · {cards.length} hint{cards.length === 1 ? "" : "s"}</span>
+      </div>
+
+      {/* Active hint card — the centerpiece */}
+      {activeCard && (
+        <div
+          className={classes("hint-intro-active", docking && "is-leaving")}
+          key={`active-${idx}`}
+        >
+          <div className="hint-intro-active-l">
+            <div className="hint-intro-active-num">{String(Math.min(idx + 1, cards.length)).padStart(2, "0")}</div>
+            <div className="hint-intro-active-of">of {String(cards.length).padStart(2, "0")}</div>
+          </div>
+          <div className="hint-intro-active-r">
+            <div className="hint-intro-active-tag">{activeCard.tag}</div>
+            <div className="hint-intro-active-body">{activeCard.body}</div>
+            <div className="hint-intro-active-progress" aria-hidden="true">
+              <span
+                className="hint-intro-active-progress-fill"
+                key={`bar-${idx}`}
+                style={{ animationDuration: `${PER_CARD_MS}ms` }}
+              />
             </div>
-          );
-        })}
-      </div>
+          </div>
+        </div>
+      )}
 
-      <div className="hint-intro-dots">
-        {cards.map((_, i) => (
-          <span key={i} className={classes("hint-intro-dot", i < Math.min(idx + 1, cards.length) && "is-on")} />
-        ))}
-      </div>
+      {/* Upcoming hint preview */}
+      {upcoming.length > 0 && !docking && (
+        <ul className="hint-intro-next">
+          {upcoming.map((h, i) => (
+            <li key={`up-${idx}-${i}`} className="hint-intro-next-item">
+              <span className="hint-intro-next-num">{String(idx + 2 + i).padStart(2, "0")}</span>
+              <span className="hint-intro-next-tag">{h.tag}</span>
+              <span className="hint-intro-next-body">{h.body}</span>
+            </li>
+          ))}
+        </ul>
+      )}
 
-      <div className="hint-intro-skip-row">
-        <button className="hint-intro-skip" onClick={onDone}>Skip intro →</button>
-      </div>
+      {/* Footer — progress + manual controls */}
+      <footer className="hint-intro-foot">
+        <div className="hint-intro-progress">
+          {cards.map((_, i) => (
+            <span key={i} className={classes(
+              "hint-intro-progress-pip",
+              i < idx && "is-done",
+              i === idx && "is-now",
+            )} />
+          ))}
+        </div>
+        <div className="hint-intro-controls">
+          <button className="hint-intro-ctrl hint-intro-ctrl-ghost" onClick={skip}>Skip briefing</button>
+          {idx < cards.length && (
+            <button className="hint-intro-ctrl hint-intro-ctrl-primary" onClick={advance}>
+              {idx + 1 >= cards.length ? "Open the boardroom" : "Next hint"} <span className="hint-intro-ctrl-arrow">→</span>
+            </button>
+          )}
+        </div>
+      </footer>
     </div>
   );
 }
@@ -2043,7 +2145,7 @@ function PlaygroundApp() {
   const [stage, setStage] = useState(0);
   const [kpis, setKpis] = useState(INITIAL_KPIS);
   const [pulse, setPulse] = useState(null);       // { targets: [], note }
-  const [introDone, setIntroDone] = useState(false); // hint intro played?
+  const [introShownIds, setIntroShownIds] = useState([]); // stages whose intro already played
   const audioRef = useRef(null);
   if (!audioRef.current) audioRef.current = makeAudio();
   const audio = audioRef.current;
@@ -2082,7 +2184,7 @@ function PlaygroundApp() {
     setStage(0);
     setKpis(INITIAL_KPIS);
     setPulse(null);
-    setIntroDone(false);
+    setIntroShownIds([]);
     audio.stopTimer();
     audio.stopCassette();
   };
@@ -2111,7 +2213,7 @@ function PlaygroundApp() {
 
   const goNext = () => setStage(s => Math.min(s + 1, STAGES.length - 1));
   const goTo = (i) => setStage(i);
-  const restart = () => { setStage(0); setKpis(INITIAL_KPIS); setPulse(null); setIntroDone(false); };
+  const restart = () => { setStage(0); setKpis(INITIAL_KPIS); setPulse(null); setIntroShownIds([]); };
 
   // Inline (collapsed) presentation when overlay isn't open.
   if (mode === "entry") {
@@ -2145,9 +2247,15 @@ function PlaygroundApp() {
         <main className="pg-overlay-cd-wrap">
           <Countdown onDone={beginGame} audio={audio} onCancel={exitOverlay} />
         </main>
-      ) : !introDone ? (
+      ) : !introShownIds.includes(STAGES[stage].id) ? (
         <main className="pg-overlay-cd-wrap pg-overlay-intro-wrap">
-          <HintIntro stageId={STAGES[stage].id} onDone={() => setIntroDone(true)} />
+          <HintIntro
+            key={STAGES[stage].id}
+            stageId={STAGES[stage].id}
+            stageIdx={stage}
+            totalStages={STAGES.length}
+            onDone={() => setIntroShownIds(prev => prev.includes(STAGES[stage].id) ? prev : [...prev, STAGES[stage].id])}
+          />
         </main>
       ) : (
         <>
