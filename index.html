@@ -3218,6 +3218,9 @@ if (_pgRoot) {
   const tabs = document.querySelectorAll('.tab-btn');
   const panels = document.querySelectorAll('.tab-panel');
   const indicator = document.querySelector('.tab-indicator');
+  const revealActivateDelay = 50;
+  const revealRescanDelay = 40;
+  const motionOffsetDelay = 80;
 
   function moveIndicator(el) {
     if (!el || !indicator) return;
@@ -3238,8 +3241,8 @@ if (_pgRoot) {
       p.classList.toggle('is-active', p.dataset.panel === name);
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    setTimeout(scanReveals, 50);
-    setTimeout(updateMotionOffsets, 80);
+    setTimeout(scanReveals, revealActivateDelay);
+    setTimeout(refreshMotion, motionOffsetDelay);
   }
 
   tabs.forEach(b => b.addEventListener('click', () => activate(b.dataset.tab)));
@@ -3270,8 +3273,7 @@ if (_pgRoot) {
     resizeRaf = requestAnimationFrame(() => {
       const active = document.querySelector('.tab-btn.is-active');
       moveIndicator(active);
-      updateMotionOffsets();
-      handleScroll();
+      refreshMotion();
       resizeRaf = null;
     });
   });
@@ -3351,8 +3353,8 @@ if (_pgRoot) {
   window.__scanReveals = scanReveals;
   scanReveals();
   function rescan() {
-    setTimeout(scanReveals, 40);
-    setTimeout(updateMotionOffsets, 80);
+    setTimeout(scanReveals, revealRescanDelay);
+    setTimeout(refreshMotion, motionOffsetDelay);
   }
   document.querySelectorAll('.tab-btn').forEach(t => t.addEventListener('click', rescan));
 
@@ -3391,6 +3393,10 @@ if (_pgRoot) {
       const rect = item.el.getBoundingClientRect();
       item.top = rect.top + window.scrollY;
     });
+  }
+  function refreshMotion() {
+    updateMotionOffsets();
+    handleScroll();
   }
   function handleScroll() {
     const y = window.scrollY;
@@ -3437,8 +3443,7 @@ if (_pgRoot) {
     });
   }
   window.addEventListener('scroll', onScroll, { passive: true });
-  updateMotionOffsets();
-  handleScroll();
+  refreshMotion();
 
   // Animated count-up for stat numbers
   const numIo = new IntersectionObserver(entries => {
