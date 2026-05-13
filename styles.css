@@ -37,7 +37,9 @@
 
   /* Motion */
   --ease: cubic-bezier(.22, 1, .36, 1);
+  /* Sticky nav baseline height (logo + vertical padding + border) */
   --nav-height: 74px;
+  --hero-perspective: 1400px;
 }
 
 html { scroll-behavior: smooth; }
@@ -281,6 +283,7 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
 .hero {
   position: relative;
   padding: clamp(22px, 3.8vh, 40px) 36px clamp(22px, 4.2vh, 44px);
+  min-height: calc(100vh - var(--nav-height));
   min-height: calc(100svh - var(--nav-height));
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -433,7 +436,7 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
   align-items: center;
   justify-content: center;
   padding: 8px 0;
-  perspective: 1400px;
+  perspective: var(--hero-perspective);
 }
 .hero-pipeline-orbit {
   --hero-orbit-x-start: -6px;
