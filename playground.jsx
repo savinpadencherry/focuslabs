@@ -198,9 +198,289 @@ const EVENT_DECISIONS = {
   ],
 };
 
+/* Stage-keyed hint cards rendered in the left rail of the overlay. */
+const HINTS = {
+  brief: [
+    { tag: "Agile mindset", body: "Ship the thinnest end-to-end slice first. Width over depth on sprint 1." },
+    { tag: "Scrum roles", body: "PO sets the WHAT. Scrum Master defends the HOW. Devs commit to the BUILD." },
+    { tag: "MVP heuristic", body: "If removing it still lets you demo the audit flow, it isn't sprint-1 scope." },
+  ],
+  roles: [
+    { tag: "PO verbs", body: "Prioritise · decide · accept. Owns the WHY behind the work." },
+    { tag: "SM verbs", body: "Facilitate · coach · remove. Owns the team's focus, not the backlog." },
+    { tag: "Dev verbs", body: "Estimate · build · test · commit. Owns the path to Done." },
+  ],
+  moscow: [
+    { tag: "Must", body: "Cut it and the sprint goal fails. Non-negotiable." },
+    { tag: "Should", body: "Painful to omit but the sprint survives. Stretch goal." },
+    { tag: "Could", body: "Welcome only if real capacity opens up." },
+    { tag: "Won't", body: "An honest 'no'. Never a 'maybe' or 'later this sprint'." },
+  ],
+  estimate: [
+    { tag: "Fibonacci", body: "Jumps reflect cognitive complexity, not hours on a clock." },
+    { tag: "13 means split", body: "A 13 is the team telling you the story is too big. Break it down." },
+    { tag: "Trust the gap", body: "When the room splits 3 vs 8, the truth is hiding in that gap." },
+  ],
+  board: [
+    { tag: "Low WIP", body: "Pull, don't push. Finish before you start. Flow beats heroics." },
+    { tag: "Stand-up", body: "Blockers first. No status theatre — that's a status report, not a stand-up." },
+    { tag: "Demo honesty", body: "Done means potentially shippable. 'Almost there' is not Done." },
+  ],
+  retro: [
+    { tag: "Start", body: "A new behaviour you want to try next sprint." },
+    { tag: "Stop", body: "A pattern hurting your outcomes — name it without blame." },
+    { tag: "Continue", body: "A win to protect. Make it muscle memory." },
+  ],
+  report: [
+    { tag: "Skill profile", body: "Your weakest dimension here auto-prescribes the next module." },
+    { tag: "Compounding", body: "Every quarter reassesses readiness — lift is measured, not assumed." },
+  ],
+};
+
+/* Initial team KPI baseline. Each node sits at a believable 70 and moves
+   on each decision the user makes through the game. */
+const INITIAL_KPIS = {
+  partner: 72,   // Client Partner trust
+  po: 70,        // Anjali — scope/backlog clarity
+  sm: 70,        // You — flow / facilitation
+  devs: 74,      // Karthik / Riya / Sahil — morale + velocity health
+  design: 72,    // Devika — design clarity
+};
+
+/* Maps stage outcomes to which node pulses + the KPI delta applied. */
+function deltaForBriefChoice(id) {
+  if (id === "thin-slice")    return { pulses: ["partner", "po"], deltas: { partner: +8, po: +4, sm: +2 } };
+  if (id === "wow-ai")        return { pulses: ["partner"],        deltas: { partner: -8, po: -2, devs: -3 } };
+  if (id === "approval-heavy")return { pulses: ["po", "devs"],     deltas: { po: -3, devs: -4, sm: -1 } };
+  return { pulses: [], deltas: {} };
+}
+
+function deltaForEventDecision(eventType, optionId, best) {
+  // Per-event-type → role pulses
+  const map = {
+    standup: { node: "sm",      good: +6, bad: -6 },
+    blocker: { node: "partner", good: +5, bad: -7 },
+    scope:   { node: "po",      good: +6, bad: -7 },
+    review:  { node: "partner", good: +7, bad: -8 },
+  };
+  const m = map[eventType] || { node: "sm", good: +3, bad: -3 };
+  const v = best ? m.good : m.bad;
+  return { pulses: [m.node], deltas: { [m.node]: v, sm: best ? +2 : -2 } };
+}
+
 /* ─────────────────────────── UTILITIES ─────────────────────────── */
 
 function classes(...c) { return c.filter(Boolean).join(" "); }
+
+/* Audio engine. Real MP3 files for the high-impact moments (5s timer +
+   cassette) and Web Audio synth for in-game feedback (ding/buzz/tick).
+   Browsers require a user gesture before audio can play, so we call
+   ensure() inside the launch click handler. */
+function makeAudio() {
+  let ctx = null;
+  let muted = false;
+
+  // Preload sample files so the first play has zero latency.
+  const timerEl = new Audio("music/Copyright Free Old Film Countdown  5 Seconds.mp3");
+  const cassetteEl = new Audio("music/freesound_community-cassette-ffww-cassetera-96765.mp3");
+  timerEl.preload = "auto";
+  cassetteEl.preload = "auto";
+  timerEl.volume = 0.85;
+  cassetteEl.volume = 0.85;
+
+  const playFile = (el) => {
+    if (muted) return;
+    try {
+      el.pause();
+      el.currentTime = 0;
+      const p = el.play();
+      if (p && p.catch) p.catch(() => {});
+    } catch (e) { /* swallow — first-gesture restrictions etc. */ }
+  };
+  const stopFile = (el) => { try { el.pause(); el.currentTime = 0; } catch (e) {} };
+
+  const playTimer = () => playFile(timerEl);
+  const playCassette = () => playFile(cassetteEl);
+  const stopTimer = () => stopFile(timerEl);
+  const stopCassette = () => stopFile(cassetteEl);
+
+  const ensure = () => {
+    if (muted) return null;
+    if (!ctx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      ctx = new AC();
+    }
+    if (ctx.state === "suspended") ctx.resume();
+    return ctx;
+  };
+  const beep = (freq, dur, type = "sine", gain = 0.18, slideTo = null) => {
+    const c = ensure();
+    if (!c) return;
+    const t = c.currentTime;
+    const osc = c.createOscillator();
+    const g = c.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, t);
+    if (slideTo) osc.frequency.exponentialRampToValueAtTime(slideTo, t + dur);
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(gain, t + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    osc.connect(g).connect(c.destination);
+    osc.start(t);
+    osc.stop(t + dur + 0.04);
+  };
+  /* Absolute-time tone — for scheduling overlapping events in cassette(). */
+  const beepAt = (when, freq, dur, type = "sine", gain = 0.18, slideTo = null) => {
+    const c = ensure();
+    if (!c) return;
+    const osc = c.createOscillator();
+    const g = c.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, when);
+    if (slideTo) osc.frequency.exponentialRampToValueAtTime(slideTo, when + dur);
+    g.gain.setValueAtTime(0, when);
+    g.gain.linearRampToValueAtTime(gain, when + 0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001, when + dur);
+    osc.connect(g).connect(c.destination);
+    osc.start(when);
+    osc.stop(when + dur + 0.04);
+  };
+  const tick = () => beep(880, 0.09, "square", 0.13);
+  const go = () => {
+    /* Brief flourish before the cassette MP3 takes over. */
+    beep(1175, 0.22, "sine", 0.22);
+  };
+
+  /* Cassette deck — the full nostalgic sequence.
+     1. Insert thunk (plastic shell slides into the deck)
+     2. Door close click
+     3. Mechanism gears engage (3 quick small clicks)
+     4. Capstan motor winds up + stabilises (LFO wow/flutter)
+     5. Tape head engages (small clunk)
+     6. Tape hiss fades in (high-pass filtered noise)
+     7. PLAY button latches (final firm click)
+     Total: ~2.6s. Returns the duration so the caller can sync visuals. */
+  const cassette = () => {
+    const c = ensure();
+    if (!c) return 0;
+    const t = c.currentTime;
+
+    // 1) INSERT THUNK — low bass body
+    const thunk = c.createOscillator();
+    thunk.type = "sine";
+    thunk.frequency.setValueAtTime(85, t);
+    thunk.frequency.exponentialRampToValueAtTime(42, t + 0.20);
+    const thunkG = c.createGain();
+    thunkG.gain.setValueAtTime(0, t);
+    thunkG.gain.linearRampToValueAtTime(0.30, t + 0.008);
+    thunkG.gain.exponentialRampToValueAtTime(0.001, t + 0.22);
+    thunk.connect(thunkG).connect(c.destination);
+    thunk.start(t);
+    thunk.stop(t + 0.26);
+
+    // 1b) Plastic body — short midband noise burst on top of the thunk
+    const plBuf = c.createBuffer(1, Math.floor(c.sampleRate * 0.14), c.sampleRate);
+    const plD = plBuf.getChannelData(0);
+    for (let i = 0; i < plD.length; i++) plD[i] = (Math.random()*2 - 1) * (1 - i / plD.length);
+    const pl = c.createBufferSource();
+    pl.buffer = plBuf;
+    const plBP = c.createBiquadFilter();
+    plBP.type = "bandpass";
+    plBP.frequency.value = 1400;
+    plBP.Q.value = 0.6;
+    const plG = c.createGain();
+    plG.gain.setValueAtTime(0.18, t);
+    plG.gain.exponentialRampToValueAtTime(0.001, t + 0.14);
+    pl.connect(plBP).connect(plG).connect(c.destination);
+    pl.start(t);
+    pl.stop(t + 0.16);
+
+    // 2) DECK CLOSE — sharp high click then softer low click
+    beepAt(t + 0.32, 2600, 0.022, "square",   0.10);
+    beepAt(t + 0.40, 1050, 0.038, "triangle", 0.08);
+
+    // 3) MECHANISM ENGAGE — three descending small clicks
+    beepAt(t + 0.56,  900, 0.024, "square", 0.08);
+    beepAt(t + 0.62,  720, 0.024, "square", 0.07);
+    beepAt(t + 0.68,  580, 0.026, "square", 0.06);
+
+    // 4) MOTOR WIND-UP — sawtooth with LPF, slight wow/flutter via LFO
+    const motor = c.createOscillator();
+    motor.type = "sawtooth";
+    motor.frequency.setValueAtTime(26, t + 0.70);
+    motor.frequency.linearRampToValueAtTime(74, t + 1.10);
+    motor.frequency.linearRampToValueAtTime(80, t + 2.20);
+    const lpf = c.createBiquadFilter();
+    lpf.type = "lowpass";
+    lpf.frequency.value = 260;
+    const mg = c.createGain();
+    mg.gain.setValueAtTime(0, t + 0.70);
+    mg.gain.linearRampToValueAtTime(0.085, t + 1.00);
+    mg.gain.linearRampToValueAtTime(0.060, t + 1.95);
+    mg.gain.linearRampToValueAtTime(0.0,   t + 2.55);
+    motor.connect(lpf).connect(mg).connect(c.destination);
+    motor.start(t + 0.70);
+    motor.stop(t + 2.60);
+
+    // wow/flutter — small LFO on motor frequency
+    const lfo = c.createOscillator();
+    lfo.frequency.value = 4.6;
+    const lfoG = c.createGain();
+    lfoG.gain.value = 2.4;
+    lfo.connect(lfoG).connect(motor.frequency);
+    lfo.start(t + 0.75);
+    lfo.stop(t + 2.55);
+
+    // 5) TAPE HEAD ENGAGES — small mid clunk + lower body
+    beepAt(t + 1.08, 1800, 0.030, "square",  0.10);
+    beepAt(t + 1.10,  300, 0.060, "sine",    0.10);
+
+    // 6) TAPE HISS — high-pass filtered noise, builds and holds
+    const hissDur = 1.45;
+    const hBuf = c.createBuffer(1, Math.floor(c.sampleRate * hissDur), c.sampleRate);
+    const hD = hBuf.getChannelData(0);
+    for (let i = 0; i < hD.length; i++) hD[i] = (Math.random()*2 - 1) * 0.45;
+    const hiss = c.createBufferSource();
+    hiss.buffer = hBuf;
+    const hHP = c.createBiquadFilter();
+    hHP.type = "highpass";
+    hHP.frequency.value = 3400;
+    hHP.Q.value = 0.4;
+    const hG = c.createGain();
+    hG.gain.setValueAtTime(0, t + 1.15);
+    hG.gain.linearRampToValueAtTime(0.045, t + 1.45);
+    hG.gain.linearRampToValueAtTime(0.030, t + 2.25);
+    hG.gain.linearRampToValueAtTime(0.0,   t + 2.55);
+    hiss.connect(hHP).connect(hG).connect(c.destination);
+    hiss.start(t + 1.15);
+    hiss.stop(t + 2.60);
+
+    // 7) PLAY BUTTON LATCH — firm click as we hand off to the game
+    beepAt(t + 2.30, 2900, 0.028, "square", 0.12);
+    beepAt(t + 2.34, 1500, 0.030, "square", 0.06);
+
+    return 2.6;
+  };
+  const ding = () => {
+    beep(587, 0.10, "sine", 0.14);
+    setTimeout(() => beep(880, 0.16, "sine", 0.16), 70);
+  };
+  const buzz = () => beep(200, 0.20, "sawtooth", 0.10, 110);
+  const toggleMute = () => {
+    muted = !muted;
+    if (ctx) { muted ? ctx.suspend() : ctx.resume(); }
+    timerEl.muted = muted;
+    cassetteEl.muted = muted;
+    if (muted) { stopFile(timerEl); stopFile(cassetteEl); }
+    return muted;
+  };
+  return {
+    ensure, tick, go, cassette, ding, buzz, toggleMute,
+    playTimer, playCassette, stopTimer, stopCassette,
+    isMuted: () => muted,
+  };
+}
 
 function CoachLine({ tone = "neutral", title, children, anim }) {
   return (
@@ -229,9 +509,22 @@ function StageHeader({ idx, total, title, eyebrow, sub, scoreLine }) {
 
 /* ─────────────────────────── STAGE 1: BRIEF ─────────────────────────── */
 
-function StageBrief({ onNext, idx, total }) {
+function StageBrief({ onNext, idx, total, onImpact }) {
   const [choice, setChoice] = useState(null);
   const picked = STRATEGY_CHOICES.find(c => c.id === choice);
+
+  const pickStrategy = (id) => {
+    setChoice(id);
+    if (!onImpact) return;
+    const d = deltaForBriefChoice(id);
+    const opt = STRATEGY_CHOICES.find(c => c.id === id);
+    onImpact({
+      targets: d.pulses,
+      deltas: d.deltas,
+      sound: opt && opt.score >= 80 ? "ding" : "buzz",
+      note: opt ? `${opt.title} · ${opt.score}/100 fit` : null,
+    });
+  };
 
   return (
     <div className="pg-stage pg-stage-brief">
@@ -297,7 +590,7 @@ function StageBrief({ onNext, idx, total }) {
             <button
               key={option.id}
               className={classes("strategy-option", choice === option.id && "is-selected")}
-              onClick={() => setChoice(option.id)}
+              onClick={() => pickStrategy(option.id)}
             >
               <span className="strategy-option-title">{option.title}</span>
               <span className="strategy-option-body">{option.body}</span>
@@ -329,7 +622,7 @@ function StageBrief({ onNext, idx, total }) {
 
 /* ─────────────────────────── STAGE 2: ROLE MATCH ─────────────────────────── */
 
-function StageRoles({ onNext, idx, total }) {
+function StageRoles({ onNext, idx, total, onImpact }) {
   // Pool of responsibilities not yet placed
   const [pool, setPool] = useState(() => RESPONSIBILITIES.map(r => r.id));
   // map of roleId → array of responsibility ids
@@ -345,6 +638,17 @@ function StageRoles({ onNext, idx, total }) {
 
   const handleDropOnRole = (roleId, fromPool) => {
     if (!dragId) return;
+    // Per-drop org-chart impact — small nudge so the chart reacts in real
+    // time without spoiling the answer through the drag-drop UI itself.
+    if (onImpact) {
+      const r = RESPONSIBILITIES.find(x => x.id === dragId);
+      const correct = r && r.role === roleId;
+      onImpact({
+        targets: ["sm"],
+        deltas: correct ? { sm: +2, devs: +1 } : { sm: -2 },
+        sound: correct ? "tick" : "buzz",
+      });
+    }
     // remove from any previous holder
     setPool(p => p.filter(x => x !== dragId));
     setPlaced(prev => {
@@ -375,6 +679,18 @@ function StageRoles({ onNext, idx, total }) {
       });
     });
     setFeedback({ correct, wrong });
+    if (onImpact) {
+      const total = correct + wrong;
+      const ratio = total === 0 ? 0 : correct / total;
+      const moraleDelta = Math.round(-6 + ratio * 14);    // -6 .. +8
+      const flowDelta   = Math.round(-4 + ratio * 10);    // -4 .. +6
+      onImpact({
+        targets: wrong === 0 ? ["po", "sm", "devs"] : ["sm"],
+        deltas: { devs: moraleDelta, sm: flowDelta, po: Math.round(moraleDelta / 2) },
+        sound: wrong === 0 ? "ding" : "buzz",
+        note: `${correct}/${total} role matches`,
+      });
+    }
   };
 
   const responsibilityById = (id) => RESPONSIBILITIES.find(r => r.id === id);
@@ -504,7 +820,7 @@ function StageRoles({ onNext, idx, total }) {
 
 /* ─────────────────────────── STAGE 3: MOSCOW PRIORITISATION ─────────────────────────── */
 
-function StageMoSCoW({ onNext, idx, total }) {
+function StageMoSCoW({ onNext, idx, total, onImpact }) {
   const [pool, setPool] = useState(() => BACKLOG.map(b => b.id));
   const [placed, setPlaced] = useState({ must: [], should: [], could: [], wont: [] });
   const [dragId, setDragId] = useState(null);
@@ -515,6 +831,16 @@ function StageMoSCoW({ onNext, idx, total }) {
 
   const onDrop = (bucket) => {
     if (!dragId) return;
+    // Per-drop impact — pulses the PO node and nudges scope/partner KPIs.
+    if (onImpact) {
+      const item = itemById(dragId);
+      const correct = item && item.bucket === bucket;
+      onImpact({
+        targets: ["po"],
+        deltas: correct ? { po: +2, partner: +1 } : { po: -2 },
+        sound: correct ? "tick" : "buzz",
+      });
+    }
     setPool(p => p.filter(x => x !== dragId));
     setPlaced(prev => {
       const next = { ...prev };
@@ -545,6 +871,18 @@ function StageMoSCoW({ onNext, idx, total }) {
       });
     });
     setFeedback({ correct, wrong });
+    if (onImpact) {
+      const tot = correct + wrong;
+      const ratio = tot === 0 ? 0 : correct / tot;
+      const poDelta      = Math.round(-6 + ratio * 14);   // -6..+8
+      const partnerDelta = Math.round(-4 + ratio * 10);   // -4..+6
+      onImpact({
+        targets: wrong === 0 ? ["po", "partner"] : ["po"],
+        deltas: { po: poDelta, partner: partnerDelta, sm: Math.round(poDelta / 2) },
+        sound: wrong === 0 ? "ding" : "buzz",
+        note: `${correct}/${tot} prioritised correctly`,
+      });
+    }
   };
 
   return (
@@ -665,10 +1003,11 @@ function StageMoSCoW({ onNext, idx, total }) {
 
 /* ─────────────────────────── STAGE: ESTIMATE (Story Point Poker) ─────────────────────────── */
 
-function StageEstimate({ onNext, idx, total }) {
+function StageEstimate({ onNext, idx, total, onImpact }) {
   const [active, setActive] = useState(0);
   const [picks, setPicks] = useState({}); // storyId -> chosen points
   const [done, setDone] = useState(false);
+  const [impactFired, setImpactFired] = useState(false);
 
   const story = STORIES[active];
   const myPick = picks[story.id];
@@ -676,6 +1015,16 @@ function StageEstimate({ onNext, idx, total }) {
   const handlePick = (val) => {
     if (myPick !== undefined) return;
     setPicks(p => ({ ...p, [story.id]: val }));
+    if (onImpact) {
+      const delta = Math.abs(FIB.indexOf(val) - FIB.indexOf(story.truth));
+      const ok = delta <= 1;
+      onImpact({
+        targets: ["devs"],
+        deltas: { devs: ok ? +3 : -2, sm: ok ? +1 : -1 },
+        sound: delta === 0 ? "ding" : "tick",
+        note: delta === 0 ? "Calibrated estimate" : `${delta} step${delta === 1 ? "" : "s"} off team consensus`,
+      });
+    }
     setTimeout(() => {
       if (active + 1 < STORIES.length) setActive(a => a + 1);
       else setDone(true);
@@ -695,6 +1044,21 @@ function StageEstimate({ onNext, idx, total }) {
   const truthVel = STORIES.reduce((a, s) => a + s.truth, 0);
 
   const stepLabel = (delta) => delta === 0 ? "Spot on" : delta === 1 ? "1 step off" : `${delta} steps off`;
+
+  useEffect(() => {
+    if (!done || impactFired || !onImpact) return;
+    setImpactFired(true);
+    onImpact({
+      targets: ["devs", "sm"],
+      deltas: {
+        devs: Math.round(-4 + (accuracy / 100) * 10),
+        sm:   Math.round(-3 + (accuracy / 100) * 8),
+      },
+      sound: accuracy >= 80 ? "ding" : "tick",
+      note: `Forecast calibrated to ${accuracy}%`,
+    });
+    // eslint-disable-next-line
+  }, [done]);
 
   return (
     <div className="pg-stage pg-stage-estimate">
@@ -828,7 +1192,7 @@ function StageEstimate({ onNext, idx, total }) {
 
 /* ─────────────────────────── STAGE 4: SPRINT BOARD ─────────────────────────── */
 
-function StageBoard({ onNext, idx, total }) {
+function StageBoard({ onNext, idx, total, onImpact }) {
   const [tickets, setTickets] = useState(() => TICKETS.map(t => ({ ...t })));
   const [day, setDay] = useState(0); // 0 = sprint not started yet
   const [eventIdx, setEventIdx] = useState(-1);
@@ -991,7 +1355,18 @@ function StageBoard({ onNext, idx, total }) {
                           eventDecision === option.id && option.best && "is-best",
                           eventDecision === option.id && !option.best && "is-risk"
                         )}
-                        onClick={() => setEventDecision(option.id)}
+                        onClick={() => {
+                          setEventDecision(option.id);
+                          if (onImpact && eventDecision !== option.id) {
+                            const d = deltaForEventDecision(activeEvent.type, option.id, option.best);
+                            onImpact({
+                              targets: d.pulses,
+                              deltas: d.deltas,
+                              sound: option.best ? "ding" : "buzz",
+                              note: option.note,
+                            });
+                          }
+                        }}
                       >
                         {option.label}
                       </button>
@@ -1068,7 +1443,7 @@ function Burndown({ points, total }) {
 
 /* ─────────────────────────── STAGE 5: RETRO + REPORT ─────────────────────────── */
 
-function StageRetro({ onNext, idx, total }) {
+function StageRetro({ onNext, idx, total, onImpact }) {
   const [pool, setPool] = useState(() => RETRO_CARDS.map(c => c.id));
   const [placed, setPlaced] = useState({ start: [], stop: [], continue: [] });
   const [dragId, setDragId] = useState(null);
@@ -1079,6 +1454,16 @@ function StageRetro({ onNext, idx, total }) {
 
   const onDrop = (bucket) => {
     if (!dragId) return;
+    // Per-drop impact — pulses the SM node, the one running retro.
+    if (onImpact) {
+      const c = cardById(dragId);
+      const correct = c && c.target === bucket;
+      onImpact({
+        targets: ["sm"],
+        deltas: correct ? { sm: +2, devs: +1 } : { sm: -1 },
+        sound: correct ? "tick" : "buzz",
+      });
+    }
     setPool(p => p.filter(x => x !== dragId));
     setPlaced(prev => {
       const next = { ...prev };
@@ -1099,6 +1484,17 @@ function StageRetro({ onNext, idx, total }) {
       });
     });
     setFeedback({ correct, total: RETRO_CARDS.length });
+    if (onImpact) {
+      const ratio = correct / RETRO_CARDS.length;
+      const moraleDelta = Math.round(-3 + ratio * 10);
+      const smDelta     = Math.round(-2 + ratio * 8);
+      onImpact({
+        targets: correct === RETRO_CARDS.length ? ["sm", "devs", "design"] : ["sm"],
+        deltas: { devs: moraleDelta, sm: smDelta, design: Math.round(moraleDelta / 2) },
+        sound: correct === RETRO_CARDS.length ? "ding" : "tick",
+        note: `${correct}/${RETRO_CARDS.length} retro placements correct`,
+      });
+    }
   };
 
   return (
@@ -1201,15 +1597,17 @@ function StageRetro({ onNext, idx, total }) {
 
 /* ─────────────────────────── FINAL REPORT ─────────────────────────── */
 
-function StageReport({ onRestart, idx, total }) {
-  // We'd ideally pull real per-stage scores; for the demo we synthesise from
-  // a reasonable baseline that feels earned after the run.
+function StageReport({ onRestart, idx, total, kpis }) {
+  // Derive scorecard values from the live KPI state so the report reflects
+  // what the player actually did. Falls back to sensible defaults if absent.
+  const k = kpis || INITIAL_KPIS;
+  const overall = Math.round((k.partner + k.po + k.sm + k.devs + k.design) / 5);
   const scores = [
-    { name: "Role clarity", val: 86, body: "Strong grasp of the PO/SM/Dev boundary." },
-    { name: "Prioritisation", val: 78, body: "Clean MoSCoW sort with healthy ruthlessness on Won'ts." },
-    { name: "Sprint mechanics", val: 82, body: "WIP discipline held; you moved tickets the day they shipped." },
-    { name: "Retrospective discipline", val: 88, body: "Behaviour-level reflection, not outcome blaming." },
-    { name: "Overall Scrum readiness", val: 84, body: "Ready to coach a new team through a first sprint." },
+    { name: "Role clarity",            val: k.po,      body: "How cleanly you separated PO / SM / Dev work." },
+    { name: "Prioritisation",          val: k.partner, body: "How well your MoSCoW call matched partner intent." },
+    { name: "Sprint mechanics",        val: k.sm,      body: "WIP discipline and how you handled blockers." },
+    { name: "Team morale",             val: k.devs,    body: "How the build team finished the sprint." },
+    { name: "Overall Scrum readiness", val: overall,   body: overall >= 80 ? "Ready to coach a new team through a first sprint." : overall >= 65 ? "Solid grasp. One more run and you're coaching." : "Useful first pass. Try the run again and watch the org chart move." },
   ];
   return (
     <div className="pg-stage pg-stage-report">
@@ -1250,65 +1648,544 @@ function StageReport({ onRestart, idx, total }) {
   );
 }
 
-/* ─────────────────────────── APP ─────────────────────────── */
+/* ─────────────────────────── ENTRY CARD (inline) ─────────────────────────── */
 
-function PlaygroundApp() {
-  const [stage, setStage] = useState(0);
-
-  const goNext = () => setStage(s => Math.min(s + 1, STAGES.length - 1));
-  const goTo = (i) => setStage(i);
-  const restart = () => setStage(0);
-
-  // Notify host for reveal rescans on stage change
-  useEffect(() => {
-    if (window.__scanReveals) window.__scanReveals();
-    // smooth scroll to top of playground shell
-    const el = document.querySelector(".playground-shell");
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 90;
-      window.scrollTo({ top, behavior: "smooth" });
-    }
-  }, [stage]);
-
+function EntryCard({ onLaunch }) {
   return (
-    <div className="pg-shell">
-      <div className="pg-status">
-        <div className="pg-status-main">
-          <span>Project management playground</span>
-          <strong>Compass sprint simulation</strong>
+    <div className="pg-entry">
+      <div className="pg-entry-grain" aria-hidden="true" />
+      <div className="pg-entry-bar">
+        <div className="pg-entry-bar-l">
+          <span className="pg-entry-dot" />
+          <span>Compass · sprint simulation</span>
         </div>
-        <div className="pg-status-meter" aria-hidden="true">
-          <i style={{ width: `${((stage + 1) / STAGES.length) * 100}%` }} />
-        </div>
-        <div className="pg-status-kpis">
-          <span>Selection</span>
-          <span>Match</span>
-          <span>Drag</span>
-          <span>Charts</span>
+        <div className="pg-entry-bar-r">
+          <span>~12 min</span><span>·</span><span>7 stages</span>
         </div>
       </div>
-      <div className="pg-rail">
-        {STAGES.map((s, i) => (
-          <button
-            key={s.id}
-            className={classes("pg-rail-item", i === stage && "is-active", i < stage && "is-done")}
-            onClick={() => goTo(i)}
-          >
-            <span className="pg-rail-num">{i + 1}</span>
-            <span className="pg-rail-name" dangerouslySetInnerHTML={{ __html: s.name }} />
-          </button>
+
+      <div className="pg-entry-body">
+        <div className="pg-entry-eyebrow">Interactive sprint room</div>
+        <h2 className="pg-entry-title">
+          Step into the Compass sprint room.<br/>
+          <span className="pg-entry-title-soft">Run three sprints in twelve minutes.</span>
+        </h2>
+        <p className="pg-entry-lede">
+          A fullscreen, Harvard-style decision room. You play the Scrum Master on a
+          live audit-evidence MVP. Every drag, drop, match and call updates the
+          team org chart and the partner-trust meter in real time.
+        </p>
+
+        <div className="pg-entry-tiles">
+          <div className="pg-entry-tile">
+            <div className="pg-entry-tile-num">07</div>
+            <div className="pg-entry-tile-lbl">stages · brief → scorecard</div>
+          </div>
+          <div className="pg-entry-tile">
+            <div className="pg-entry-tile-num">05</div>
+            <div className="pg-entry-tile-lbl">team nodes pulse on each choice</div>
+          </div>
+          <div className="pg-entry-tile">
+            <div className="pg-entry-tile-num">04</div>
+            <div className="pg-entry-tile-lbl">live KPIs: trust · flow · morale · scope</div>
+          </div>
+        </div>
+
+        <button className="pg-entry-cta" onClick={onLaunch}>
+          <span className="pg-entry-cta-l">
+            <span className="pg-entry-cta-eyebrow">Launch immersive sim</span>
+            <span className="pg-entry-cta-title">Roll tape on the sprint room</span>
+          </span>
+          <span className="pg-entry-cta-r">
+            <span className="pg-entry-cta-rec">REC</span>
+            <span className="pg-entry-cta-arrow">▶</span>
+          </span>
+        </button>
+        <div className="pg-entry-fine">7-second countdown · cassette intro · sound on</div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────── COUNTDOWN (7s) ─────────────────────────── */
+
+/* Countdown sequence:
+     t=0       → start MP3 timer (5s old-film countdown), tick 5..1 visually
+     t=5000    → stop timer, swap to "rolling" phase, start cassette MP3
+     t=7700    → cassette finishes (~2.7s), call onDone() → game starts
+   All timer IDs live in a ref so re-renders never cancel them. */
+const TIMER_MS = 5000;
+const CASSETTE_MS = 2700;
+
+function Countdown({ onDone, audio, onCancel }) {
+  const [n, setN] = useState(5);
+  const [phase, setPhase] = useState("count"); // "count" | "rolling"
+  const firedRef = useRef(false);
+  const launchTimersRef = useRef([]);
+
+  useEffect(() => {
+    if (firedRef.current) return;
+    firedRef.current = true;
+
+    // Kick off the 5-second old-film countdown audio.
+    audio.playTimer();
+
+    // Visual count: 5 → 4 → 3 → 2 → 1, one per second. Stop at 1; the
+    // phase switch to "rolling" handles the transition from there.
+    const interval = setInterval(() => {
+      setN(prev => {
+        if (prev <= 1) { clearInterval(interval); return prev; }
+        return prev - 1;
+      });
+    }, 1000);
+
+    // After the 5s countdown, switch to cassette phase + audio.
+    const tCassette = setTimeout(() => {
+      audio.stopTimer();
+      audio.go();
+      audio.playCassette();
+      setPhase("rolling");
+    }, TIMER_MS);
+
+    // Hand off to the game when the cassette has done its thing.
+    const tDone = setTimeout(() => onDone(), TIMER_MS + CASSETTE_MS);
+
+    launchTimersRef.current = [interval, tCassette, tDone];
+  }, []);
+
+  // Hard cleanup if the user hits Exit mid-sequence.
+  useEffect(() => {
+    return () => {
+      const [iv, tc, td] = launchTimersRef.current || [];
+      if (iv) clearInterval(iv);
+      if (tc) clearTimeout(tc);
+      if (td) clearTimeout(td);
+      audio.stopTimer();
+      audio.stopCassette();
+    };
+  }, []);
+
+  const titleByN = n >= 4 ? "Loading the Compass case file"
+                 : n >= 2 ? "Three sprints · one partner demo"
+                 : "Steady — you're the Scrum Master";
+  const R = 90, C = 2 * Math.PI * R;
+  const frac = Math.max(0, n) / 5;
+
+  return (
+    <div className={classes("pg-cd", phase === "rolling" && "is-rolling")}>
+      <div className="pg-cd-tape" aria-hidden="true">
+        <i /><i /><i /><i /><i /><i /><i /><i />
+      </div>
+
+      <div className="pg-cd-eyebrow">
+        {phase === "rolling" ? "Briefing tape · loaded" : "FocusChain Labs · case loader"}
+      </div>
+      <div className="pg-cd-title">
+        {phase === "rolling" ? "Case loaded. Boardroom is open." : titleByN}
+      </div>
+
+      {phase === "count" ? (
+        <div className="pg-cd-ring">
+          <svg viewBox="0 0 220 220" className="pg-cd-svg">
+            <circle cx="110" cy="110" r={R} fill="none" stroke="rgba(247,243,236,0.10)" strokeWidth="8" />
+            <circle
+              cx="110" cy="110" r={R} fill="none"
+              stroke="url(#cdGrad)" strokeWidth="8" strokeLinecap="round"
+              strokeDasharray={`${frac * C} ${C}`}
+              transform="rotate(-90 110 110)"
+              style={{ transition: "stroke-dasharray 0.9s linear" }}
+            />
+            <defs>
+              <linearGradient id="cdGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stopColor="#27B978" />
+                <stop offset="1" stopColor="#0F7A47" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div className={classes("pg-cd-num", n === 0 && "is-go")} key={n}>
+            {n > 0 ? n : "GO"}
+          </div>
+        </div>
+      ) : (
+        <CassetteVisual />
+      )}
+
+      <div className="pg-cd-sub">
+        {phase === "rolling"
+          ? "Brief · backlog · board · retro — your call from here"
+          : "5 seconds to the brief. Sound on for the full effect."}
+      </div>
+      {phase === "count" && (
+        <button className="pg-cd-skip" onClick={onCancel}>Exit room</button>
+      )}
+    </div>
+  );
+}
+
+/* The little cassette graphic we swap in once the tape is rolling. Two reels
+   spin in opposite directions, with a level meter underneath to sell the
+   "deck just engaged" feel. Pure SVG / CSS — no assets. */
+function CassetteVisual() {
+  return (
+    <div className="cassette" aria-hidden="true">
+      <div className="cassette-body">
+        <div className="cassette-label">
+          <span className="cassette-label-l">COMPASS · CASE TAPE</span>
+          <span className="cassette-label-r">RISK ADVISORY · SPRINT 1</span>
+        </div>
+        <div className="cassette-window">
+          <div className="cassette-reel cassette-reel-l">
+            <svg viewBox="0 0 60 60">
+              <circle cx="30" cy="30" r="26" className="reel-rim" />
+              <circle cx="30" cy="30" r="14" className="reel-hub" />
+              <g className="reel-spokes">
+                <rect x="29" y="6" width="2" height="48" />
+                <rect x="29" y="6" width="2" height="48" transform="rotate(60 30 30)" />
+                <rect x="29" y="6" width="2" height="48" transform="rotate(120 30 30)" />
+              </g>
+              <circle cx="30" cy="30" r="4" className="reel-center" />
+            </svg>
+          </div>
+          <div className="cassette-tape" />
+          <div className="cassette-reel cassette-reel-r">
+            <svg viewBox="0 0 60 60">
+              <circle cx="30" cy="30" r="26" className="reel-rim" />
+              <circle cx="30" cy="30" r="14" className="reel-hub" />
+              <g className="reel-spokes">
+                <rect x="29" y="6" width="2" height="48" />
+                <rect x="29" y="6" width="2" height="48" transform="rotate(60 30 30)" />
+                <rect x="29" y="6" width="2" height="48" transform="rotate(120 30 30)" />
+              </g>
+              <circle cx="30" cy="30" r="4" className="reel-center" />
+            </svg>
+          </div>
+        </div>
+        <div className="cassette-meter">
+          <span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span /><span />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────── HINT INTRO (center stage) ─────────────────────────── */
+
+/* Plays once at game start. Each hint card pops at the centre of the
+   screen one after another to grab the user's attention, then the whole
+   stack settles into the left rail and the game becomes interactive. */
+function HintIntro({ stageId, onDone }) {
+  const cards = HINTS[stageId] || [];
+  const [idx, setIdx] = useState(0);
+  const [docking, setDocking] = useState(false);
+  // ~4s per card so the player has time to actually read it. Total intro
+  // lands around 12–16s depending on hint count; the Skip button is the
+  // escape hatch for repeat plays.
+  const PER_CARD_MS = 4000;
+  const DOCK_MS = 700;
+  const timersRef = useRef([]);
+
+  useEffect(() => {
+    if (idx < cards.length) {
+      const t = setTimeout(() => setIdx(i => i + 1), PER_CARD_MS);
+      timersRef.current.push(t);
+      return () => clearTimeout(t);
+    }
+    // All hints shown — dock the stack to the left, then hand off.
+    setDocking(true);
+    const t = setTimeout(onDone, DOCK_MS);
+    timersRef.current.push(t);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line
+  }, [idx]);
+
+  useEffect(() => () => timersRef.current.forEach(clearTimeout), []);
+
+  return (
+    <div className={classes("hint-intro", docking && "is-docking")}>
+      <div className="hint-intro-bg" aria-hidden="true" />
+      <div className="hint-intro-eyebrow">Coach guide</div>
+      <div className="hint-intro-title">Read the room before you decide.</div>
+
+      <div className="hint-intro-stack">
+        {cards.map((h, i) => {
+          const state = i < idx ? "past" : i === idx ? "active" : "next";
+          return (
+            <div
+              key={i}
+              className={classes("hint-intro-card", `is-${state}`)}
+              style={{ "--i": i, "--n": cards.length }}
+            >
+              <div className="hint-intro-card-tag">{h.tag}</div>
+              <div className="hint-intro-card-body">{h.body}</div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="hint-intro-dots">
+        {cards.map((_, i) => (
+          <span key={i} className={classes("hint-intro-dot", i < Math.min(idx + 1, cards.length) && "is-on")} />
         ))}
       </div>
 
-      <div className="pg-canvas">
-        {stage === 0 && <StageBrief onNext={goNext} idx={0} total={STAGES.length} />}
-        {stage === 1 && <StageRoles onNext={goNext} idx={1} total={STAGES.length} />}
-        {stage === 2 && <StageMoSCoW onNext={goNext} idx={2} total={STAGES.length} />}
-        {stage === 3 && <StageEstimate onNext={goNext} idx={3} total={STAGES.length} />}
-        {stage === 4 && <StageBoard onNext={goNext} idx={4} total={STAGES.length} />}
-        {stage === 5 && <StageRetro onNext={goNext} idx={5} total={STAGES.length} />}
-        {stage === 6 && <StageReport onRestart={restart} idx={6} total={STAGES.length} />}
+      <div className="hint-intro-skip-row">
+        <button className="hint-intro-skip" onClick={onDone}>Skip intro →</button>
       </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────── HINTS RAIL (left) ─────────────────────────── */
+
+function HintsRail({ stageId }) {
+  const cards = HINTS[stageId] || [];
+  return (
+    <aside className="hints-rail">
+      <div className="hints-rail-head">
+        <span className="hints-rail-tag">Coach guide</span>
+        <div className="hints-rail-title">Agile · Scrum hints</div>
+      </div>
+      <div className="hints-rail-list">
+        {cards.map((h, i) => (
+          <div className="hint-card" key={i} style={{ animationDelay: `${i * 0.06}s` }}>
+            <div className="hint-card-tag">{h.tag}</div>
+            <div className="hint-card-body">{h.body}</div>
+          </div>
+        ))}
+      </div>
+      <div className="hints-rail-foot">
+        Tip · choices on the canvas pulse the org chart on the right.
+      </div>
+    </aside>
+  );
+}
+
+/* ─────────────────────────── ORG CHART (right) ─────────────────────────── */
+
+function OrgNodeCard({ node, kpis, pulse }) {
+  const v = Math.max(0, Math.min(100, Math.round(kpis[node.id])));
+  const isPulse = pulse?.targets?.includes(node.id);
+  const tone = v >= 75 ? "good" : v >= 55 ? "ok" : "warn";
+  return (
+    <div className={classes("org-node", `org-node-${node.id}`, `is-${tone}`, isPulse && "is-pulse")}>
+      <div className="org-node-row">
+        <div className="org-node-name">{node.name}</div>
+        <div className="org-node-kpi"><strong>{v}</strong><span>{node.kpiLbl}</span></div>
+      </div>
+      <div className="org-node-sub">{node.sub}</div>
+      <div className="org-node-bar"><i style={{ width: `${v}%` }} /></div>
+      <span className="org-node-pulse" aria-hidden="true" />
+    </div>
+  );
+}
+
+function OrgChart({ kpis, pulse }) {
+  const partner = { id: "partner", name: "Client Partner",  sub: "Big-4 Risk Advisory", kpiLbl: "trust" };
+  const po      = { id: "po",      name: "Anjali R.",        sub: "Product Owner",       kpiLbl: "scope" };
+  const sm      = { id: "sm",      name: "You",              sub: "Scrum Master",        kpiLbl: "flow" };
+  const devs    = { id: "devs",    name: "Karthik · Riya · Sahil", sub: "Engineers",     kpiLbl: "morale" };
+  const design  = { id: "design",  name: "Devika S.",        sub: "Designer",            kpiLbl: "clarity" };
+
+  const avg = Math.round((kpis.partner + kpis.po + kpis.sm + kpis.devs + kpis.design) / 5);
+  const risk = Math.max(0, 100 - avg);
+
+  return (
+    <aside className="org-rail">
+      <div className="org-rail-head">
+        <span className="org-rail-tag">Live impact</span>
+        <div className="org-rail-title">Compass team chart</div>
+      </div>
+
+      <div className="org-tree">
+        <OrgNodeCard node={partner} kpis={kpis} pulse={pulse} />
+        <span className="org-stem" aria-hidden="true" />
+        <OrgNodeCard node={po} kpis={kpis} pulse={pulse} />
+        <span className="org-stem" aria-hidden="true" />
+        <OrgNodeCard node={sm} kpis={kpis} pulse={pulse} />
+        <div className="org-fork" aria-hidden="true">
+          <span className="org-fork-stem" />
+          <span className="org-fork-bar" />
+          <span className="org-fork-drop org-fork-drop-l" />
+          <span className="org-fork-drop org-fork-drop-r" />
+        </div>
+        <div className="org-pair">
+          <OrgNodeCard node={devs} kpis={kpis} pulse={pulse} />
+          <OrgNodeCard node={design} kpis={kpis} pulse={pulse} />
+        </div>
+      </div>
+
+      <div className="org-summary">
+        <div className="org-summary-row">
+          <div className="org-summary-lbl">Delivery confidence</div>
+          <div className="org-summary-val org-summary-val-good">{avg}<span>/100</span></div>
+        </div>
+        <div className="org-summary-row">
+          <div className="org-summary-lbl">Sprint risk</div>
+          <div className={classes("org-summary-val", risk < 30 ? "org-summary-val-good" : risk < 50 ? "org-summary-val-ok" : "org-summary-val-warn")}>
+            {risk}<span>/100</span>
+          </div>
+        </div>
+        <div className="org-summary-bar">
+          <i className="org-summary-bar-fill" style={{ width: `${avg}%` }} />
+        </div>
+        {pulse?.note && (
+          <div className="org-summary-note">{pulse.note}</div>
+        )}
+      </div>
+    </aside>
+  );
+}
+
+/* ─────────────────────────── APP ─────────────────────────── */
+
+function PlaygroundApp() {
+  const [mode, setMode] = useState("entry");      // entry | countdown | playing
+  const [stage, setStage] = useState(0);
+  const [kpis, setKpis] = useState(INITIAL_KPIS);
+  const [pulse, setPulse] = useState(null);       // { targets: [], note }
+  const [introDone, setIntroDone] = useState(false); // hint intro played?
+  const audioRef = useRef(null);
+  if (!audioRef.current) audioRef.current = makeAudio();
+  const audio = audioRef.current;
+  const [muted, setMuted] = useState(false);
+
+  // Lock body scroll while overlay is open
+  useEffect(() => {
+    const isOverlay = mode === "countdown" || mode === "playing";
+    if (isOverlay) {
+      document.body.classList.add("pg-locked");
+    } else {
+      document.body.classList.remove("pg-locked");
+    }
+    return () => document.body.classList.remove("pg-locked");
+  }, [mode]);
+
+  // Pulse auto-clears so consecutive same-target choices still animate
+  useEffect(() => {
+    if (!pulse) return;
+    const t = setTimeout(() => setPulse(null), 1500);
+    return () => clearTimeout(t);
+  }, [pulse]);
+
+  // Notify host for reveal rescans
+  useEffect(() => {
+    if (window.__scanReveals) window.__scanReveals();
+  }, [stage, mode]);
+
+  const launch = () => {
+    audio.ensure();
+    setMode("countdown");
+  };
+  const beginGame = () => setMode("playing");
+  const exitOverlay = () => {
+    setMode("entry");
+    setStage(0);
+    setKpis(INITIAL_KPIS);
+    setPulse(null);
+    setIntroDone(false);
+    audio.stopTimer();
+    audio.stopCassette();
+  };
+
+  const applyImpact = useCallback(({ targets = [], deltas = {}, sound = "ding", note }) => {
+    setKpis(k => {
+      const next = { ...k };
+      for (const key of Object.keys(deltas)) {
+        const cur = next[key] ?? 0;
+        next[key] = Math.max(0, Math.min(100, Math.round(cur + deltas[key])));
+      }
+      return next;
+    });
+    setPulse({ targets, note });
+    if (!muted) {
+      if (sound === "ding") audio.ding();
+      else if (sound === "buzz") audio.buzz();
+      else if (sound === "tick") audio.tick();
+    }
+  }, [audio, muted]);
+
+  const toggleMute = () => {
+    const m = audio.toggleMute();
+    setMuted(m);
+  };
+
+  const goNext = () => setStage(s => Math.min(s + 1, STAGES.length - 1));
+  const goTo = (i) => setStage(i);
+  const restart = () => { setStage(0); setKpis(INITIAL_KPIS); setPulse(null); setIntroDone(false); };
+
+  // Inline (collapsed) presentation when overlay isn't open.
+  if (mode === "entry") {
+    return <EntryCard onLaunch={launch} />;
+  }
+
+  // Render fullscreen overlay
+  const stageId = STAGES[stage].id;
+
+  return (
+    <div className={classes("pg-overlay", mode === "countdown" && "is-countdown")}>
+      <div className="pg-overlay-bg" aria-hidden="true" />
+
+      <header className="pg-overlay-head">
+        <button className="pg-overlay-exit" onClick={exitOverlay} aria-label="Exit sprint room">
+          <span className="pg-overlay-exit-x">✕</span>
+          <span>Exit room</span>
+        </button>
+        <div className="pg-overlay-title">
+          <span className="pg-overlay-eyebrow">Compass · sprint simulation</span>
+          <span className="pg-overlay-name">{mode === "countdown" ? "Booting…" : STAGES[stage].name}</span>
+        </div>
+        <div className="pg-overlay-actions">
+          <button className={classes("pg-overlay-mute", muted && "is-muted")} onClick={toggleMute} title={muted ? "Unmute" : "Mute"}>
+            {muted ? "🔇" : "🔊"}
+          </button>
+        </div>
+      </header>
+
+      {mode === "countdown" ? (
+        <main className="pg-overlay-cd-wrap">
+          <Countdown onDone={beginGame} audio={audio} onCancel={exitOverlay} />
+        </main>
+      ) : !introDone ? (
+        <main className="pg-overlay-cd-wrap pg-overlay-intro-wrap">
+          <HintIntro stageId={STAGES[stage].id} onDone={() => setIntroDone(true)} />
+        </main>
+      ) : (
+        <>
+          <div className="pg-overlay-rail-wrap">
+            <div className="pg-rail pg-rail-overlay">
+              {STAGES.map((s, i) => (
+                <button
+                  key={s.id}
+                  className={classes("pg-rail-item", i === stage && "is-active", i < stage && "is-done")}
+                  onClick={() => goTo(i)}
+                >
+                  <span className="pg-rail-num">{i + 1}</span>
+                  <span className="pg-rail-name" dangerouslySetInnerHTML={{ __html: s.name }} />
+                </button>
+              ))}
+            </div>
+            <div className="pg-rail-meter" aria-hidden="true">
+              <i style={{ width: `${((stage + 1) / STAGES.length) * 100}%` }} />
+            </div>
+          </div>
+
+          <main className="pg-overlay-grid">
+            <HintsRail stageId={stageId} />
+
+            <section className="pg-overlay-canvas">
+              {stage === 0 && <StageBrief onNext={goNext} idx={0} total={STAGES.length} onImpact={applyImpact} />}
+              {stage === 1 && <StageRoles onNext={goNext} idx={1} total={STAGES.length} onImpact={applyImpact} />}
+              {stage === 2 && <StageMoSCoW onNext={goNext} idx={2} total={STAGES.length} onImpact={applyImpact} />}
+              {stage === 3 && <StageEstimate onNext={goNext} idx={3} total={STAGES.length} onImpact={applyImpact} />}
+              {stage === 4 && <StageBoard onNext={goNext} idx={4} total={STAGES.length} onImpact={applyImpact} />}
+              {stage === 5 && <StageRetro onNext={goNext} idx={5} total={STAGES.length} onImpact={applyImpact} />}
+              {stage === 6 && <StageReport onRestart={restart} idx={6} total={STAGES.length} onImpact={applyImpact} kpis={kpis} />}
+            </section>
+
+            <OrgChart kpis={kpis} pulse={pulse} />
+          </main>
+        </>
+      )}
     </div>
   );
 }

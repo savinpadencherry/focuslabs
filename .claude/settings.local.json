@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m http.server 8765)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8765/index.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8765/playground.jsx)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8765/playground.css)",
+      "Bash(npx --yes @babel/parser@7 --version)",
+      "Bash(node -e \"const p = require\\('module'\\).createRequire\\(require.resolve\\('npm/package.json'\\)\\); console.log\\('ok'\\);\")",
+      "Bash(npm install *)",
+      "Bash(node -e ' *)",
+      "Bash(jobs -l)",
+      "Bash(pkill -f \"http.server 8765\")",
+      "Bash(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 \"c:/Users/SavinPadencherry/Desktop/focuslabs/music/Copyright Free Old Film Countdown  5 Seconds.mp3\")",
+      "Bash(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 \"c:/Users/SavinPadencherry/Desktop/focuslabs/music/freesound_community-cassette-ffww-cassetera-96765.mp3\")",
+      "Bash(node -e *)"
+    ]
+  }
+}
