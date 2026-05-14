@@ -1337,10 +1337,28 @@
 }
 
 .copy-field-hero { --copy-label: "Talent layer"; --copy-accent: var(--navy); --copy-warm: var(--green); max-width: 670px; }
+.hero .copy-field-hero {
+  max-width: 650px;
+  padding: 31px 20px 17px 20px;
+  border-radius: 14px;
+}
+.hero .copy-field-hero::before {
+  top: 13px;
+  left: 20px;
+}
 .copy-field-market { --copy-label: "Market signal"; --copy-accent: #B8503F; --copy-warm: #C79547; }
 .copy-field-engine { --copy-label: "Engine logic"; --copy-accent: var(--green-deep); --copy-warm: var(--navy); }
 .copy-field-loop { --copy-label: "Shared loop"; --copy-accent: #C79547; --copy-warm: var(--green-deep); max-width: 560px; }
 .copy-field-sim { --copy-label: "Simulation brief"; --copy-accent: var(--navy); --copy-warm: #C79547; max-width: 720px; }
+.pg-hero .copy-field-sim {
+  max-width: 760px;
+  padding: 35px 24px 21px 24px;
+  border-radius: 14px;
+}
+.pg-hero .copy-field-sim::before {
+  top: 15px;
+  left: 24px;
+}
 .copy-field-team { --copy-label: "Team pilot"; --copy-accent: #C79547; --copy-warm: var(--green); }
 
 .cta-card .copy-field {
@@ -1594,9 +1612,16 @@
   .copy-field {
     padding: 36px 18px 18px 18px;
     border-radius: 14px;
+    max-width: 100%;
   }
   .copy-field::before {
     left: 18px;
+  }
+  .hero .copy-field-hero {
+    padding: 31px 17px 16px 17px;
+  }
+  .hero .copy-field-hero::before {
+    left: 17px;
   }
   .mock-notes li {
     grid-template-columns: 34px 1fr;
@@ -1609,6 +1634,24 @@
   }
   .opp-foot::before {
     max-width: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .nav {
+    grid-template-columns: 1fr;
+  }
+  .nav-cta {
+    display: none;
+  }
+  .hero {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .hero-flow,
+  .hero-actions,
+  .hero-meta {
+    max-width: 100%;
   }
 }
 

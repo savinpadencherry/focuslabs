@@ -353,7 +353,7 @@
 }
 
 .pg-hero-actions {
-  margin-top: 28px;
+  margin-top: clamp(16px, 2.2vh, 24px);
   display: flex;
   align-items: center;
   gap: 16px;
@@ -361,7 +361,7 @@
 }
 .pg-hero-note {
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 10.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-4);
