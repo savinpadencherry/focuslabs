@@ -55,37 +55,51 @@
       </div>
 
       <h1 class="display">
-        Put every role through
-        <span class="display-main-line">real AI work.</span>
-        <span class="display-accent">Know who's ready.<br/>Build who isn't.</span>
+        Are you using AI
+        <span class="display-accent">the right way?</span>
       </h1>
 
       <p class="lede copy-field copy-field-hero">
-        We run case-based AI simulations for candidates and employees: real scenarios,
-        calibrated readiness scores, and personalized learning paths that prove
-        capability lift.
+        Put every role through real AI work. We reveal who's ready, where risk lives,
+        and the precise learning path that turns adoption into measured capability.
       </p>
 
-      <div class="hero-flow" aria-label="Simulate, score, and build loop">
-        <div class="hero-flow-step">
-          <span class="hero-flow-num">01</span>
+      <div class="hero-diagnostic-panel" aria-label="Executive AI readiness evaluation">
+        <div class="diagnostic-head">
           <div>
-            <div class="hero-flow-title">Simulate</div>
-            <div class="hero-flow-sub">Put people inside role-specific AI scenarios.</div>
+            <span class="diagnostic-kicker">Executive evaluation</span>
+            <strong>Live readiness scan</strong>
+          </div>
+          <span class="diagnostic-status"><i></i>Calibrating</span>
+        </div>
+        <div class="diagnostic-row">
+          <div class="diagnostic-copy">
+            <span class="diagnostic-num">01</span>
+            <p>Do teams know the correct parameters of AI-ready work?</p>
+          </div>
+          <div class="diagnostic-options">
+            <button class="diagnostic-pill is-active" type="button">Clear frameworks</button>
+            <button class="diagnostic-pill" type="button">Training?</button>
           </div>
         </div>
-        <div class="hero-flow-step">
-          <span class="hero-flow-num">02</span>
-          <div>
-            <div class="hero-flow-title">Score</div>
-            <div class="hero-flow-sub">Measure judgment, verification, and risk handling.</div>
+        <div class="diagnostic-row">
+          <div class="diagnostic-copy">
+            <span class="diagnostic-num">02</span>
+            <p>Can you identify who is ready, who is risky, and why?</p>
+          </div>
+          <div class="diagnostic-options">
+            <button class="diagnostic-pill" type="button">Gut feel</button>
+            <button class="diagnostic-pill is-active" type="button">Evidence score</button>
           </div>
         </div>
-        <div class="hero-flow-step">
-          <span class="hero-flow-num">03</span>
-          <div>
-            <div class="hero-flow-title">Build</div>
-            <div class="hero-flow-sub">Turn every gap into a precise learning path.</div>
+        <div class="diagnostic-row">
+          <div class="diagnostic-copy">
+            <span class="diagnostic-num">03</span>
+            <p>Can every gap become a role-specific learning path?</p>
+          </div>
+          <div class="diagnostic-options">
+            <button class="diagnostic-pill is-active" type="button">Prescribe path</button>
+            <button class="diagnostic-pill" type="button">More courses</button>
           </div>
         </div>
       </div>
@@ -244,7 +258,7 @@
   </div>
 
   <!-- HOW IT WORKS -->
-  <div class="section section-how motion-layer" data-motion="-0.04">
+  <div class="section section-how motion-layer" data-motion="-0.04" id="how-it-works">
     <div class="container">
       <div class="how-head">
         <span class="section-eyebrow">How it works</span>
@@ -3277,6 +3291,16 @@ if (_pgRoot) {
   if (requestedTab && document.querySelector(`.tab-btn[data-tab="${requestedTab}"]`)) {
     activate(requestedTab);
   }
+  const scrollToCurrentHash = () => {
+    if (!window.location.hash || window.location.hash.startsWith('#tab-')) return;
+    const targetId = window.location.hash.slice(1);
+    const target = targetId ? document.getElementById(targetId) : null;
+    if (target) {
+      setTimeout(() => target.scrollIntoView({ block: 'start' }), 140);
+    }
+  };
+  scrollToCurrentHash();
+  window.addEventListener('hashchange', scrollToCurrentHash);
 
   window.addEventListener('load', () => {
     const active = document.querySelector('.tab-btn.is-active');
@@ -3380,6 +3404,15 @@ if (_pgRoot) {
       });
     });
   }
+
+  document.querySelectorAll('.diagnostic-options').forEach((group) => {
+    group.addEventListener('click', (event) => {
+      const pill = event.target.closest('.diagnostic-pill');
+      if (!pill) return;
+      group.querySelectorAll('.diagnostic-pill').forEach((item) => item.classList.remove('is-active'));
+      pill.classList.add('is-active');
+    });
+  });
 
   // ═══ Scroll-driven parallax (Motion-style) + scroll progress bar ═══
   const scrollEls = {
