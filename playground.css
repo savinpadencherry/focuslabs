@@ -2430,7 +2430,34 @@ body.pg-locked { overflow: hidden; }
   font-size: 18px;
   letter-spacing: -0.015em;
 }
-.pg-overlay-actions { display: inline-flex; gap: 8px; }
+.pg-overlay-actions { display: inline-flex; align-items: center; gap: 8px; }
+.pg-overlay-auto {
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: rgba(31,165,101,0.16);
+  border: 1px solid rgba(31,165,101,0.38);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow: 0 0 24px rgba(31,165,101,0.10);
+  transition: transform 0.2s, background 0.2s, border-color 0.2s;
+}
+.pg-overlay-auto:hover {
+  transform: translateY(-1px);
+  background: rgba(31,165,101,0.24);
+  border-color: rgba(66,200,131,0.58);
+}
+.pg-overlay-auto span {
+  font-family: var(--display);
+  letter-spacing: 0;
+}
 .pg-overlay-mute {
   width: 38px; height: 38px;
   display: grid; place-items: center;
@@ -4215,6 +4242,12 @@ body.pg-locked { overflow: hidden; }
 @media (max-width: 700px) {
   .pg-overlay-head { padding: 12px 14px; gap: 10px; }
   .pg-overlay-name { font-size: 15px; }
+  .pg-overlay-auto {
+    height: 34px;
+    padding: 0 10px;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
   .pg-overlay-grid { padding: 14px; gap: 12px; }
   .pg-entry-body { padding: 28px 22px 32px; }
   .pg-entry-tiles { grid-template-columns: 1fr; }

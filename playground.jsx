@@ -2343,18 +2343,24 @@ function OrgChart({ kpis, pulse }) {
 
 /* ─────────────────────────── AUTOPLAY SHOWCASE ─────────────────────────── */
 
-/* Plays the scripted Estimate → Board → Retro sequence after the user
-   finishes stage 3, then hands off to the scorecard. Each scripted
+/* Plays the scripted remaining-stage sequence after the user either
+   chooses Autopilot or finishes MoSCoW, then hands off to the scorecard. Each scripted
    action fires onImpact() so the same OrgImpactPopup the user has been
    seeing keeps reacting in real time. */
-function AutoplayShowcase({ onDone, onImpact, onStageFlush }) {
+function AutoplayShowcase({ startStageId = "estimate", onDone, onImpact, onStageFlush }) {
   const [stepIdx, setStepIdx] = useState(0);
   const [actionsDone, setActionsDone] = useState([]); // labels fired this step
   const stepTimersRef = useRef([]);
   const advanceRef = useRef(null);
+  const sequence = useMemo(() => {
+    const startIdx = STAGES.findIndex(s => s.id === startStageId);
+    return AUTOPLAY_SEQUENCE.filter(s => STAGES.findIndex(stageDef => stageDef.id === s.stage) >= startIdx);
+  }, [startStageId]);
 
-  const step = AUTOPLAY_SEQUENCE[stepIdx];
-  const isLast = stepIdx >= AUTOPLAY_SEQUENCE.length;
+  const step = sequence[stepIdx];
+  const isLast = stepIdx >= sequence.length;
+  const firstAutoStage = sequence[0] ? STAGES.findIndex(s => s.id === sequence[0].stage) + 1 : 4;
+  const lastAutoStage = sequence.length ? STAGES.findIndex(s => s.id === sequence[sequence.length - 1].stage) + 1 : 6;
 
   // Schedule actions + auto-advance for the current step.
   useEffect(() => {
@@ -2386,7 +2392,7 @@ function AutoplayShowcase({ onDone, onImpact, onStageFlush }) {
       clearTimeout(t);
     };
     // eslint-disable-next-line
-  }, [stepIdx]);
+  }, [stepIdx, sequence]);
 
   // Cleanup on unmount (Skip)
   useEffect(() => () => {
@@ -2411,20 +2417,20 @@ function AutoplayShowcase({ onDone, onImpact, onStageFlush }) {
       <header className="autoplay-head">
         <div className="autoplay-head-l">
           <span className="autoplay-head-tag">Autopilot · demo mode</span>
-          <div className="autoplay-head-sub">Stages 3–6 play themselves so you can watch the full Scrum loop close</div>
+          <div className="autoplay-head-sub">Stages {firstAutoStage}–{lastAutoStage} play themselves so you can watch the full Scrum loop close</div>
         </div>
         <button className="autoplay-skip" onClick={onDone}>Skip to scorecard →</button>
       </header>
 
       {/* Stage progress strip — one pill per autoplay step */}
       <div className="autoplay-stages">
-        {AUTOPLAY_SEQUENCE.map((s, i) => (
+        {sequence.map((s, i) => (
           <div key={s.stage} className={classes(
             "autoplay-stage-pill",
             i === stepIdx && "is-now",
             i < stepIdx && "is-done",
           )}>
-            <span className="autoplay-stage-pill-num">{String(i + 3).padStart(2, "0")}</span>
+            <span className="autoplay-stage-pill-num">{String(STAGES.findIndex(stageDef => stageDef.id === s.stage) + 1).padStart(2, "0")}</span>
             <span className="autoplay-stage-pill-name">{s.stage}</span>
           </div>
         ))}
@@ -2474,9 +2480,9 @@ function AutoplayShowcase({ onDone, onImpact, onStageFlush }) {
 /* ─────────────────────────── APP ─────────────────────────── */
 
 /* Stage index after which the system takes over the keyboard. The user
-   plays Brief (0) and Roles (1) hands-on; autoplay then drives MoSCoW (2),
-   Estimate (3), Board (4), Retro (5) and the Scorecard (6) plays itself. */
-const PLAYABLE_THROUGH_STAGE = 1;
+   plays Brief (0), Roles (1), and MoSCoW (2) hands-on; autoplay then drives
+   Estimate (3), Board (4), Retro (5), and the Scorecard (6) opens itself. */
+const PLAYABLE_THROUGH_STAGE = 2;
 
 function PlaygroundApp() {
   const [mode, setMode] = useState("entry");      // entry | countdown | playing | autoplay
@@ -2484,6 +2490,7 @@ function PlaygroundApp() {
   const [kpis, setKpis] = useState(INITIAL_KPIS);
   const [pulse, setPulse] = useState(null);       // { targets: [], note }
   const [introShownIds, setIntroShownIds] = useState([]); // stages whose intro already played
+  const [autoplayStartStageId, setAutoplayStartStageId] = useState("estimate");
   const audioRef = useRef(null);
   if (!audioRef.current) audioRef.current = makeAudio();
   const audio = audioRef.current;
@@ -2491,7 +2498,7 @@ function PlaygroundApp() {
 
   // Lock body scroll while overlay is open
   useEffect(() => {
-    const isOverlay = mode === "countdown" || mode === "playing";
+    const isOverlay = mode === "countdown" || mode === "playing" || mode === "autoplay";
     if (isOverlay) {
       document.body.classList.add("pg-locked");
     } else {
@@ -2523,6 +2530,7 @@ function PlaygroundApp() {
     setKpis(INITIAL_KPIS);
     setPulse(null);
     setIntroShownIds([]);
+    setAutoplayStartStageId("estimate");
     stageBufferRef.current = { targets: new Set(), deltas: {}, notes: [] };
     audio.stopTimer();
     audio.stopCassette();
@@ -2581,12 +2589,25 @@ function PlaygroundApp() {
     setMuted(m);
   };
 
+  const automateCurrentOrRest = () => {
+    const current = STAGES[stage];
+    if (!current || current.id === "report") return;
+    flushStagePopup(current.name);
+    setAutoplayStartStageId(current.id);
+    setMode("autoplay");
+  };
+
   const goNext = () => {
     // Fire the stage-complete popup before advancing so the user sees a
     // single summary of impact at the end of each stage.
     flushStagePopup(STAGES[stage].name);
     setTimeout(() => {
       if (stage === PLAYABLE_THROUGH_STAGE) {
+        const nextStage = STAGES[stage + 1];
+        if (nextStage) {
+          setAutoplayStartStageId(nextStage.id);
+          setStage(stage + 1);
+        }
         setMode("autoplay");
         return;
       }
@@ -2607,7 +2628,7 @@ function PlaygroundApp() {
   const goTo = (i) => setStage(i);
   const restart = () => {
     setStage(0); setKpis(INITIAL_KPIS); setPulse(null);
-    setIntroShownIds([]); setMode("playing");
+    setIntroShownIds([]); setAutoplayStartStageId("estimate"); setMode("playing");
     stageBufferRef.current = { targets: new Set(), deltas: {}, notes: [] };
   };
 
@@ -2633,6 +2654,11 @@ function PlaygroundApp() {
           <span className="pg-overlay-name">{mode === "countdown" ? "Booting…" : STAGES[stage].name}</span>
         </div>
         <div className="pg-overlay-actions">
+          {mode === "playing" && stage >= 2 && stage < STAGES.length - 1 && (
+            <button className="pg-overlay-auto" onClick={automateCurrentOrRest}>
+              Automate rest <span>→</span>
+            </button>
+          )}
           <button className={classes("pg-overlay-mute", muted && "is-muted")} onClick={toggleMute} title={muted ? "Unmute" : "Mute"}>
             {muted ? "🔇" : "🔊"}
           </button>
@@ -2645,7 +2671,7 @@ function PlaygroundApp() {
         </main>
       ) : mode === "autoplay" ? (
         <main className="pg-overlay-stage">
-          <AutoplayShowcase onDone={finishAutoplay} onImpact={applyImpact} onStageFlush={flushStagePopup} />
+          <AutoplayShowcase startStageId={autoplayStartStageId} onDone={finishAutoplay} onImpact={applyImpact} onStageFlush={flushStagePopup} />
           <HintsFAB stageId={STAGES[stage].id} />
           <OrgImpactPopup pulse={pulse} kpis={kpis} />
         </main>
