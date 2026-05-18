@@ -13,7 +13,8 @@
       "Bash(pkill -f \"http.server 8765\")",
       "Bash(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 \"c:/Users/SavinPadencherry/Desktop/focuslabs/music/Copyright Free Old Film Countdown  5 Seconds.mp3\")",
       "Bash(ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 \"c:/Users/SavinPadencherry/Desktop/focuslabs/music/freesound_community-cassette-ffww-cassetera-96765.mp3\")",
-      "Bash(node -e *)"
+      "Bash(node -e *)",
+      "PowerShell(python -m http.server 8765 --directory \"c:\\\\Users\\\\SavinPadencherry\\\\Desktop\\\\focuslabs\")"
     ]
   }
 }
