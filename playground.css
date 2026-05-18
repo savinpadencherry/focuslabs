@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   FocusChain Labs — Agile/Scrum Playground
+   FocusChain Labs — Service Build Lab
    ═══════════════════════════════════════════════════════════════ */
 
 .playground-shell {
@@ -2190,7 +2190,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   FULLSCREEN PLAYGROUND OVERLAY — Compass sprint room
+   FULLSCREEN PLAYGROUND OVERLAY — Command Center build room
    Entry card → 7s countdown → cassette → 3-column simulation
    ═══════════════════════════════════════════════════════════════ */
 
@@ -2471,7 +2471,7 @@ body.pg-locked { overflow: hidden; }
 .pg-overlay-mute:hover { background: rgba(247,243,236,0.14); }
 .pg-overlay-mute.is-muted { color: rgba(247,243,236,0.45); }
 
-/* Sprint stage rail inside the overlay */
+/* Build stage rail inside the overlay */
 .pg-overlay-rail-wrap {
   position: relative;
   z-index: 2;

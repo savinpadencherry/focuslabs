@@ -1,80 +1,81 @@
 /* ═══════════════════════════════════════════════════════════════
-   FocusChain Labs — Agile / Scrum Strategic Playground
-   Case study: "Compass" — a 3-sprint risk-advisory MVP
-   Short lab: Brief → Roles → MoSCoW → Estimate → Sprint Board → Retro/Report
+   FocusChain Labs — Service Build Lab
+   Case study: "Command Center" — cloud app + AI automation + analytics
+   Short lab: Brief → Team → Scope → Estimate → Build → Improve → Blueprint
    ═══════════════════════════════════════════════════════════════ */
 const { useState, useEffect, useMemo, useRef, useCallback } = React;
 
 /* ─────────────────────────── DATA ─────────────────────────── */
 
 const CASE = {
-  client: "Risk Advisory · Big-4 unit",
-  project: "Compass",
-  oneLiner: "A unified audit-evidence workspace for 700 risk-advisory consultants.",
+  client: "Service business · growth and operations team",
+  project: "Command Center",
+  oneLiner: "A connected cloud system for credit analysis, IoT mobile workflows, predictive dashboards, and lead funnel automation.",
   problem:
-    "Today, evidence is scattered across email, OneDrive, and SharePoint. Audits stall when reviewers cannot find source files. Partners want a single workspace, mobile-friendly, with structured evidence requests and traceable approvals — shipped in three sprints.",
+    "Leads arrive from content, WhatsApp, forms, and partner referrals. Credit checks happen in spreadsheets. Field teams need an IoT-connected mobile flow. Leaders want one dashboard that predicts conversion, flags credit risk, and triggers the next best action.",
   team: [
-    { name: "You", role: "Scrum Master" },
-    { name: "Anjali R.", role: "Product Owner" },
-    { name: "Karthik N.", role: "Senior Engineer" },
-    { name: "Riya M.", role: "Engineer" },
-    { name: "Sahil G.", role: "Engineer" },
-    { name: "Devika S.", role: "Designer" },
+    { name: "You", role: "Solution Lead" },
+    { name: "Maya R.", role: "Business Owner" },
+    { name: "Arjun N.", role: "Cloud Engineer" },
+    { name: "Isha M.", role: "AI/ML Engineer" },
+    { name: "Neil G.", role: "App Engineer" },
+    { name: "Tara S.", role: "Product Designer" },
   ],
   constraints: [
-    "3 sprints · 6 weeks · fixed scope window",
-    "Budget already locked at partner level",
-    "Showcase demo to client partner at end of sprint 3",
+    "First usable release in 6 weeks",
+    "Must integrate with CRM, spreadsheet data, and device events",
+    "Leadership demo needs live metrics, not static slides",
   ],
 };
 
 const ROLES = [
   {
     id: "po",
-    name: "Product Owner",
-    sub: "Owns the WHAT",
+    name: "Business Owner",
+    sub: "Owns the outcome",
     accent: "navy",
   },
   {
     id: "sm",
-    name: "Scrum Master",
-    sub: "Owns the HOW",
+    name: "Solution Lead",
+    sub: "Owns the flow",
     accent: "green",
   },
   {
     id: "dev",
-    name: "Developers",
-    sub: "Own the BUILD",
+    name: "Build Team",
+    sub: "Owns the system",
     accent: "ink",
   },
 ];
 
 const RESPONSIBILITIES = [
-  { id: "r1", text: "Decide what gets built (and in what order)", role: "po" },
-  { id: "r2", text: "Remove blockers and coach the team", role: "sm" },
-  { id: "r3", text: "Run the daily stand-up and retro", role: "sm" },
-  { id: "r4", text: "Build and test the actual work", role: "dev" },
+  { id: "r1", text: "Define the business metric and priority order", role: "po" },
+  { id: "r2", text: "Map workflow, handoffs, risk, and launch path", role: "sm" },
+  { id: "r3", text: "Resolve data access and integration blockers", role: "sm" },
+  { id: "r4", text: "Build, test, automate, and deploy the system", role: "dev" },
 ];
 
 const BACKLOG = [
-  { id: "b1", title: "Sign-in for the team",        note: "Nobody can use the product without it.",     bucket: "must" },
-  { id: "b2", title: "Upload &amp; organise files",     note: "The core thing the product actually does.",  bucket: "must" },
-  { id: "b3", title: "Mobile-friendly layout",      note: "Helpful, but desktop is the default flow.",  bucket: "should" },
-  { id: "b4", title: "AI summary of every page",    note: "Nice to have. The team can ship without it.", bucket: "wont" },
+  { id: "b1", title: "Cloud data spine + secure login", note: "Nothing works if the system cannot identify users and connect data.", bucket: "must" },
+  { id: "b2", title: "Credit analyzer scoring workflow", note: "Core business decision that removes spreadsheet dependency.", bucket: "must" },
+  { id: "b3", title: "IoT mobile app field check-in", note: "Important for adoption, but can launch after the core decision flow.", bucket: "should" },
+  { id: "b4", title: "Organic funnel auto-nurture", note: "Valuable growth layer, but only after capture and scoring are stable.", bucket: "could" },
+  { id: "b5", title: "3D executive animation deck", note: "Looks impressive, but does not move the operating metric.", bucket: "wont" },
 ];
 
 const BUCKETS = [
-  { id: "must", name: "Must have", sub: "Without it, sprint fails.", accent: "must" },
-  { id: "should", name: "Should have", sub: "Painful to omit, not fatal.", accent: "should" },
-  { id: "could", name: "Could have", sub: "Desirable if capacity allows.", accent: "could" },
-  { id: "wont", name: "Won't have (this time)", sub: "Explicitly out of scope.", accent: "wont" },
+  { id: "must", name: "Must build", sub: "Without it, the solution fails.", accent: "must" },
+  { id: "should", name: "Should build", sub: "High value, not launch-blocking.", accent: "should" },
+  { id: "could", name: "Could build", sub: "Useful if capacity allows.", accent: "could" },
+  { id: "wont", name: "Won't build", sub: "Deliberately out of scope.", accent: "wont" },
 ];
 
 const TICKETS = [
-  { id: "t1", title: "SSO login screen", pts: 3, col: "todo" },
-  { id: "t2", title: "Workspace create API", pts: 5, col: "todo" },
-  { id: "t3", title: "Evidence upload UI", pts: 5, col: "todo" },
-  { id: "t5", title: "Reviewer approval flow", pts: 8, col: "todo" },
+  { id: "t1", title: "CRM + lead data connector", pts: 3, col: "todo" },
+  { id: "t2", title: "Credit scoring API", pts: 5, col: "todo" },
+  { id: "t3", title: "Insight dashboard shell", pts: 5, col: "todo" },
+  { id: "t5", title: "Mobile IoT event sync", pts: 8, col: "todo" },
 ];
 
 const COLUMNS = [
@@ -89,39 +90,39 @@ const EVENTS = [
   {
     day: 1,
     type: "standup",
-    title: "Day 1 standup — kickoff",
-    body: "Anjali confirms scope. Karthik picks up SSO. Riya pairs on workspace API. Sahil starts evidence upload UI.",
+    title: "Day 1 — architecture kickoff",
+    body: "Maya confirms the first business metric: faster qualified credit decisions. Arjun starts data connectors, Isha frames the score, Neil opens the dashboard shell.",
     suggest: ["t1", "t2", "t3"],
-    coach: "Pull a small first wave into 'In progress' — keep WIP low, don't fan out across all tickets.",
+    coach: "Pull a small first wave into 'In progress'. Connect the workflow before spreading into every nice-to-have surface.",
   },
   {
     day: 3,
     type: "blocker",
-    title: "Day 3 — Azure AD permission blocker",
-    body: "Karthik can't get tenant admin to grant SSO permissions. SSO ticket is blocked.",
-    coach: "Move t1 (SSO) to 'Code review' if a teammate can stub, OR keep it in progress and have the Scrum Master escalate. Don't let it sit silently.",
+    title: "Day 3 — CRM credential blocker",
+    body: "The CRM export token is incomplete. Without it, lead quality and credit history cannot sync reliably.",
+    coach: "Escalate access and stub the connector contract. Do not let the build wait silently on credentials.",
   },
   {
     day: 6,
     type: "scope",
-    title: "Day 6 — partner asks for a 'small' addition",
-    body: "Partner wants email notifications for approvals. Not in sprint backlog.",
-    coach: "Don't drag it onto the board. Tell the PO to log it for the next sprint. Mid-sprint scope creep is the #1 reason teams miss commitments.",
+    title: "Day 6 — founder asks for a marketplace add-on",
+    body: "The team wants a partner marketplace tile in the first release. It is not needed for the credit analyzer or funnel automation.",
+    coach: "Park it for the roadmap. Protect the first measurable workflow before expanding the product surface.",
   },
   {
     day: 10,
     type: "review",
-    title: "Day 10 — Sprint Review demo",
-    body: "Move anything still in progress that you've actually shipped. Anything still in 'To do' is carryover.",
-    coach: "Don't pretend. Honest burndown is the whole point of Scrum.",
+    title: "Day 10 — working-system demo",
+    body: "Move only the shipped pieces. Anything still in progress becomes launch risk or a next-cycle item.",
+    coach: "Show the working path from lead to score to dashboard. A clear live workflow beats a bloated almost-demo.",
   },
 ];
 
 const RETRO_CARDS = [
-  { id: "rc1", text: "Pairing on the workspace API got it merged 2 days early", target: "continue" },
-  { id: "rc2", text: "We let SSO sit blocked for a full day before escalating", target: "stop" },
-  { id: "rc4", text: "We accepted a mid-sprint scope ask without pushback", target: "stop" },
-  { id: "rc5", text: "Try a 10-min design review with Devika every Tuesday", target: "start" },
+  { id: "rc1", text: "Data contract review kept the dashboard and scoring API aligned", target: "continue" },
+  { id: "rc2", text: "CRM access stayed blocked too long before escalation", target: "stop" },
+  { id: "rc4", text: "Marketplace scope nearly distracted the launch path", target: "stop" },
+  { id: "rc5", text: "Add a weekly funnel-insight review with growth and ops", target: "start" },
 ];
 
 const RETRO_BUCKETS = [
@@ -131,45 +132,45 @@ const RETRO_BUCKETS = [
 ];
 
 const STORIES = [
-  { id: "s1", title: "Single sign-on via Azure AD", body: "Familiar pattern, library exists, but tenant admin needed.", truth: 3 },
-  { id: "s2", title: "Reviewer approval workflow with audit trail", body: "Multi-step state machine, role checks, e-sign hooks, edge cases.", truth: 8 },
-  { id: "s4", title: "AI auto-summary of audit findings", body: "New tech, no team experience, ambiguous acceptance criteria.", truth: 13 },
+  { id: "s1", title: "CRM + lead data connector", body: "Known API shape, but access and field mapping need care.", truth: 3 },
+  { id: "s2", title: "Credit analyzer with review workflow", body: "Scoring logic, thresholds, explanations, audit trail, and human approval.", truth: 8 },
+  { id: "s4", title: "IoT mobile app with device sync", body: "Mobile UX, offline state, device events, alerts, and cloud sync complexity.", truth: 13 },
 ];
 const FIB = [1, 2, 3, 5, 8, 13];
 
 const STAGES = [
   { id: "brief", name: "Brief" },
-  { id: "roles", name: "Roles" },
-  { id: "moscow", name: "Backlog" },
+  { id: "roles", name: "Team" },
+  { id: "moscow", name: "Scope" },
   { id: "estimate", name: "Estimate" },
-  { id: "board", name: "Sprint" },
-  { id: "retro", name: "Retro" },
-  { id: "report", name: "Scorecard" },
+  { id: "board", name: "Build" },
+  { id: "retro", name: "Improve" },
+  { id: "report", name: "Blueprint" },
 ];
 
 
 const STRATEGY_CHOICES = [
   {
     id: "thin-slice",
-    title: "Thin-slice the workflow",
-    body: "Ship SSO, workspace creation, upload/tag, and a lightweight approval path first.",
-    verdict: "Best first move. It protects the end-to-end demo and keeps sprint risk visible.",
+    title: "Build the connected spine",
+    body: "Start with secure login, data connectors, credit scoring, and a dashboard path from lead to decision.",
+    verdict: "Best first move. It proves the operating workflow before adding more surfaces.",
     score: 96,
     tone: "green",
   },
   {
     id: "wow-ai",
-    title: "Prioritise AI auto-summary",
-    body: "Lead with the demo wow factor and defer some compliance plumbing.",
-    verdict: "Tempting, but risky. The client cannot trust AI summaries until evidence flow and approvals work.",
+    title: "Lead with a flashy dashboard",
+    body: "Show executives a polished analytics screen before the underlying workflow is reliable.",
+    verdict: "Tempting, but risky. A dashboard without trusted data becomes theatre.",
     score: 48,
     tone: "amber",
   },
   {
     id: "approval-heavy",
-    title: "Perfect the approval engine",
-    body: "Spend the first sprint on reviewer edge cases and e-sign integrations.",
-    verdict: "Too deep too early. Build enough approval to validate the workflow before hardening every edge case.",
+    title: "Rewrite every workflow at once",
+    body: "Digitize credit, IoT, growth, CRM, reporting, and approvals in a single launch.",
+    verdict: "Too broad. Start with the path that creates measurable value, then expand.",
     score: 64,
     tone: "navy",
   },
@@ -177,20 +178,20 @@ const STRATEGY_CHOICES = [
 
 const EVENT_DECISIONS = {
   standup: [
-    { id: "low-wip", label: "Pull 2-3 tickets only", best: true, note: "Good WIP discipline. Flow beats heroic multitasking." },
-    { id: "fan-out", label: "Start all tickets", best: false, note: "Too much WIP. The board looks busy but nothing reaches done." },
+    { id: "low-wip", label: "Build the connected spine first", best: true, note: "Good sequencing. One working path beats five disconnected starts." },
+    { id: "fan-out", label: "Start every service at once", best: false, note: "Too much spread. The board looks busy but nothing becomes usable." },
   ],
   blocker: [
-    { id: "escalate-stub", label: "Escalate + stub login", best: true, note: "Correct. You protect the path to demo while unblocking the dependency." },
-    { id: "wait-admin", label: "Wait for admin", best: false, note: "Risky. Silent blockers are sprint killers." },
+    { id: "escalate-stub", label: "Escalate + stub connector", best: true, note: "Correct. You protect progress while unblocking the real integration." },
+    { id: "wait-admin", label: "Wait for credentials", best: false, note: "Risky. Silent access blockers kill service builds." },
   ],
   scope: [
-    { id: "park-next", label: "Park for next sprint", best: true, note: "Correct. New scope belongs in the product backlog, not mid-sprint." },
-    { id: "accept-now", label: "Accept into sprint", best: false, note: "That breaks commitment. Log it, size it, and let the PO reorder later." },
+    { id: "park-next", label: "Park for next build cycle", best: true, note: "Correct. Expansion belongs after the first workflow proves value." },
+    { id: "accept-now", label: "Add it now", best: false, note: "That blurs the launch. Log it, size it, and sequence it." },
   ],
   review: [
-    { id: "honest-carry", label: "Carry unfinished work", best: true, note: "Good. Transparency is what makes the next sprint forecast better." },
-    { id: "mark-done", label: "Mark it done for demo", best: false, note: "That hides risk. Done means potentially shippable, not almost ready." },
+    { id: "honest-carry", label: "Show only what works", best: true, note: "Good. A clean live path is stronger than a broad fake demo." },
+    { id: "mark-done", label: "Pretend it is launch-ready", best: false, note: "That hides risk. Launch-ready means reliable enough for real users." },
   ],
 };
 
@@ -200,142 +201,142 @@ const EVENT_DECISIONS = {
 const STAGE_INTROS = {
   brief: {
     eyebrow: "Read the room",
-    title:   "Case brief · the Compass MVP",
-    lede:    "A 3-sprint risk-advisory build. Three things to keep in your head before you open the brief.",
+    title:   "Case brief · Command Center",
+    lede:    "A service business needs cloud, app, automation, prediction, and funnel intelligence in one connected system.",
   },
   roles: {
-    eyebrow: "Accountability",
-    title:   "Match each responsibility to its role",
-    lede:    "PO, SM, Devs — the boundary every real team blurs. Lock it before you drag a card.",
+    eyebrow: "Delivery roles",
+    title:   "Match each responsibility to the right build role",
+    lede:    "Business outcome, solution flow, and technical build need clear owners before the work starts.",
   },
   moscow: {
-    eyebrow: "Prioritisation under pressure",
-    title:   "Sort the backlog with MoSCoW",
-    lede:    "Must / Should / Could / Won't. The discipline lives in what you cut, not what you keep.",
+    eyebrow: "Scope under pressure",
+    title:   "Prioritize the service build",
+    lede:    "Must / Should / Could / Won't. The discipline is proving the operating workflow before expanding the surface.",
   },
   estimate: {
-    eyebrow: "Planning poker",
-    title:   "Size each story in Fibonacci points",
-    lede:    "Jumps reflect cognitive load — not hours. The 13 is a signal to split, not a heroic estimate.",
+    eyebrow: "Delivery forecast",
+    title:   "Size the build modules",
+    lede:    "Bigger point jumps reflect integration risk, data ambiguity, and production complexity.",
   },
   board: {
-    eyebrow: "Sprint mechanics",
-    title:   "Run the sprint, day by day",
-    lede:    "Stand-ups, blockers, scope creep, demo. Your moves on the board change what the partner sees.",
+    eyebrow: "Build mechanics",
+    title:   "Run the delivery cycle, day by day",
+    lede:    "Data access, scope pressure, build progress, and launch readiness all change the confidence score.",
   },
   retro: {
-    eyebrow: "Close the loop",
-    title:   "Run the retrospective",
-    lede:    "Behaviour, not blame. Start, Stop, Continue is what compounds team performance.",
+    eyebrow: "Improve the system",
+    title:   "Close the build loop",
+    lede:    "Keep what improved delivery, stop what slowed the workflow, and start the next operating habit.",
   },
   report: {
-    eyebrow: "Scorecard",
-    title:   "Your Scrum readiness — first run",
-    lede:    "Every stage you played fed a different dimension. This is your skill profile.",
+    eyebrow: "Blueprint",
+    title:   "Your service build blueprint",
+    lede:    "Every stage fed the launch path: architecture, automation, analytics, adoption, and growth.",
   },
 };
 
 /* Stage-keyed hint cards rendered in the left rail of the overlay. */
 const HINTS = {
   brief: [
-    { tag: "Agile mindset", body: "Ship the thinnest end-to-end slice first. Width over depth on sprint 1." },
-    { tag: "Scrum roles", body: "PO sets the WHAT. Scrum Master defends the HOW. Devs commit to the BUILD." },
-    { tag: "MVP heuristic", body: "If removing it still lets you demo the audit flow, it isn't sprint-1 scope." },
+    { tag: "System thinking", body: "Map the full workflow first: data, user, decision, action, and feedback loop." },
+    { tag: "First value path", body: "Launch the narrow path that proves value before expanding into every service." },
+    { tag: "Measurement", body: "If the system cannot show what improved, it is not finished." },
   ],
   roles: [
-    { tag: "PO verbs", body: "Prioritise · decide · accept. Owns the WHY behind the work." },
-    { tag: "SM verbs", body: "Facilitate · coach · remove. Owns the team's focus, not the backlog." },
-    { tag: "Dev verbs", body: "Estimate · build · test · commit. Owns the path to Done." },
+    { tag: "Business Owner", body: "Prioritize outcomes, accept trade-offs, and define what success means." },
+    { tag: "Solution Lead", body: "Map the workflow, sequence the build, and remove cross-functional blockers." },
+    { tag: "Build Team", body: "Engineer the cloud, app, automation, analytics, and production release." },
   ],
   moscow: [
-    { tag: "Must", body: "Cut it and the sprint goal fails. Non-negotiable." },
-    { tag: "Should", body: "Painful to omit but the sprint survives. Stretch goal." },
+    { tag: "Must", body: "Cut it and the first operating workflow fails. Non-negotiable." },
+    { tag: "Should", body: "High-value but the first release can still operate without it." },
     { tag: "Could", body: "Welcome only if real capacity opens up." },
-    { tag: "Won't", body: "An honest 'no'. Never a 'maybe' or 'later this sprint'." },
+    { tag: "Won't", body: "An honest no for this release. Not a hidden maybe." },
   ],
   estimate: [
-    { tag: "Fibonacci", body: "Jumps reflect cognitive complexity, not hours on a clock." },
-    { tag: "13 means split", body: "A 13 is the team telling you the story is too big. Break it down." },
-    { tag: "Trust the gap", body: "When the room splits 3 vs 8, the truth is hiding in that gap." },
+    { tag: "Integration risk", body: "Points rise when a module crosses APIs, data quality, devices, or compliance." },
+    { tag: "13 means split", body: "A 13 is the build telling you the module needs a smaller first release." },
+    { tag: "Trust the gap", body: "When the room splits 3 vs 8, clarify the assumption hiding underneath." },
   ],
   board: [
-    { tag: "Low WIP", body: "Pull, don't push. Finish before you start. Flow beats heroics." },
-    { tag: "Stand-up", body: "Blockers first. No status theatre — that's a status report, not a stand-up." },
-    { tag: "Demo honesty", body: "Done means potentially shippable. 'Almost there' is not Done." },
+    { tag: "Connected path", body: "Build the workflow spine before polishing every screen." },
+    { tag: "Data blockers", body: "Credentials, field mappings, and dirty data need early escalation." },
+    { tag: "Demo honesty", body: "Launch-ready means reliable for real users, not almost ready for a meeting." },
   ],
   retro: [
-    { tag: "Start", body: "A new behaviour you want to try next sprint." },
+    { tag: "Start", body: "A new behaviour you want to try next release cycle." },
     { tag: "Stop", body: "A pattern hurting your outcomes — name it without blame." },
     { tag: "Continue", body: "A win to protect. Make it muscle memory." },
   ],
   report: [
-    { tag: "Skill profile", body: "Your weakest dimension here auto-prescribes the next module." },
-    { tag: "Compounding", body: "Every quarter reassesses readiness — lift is measured, not assumed." },
+    { tag: "Build blueprint", body: "The final screen turns decisions into architecture, automation, analytics, and launch priorities." },
+    { tag: "Compounding", body: "After launch, the system improves through usage data, prediction quality, and funnel lift." },
   ],
 };
 
 /* Initial team KPI baseline. Each node sits at a believable 70 and moves
    on each decision the user makes through the game. */
 const INITIAL_KPIS = {
-  partner: 72,   // Client Partner trust
-  po: 70,        // Anjali — scope/backlog clarity
-  sm: 70,        // You — flow / facilitation
-  devs: 74,      // Karthik / Riya / Sahil — morale + velocity health
-  design: 72,    // Devika — design clarity
+  partner: 72,   // Client confidence
+  po: 70,        // Business outcome clarity
+  sm: 70,        // Solution flow
+  devs: 74,      // Engineering health
+  design: 72,    // Experience and adoption clarity
 };
 
 /* Scripted demo sequence for the autoplay phase. The user plays stages
-   1–3 (Brief, Roles, MoSCoW) hands-on; from stage 4 onward the system
+   1–3 (Brief, Team, Scope) hands-on; from stage 4 onward the system
    plays itself with these scripted "best" decisions so the player sees
-   the full Scrum loop without sitting through every drag-drop. */
+   the full service build loop without sitting through every drag-drop. */
 const AUTOPLAY_SEQUENCE = [
   {
     stage: "moscow",
-    eyebrow: "Stage 03 · Prioritisation",
-    title: "Sorting the backlog with MoSCoW",
-    body: "The PO calls Sign-in and File upload as Must — without them, there's no product. Mobile is Should, AI summary is a Won't this sprint.",
+    eyebrow: "Stage 03 · Scope",
+    title: "Prioritizing the service build",
+    body: "The first release anchors on the cloud data spine and credit analyzer. IoT mobile follows as Should, funnel automation as Could, and presentation polish is a Won't.",
     actions: [
-      { delay:  500, label: "Sign-in for the team → Must",      deltas: { po: +3, partner: +2 }, sound: "tick" },
-      { delay: 1700, label: "Upload & organise files → Must",   deltas: { po: +3, partner: +2 }, sound: "tick" },
-      { delay: 2900, label: "Mobile-friendly layout → Should",  deltas: { po: +2, sm: +1 },     sound: "tick" },
-      { delay: 4100, label: "AI summary → Won't this sprint",   deltas: { po: +4, partner: +3 }, sound: "ding", note: "Discipline beats wishful thinking" },
+      { delay:  500, label: "Cloud data spine → Must",       deltas: { po: +3, partner: +2 }, sound: "tick" },
+      { delay: 1700, label: "Credit analyzer → Must",        deltas: { po: +3, partner: +2 }, sound: "tick" },
+      { delay: 2900, label: "IoT mobile check-in → Should",  deltas: { po: +2, sm: +1 },     sound: "tick" },
+      { delay: 4100, label: "3D executive deck → Won't",     deltas: { po: +4, partner: +3 }, sound: "ding", note: "Focus beats shiny distraction" },
     ],
     duration: 5200,
   },
   {
     stage: "estimate",
-    eyebrow: "Stage 04 · Planning poker",
-    title: "Sizing the work in Fibonacci points",
-    body: "The team aligns on small / medium / large. Anything called 13 gets split — too big to commit to in one sprint.",
+    eyebrow: "Stage 04 · Forecast",
+    title: "Sizing the build modules",
+    body: "The team sizes by integration risk. Anything called 13 gets split into a safer first release.",
     actions: [
-      { delay:  500, label: "Sign-in flow → 3 points",          deltas: { devs: +2, sm: +1 }, sound: "tick" },
-      { delay: 1700, label: "File upload → 5 points",           deltas: { devs: +2, sm: +1 }, sound: "tick" },
-      { delay: 2900, label: "Mobile layout → 8 (split it)",     deltas: { devs: +3, sm: +2 }, sound: "ding", note: "Forecast calibrated to 92%" },
+      { delay:  500, label: "CRM connector → 3 points",         deltas: { devs: +2, sm: +1 }, sound: "tick" },
+      { delay: 1700, label: "Credit scoring API → 5 points",    deltas: { devs: +2, sm: +1 }, sound: "tick" },
+      { delay: 2900, label: "IoT sync → 13, split release",     deltas: { devs: +3, sm: +2 }, sound: "ding", note: "Delivery forecast calibrated" },
     ],
     duration: 4000,
   },
   {
     stage: "board",
-    eyebrow: "Stage 05 · Sprint mechanics",
-    title: "Running the 10-day sprint",
-    body: "Four sprint moments, four good calls. WIP stays low, the SSO blocker gets escalated, scope creep is parked, and the demo is honest.",
+    eyebrow: "Stage 05 · Build",
+    title: "Running the delivery cycle",
+    body: "Four build moments, four good calls. The team protects the connected path, escalates data blockers, parks scope creep, and demos only what works.",
     actions: [
-      { delay:  500, label: "Day 1 · Pull 2–3 tickets only",  deltas: { sm: +4, devs: +2 }, sound: "tick", note: "WIP discipline · standup" },
-      { delay: 1700, label: "Day 3 · Escalate SSO blocker",   deltas: { partner: +4, sm: +2 }, sound: "tick", note: "Stub login while admin grants access" },
-      { delay: 2900, label: "Day 6 · Park scope creep",       deltas: { po: +4, partner: +2 }, sound: "ding", note: "New scope → next sprint" },
-      { delay: 4100, label: "Day 10 · Honest demo",           deltas: { partner: +5, sm: +3 }, sound: "ding", note: "Done means shippable" },
+      { delay:  500, label: "Day 1 · Build the connected spine", deltas: { sm: +4, devs: +2 }, sound: "tick", note: "Cloud + data + score path first" },
+      { delay: 1700, label: "Day 3 · Escalate CRM access",       deltas: { partner: +4, sm: +2 }, sound: "tick", note: "Stub connector contract" },
+      { delay: 2900, label: "Day 6 · Park marketplace scope",    deltas: { po: +4, partner: +2 }, sound: "ding", note: "Expansion → next cycle" },
+      { delay: 4100, label: "Day 10 · Demo working workflow",    deltas: { partner: +5, sm: +3 }, sound: "ding", note: "Live system beats broad mockup" },
     ],
     duration: 5200,
   },
   {
     stage: "retro",
-    eyebrow: "Stage 06 · Close the loop",
-    title: "Running the retrospective",
-    body: "Stop the bad pattern, start the new habit, continue what worked. Blameless reflection — the muscle that compounds.",
+    eyebrow: "Stage 06 · Improve",
+    title: "Closing the build loop",
+    body: "Stop the drag, start the insight habit, continue what made the system ship. The next cycle compounds from real usage.",
     actions: [
-      { delay:  500, label: "Stop · accepting mid-sprint scope", deltas: { sm: +3, devs: +2 }, sound: "tick" },
-      { delay: 1700, label: "Start · weekly design review",     deltas: { sm: +2, design: +4 }, sound: "tick" },
-      { delay: 2900, label: "Continue · pairing on tough work", deltas: { devs: +4, sm: +2 }, sound: "ding", note: "Behaviour, not blame" },
+      { delay:  500, label: "Stop · broadening before value path", deltas: { sm: +3, devs: +2 }, sound: "tick" },
+      { delay: 1700, label: "Start · weekly funnel-insight review", deltas: { sm: +2, design: +4 }, sound: "tick" },
+      { delay: 2900, label: "Continue · data contract reviews",     deltas: { devs: +4, sm: +2 }, sound: "ding", note: "Systems improve from evidence" },
     ],
     duration: 4000,
   },
@@ -626,8 +627,8 @@ function StageBrief({ onNext, idx, total, onImpact }) {
         idx={idx}
         total={total}
         eyebrow="Read the room"
-        title="Case brief · the Compass MVP"
-        sub="A fast, high-level case read before the sprint lab begins. Each move teaches one Scrum decision without overloading the player."
+        title="Case brief · Command Center"
+        sub="A fast, high-level service build brief. Each move shows how FocusChain turns an operational mess into a working system."
       />
 
       <div className="brief-grid">
@@ -656,7 +657,7 @@ function StageBrief({ onNext, idx, total, onImpact }) {
         </div>
 
         <aside className="brief-side">
-          <div className="brief-side-label">Your team this sprint</div>
+          <div className="brief-side-label">Your build team</div>
           <ul className="brief-team">
             {CASE.team.map(t => (
               <li key={t.name} className={t.name === "You" ? "brief-team-you" : ""}>
@@ -672,7 +673,7 @@ function StageBrief({ onNext, idx, total, onImpact }) {
         <div className="strategy-lab-head">
           <div>
             <div className="strategy-kicker">First strategic call</div>
-            <div className="strategy-title">Choose the sprint-1 framing before you touch the board.</div>
+            <div className="strategy-title">Choose the first-release framing before you touch the build board.</div>
           </div>
           <div className="strategy-score">
             <span>{picked ? picked.score : "—"}</span>
@@ -700,14 +701,14 @@ function StageBrief({ onNext, idx, total, onImpact }) {
       </div>
 
       <CoachLine tone="navy" title="What to expect">
-        A compact sprint lab with selection, matching, sorting, estimation,
-        board movement and a retro. The choices are intentionally tight so the
-        player learns the pattern, then wants to finish the run.
+        A compact solution lab with role matching, scope sorting, delivery
+        forecasting, build movement and an improvement loop. The choices show
+        how a broad service problem becomes a focused system.
       </CoachLine>
 
       <div className="pg-stage-actions">
         <button className="pg-btn pg-btn-primary" onClick={onNext}>
-          {choice ? "Begin simulation" : "Skip and begin"} <span className="arr">→</span>
+          {choice ? "Begin build lab" : "Skip and begin"} <span className="arr">→</span>
         </button>
       </div>
     </div>
@@ -794,9 +795,9 @@ function StageRoles({ onNext, idx, total, onImpact }) {
       <StageHeader
         idx={idx}
         total={total}
-        eyebrow="Stage 1 · accountability"
-        title="Match the responsibility to the right Scrum role."
-        sub="Drag each card from the pool into Product Owner, Scrum Master, or Developers."
+        eyebrow="Stage 1 · delivery ownership"
+        title="Match the responsibility to the right build role."
+        sub="Drag each card from the pool into Business Owner, Solution Lead, or Build Team."
       />
 
       <div className="roles-layout">
@@ -893,8 +894,8 @@ function StageRoles({ onNext, idx, total, onImpact }) {
             anim
           >
             {feedback.wrong === 0
-              ? "You've internalised the Scrum accountability triangle. The PO/SM/Dev boundary is the single most-violated rule in real teams — knowing it cold is half the battle."
-              : "Look for the verbs. ‘Prioritise / decide / approve' belongs with the PO. ‘Facilitate / remove / coach' belongs with the SM. ‘Build / estimate / commit' belongs with Developers."}
+              ? "Good. Outcome, flow, and build ownership are separated clearly — that is how broad service requests become shippable systems."
+              : "Look for the verbs. Define metrics and priorities belongs with the Business Owner. Map flow and remove blockers belongs with the Solution Lead. Build, automate, test, and deploy belongs with the Build Team."}
           </CoachLine>
           <div className="pg-stage-actions">
             <button className="pg-btn pg-btn-ghost" onClick={() => {
@@ -903,7 +904,7 @@ function StageRoles({ onNext, idx, total, onImpact }) {
               setFeedback(null);
             }}>Reset</button>
             <button className="pg-btn pg-btn-primary" onClick={onNext}>
-              Move to backlog prioritisation <span className="arr">→</span>
+              Move to scope prioritisation <span className="arr">→</span>
             </button>
           </div>
         </>
@@ -925,7 +926,7 @@ function StageMoSCoW({ onNext, idx, total, onImpact }) {
 
   const onDrop = (bucket) => {
     if (!dragId) return;
-    // Per-drop impact — pulses the PO node and nudges scope/partner KPIs.
+    // Per-drop impact — pulses the Business Owner node and nudges scope/confidence KPIs.
     if (onImpact) {
       const item = itemById(dragId);
       const correct = item && item.bucket === bucket;
@@ -984,9 +985,9 @@ function StageMoSCoW({ onNext, idx, total, onImpact }) {
       <StageHeader
         idx={idx}
         total={total}
-        eyebrow="Stage 2 · prioritisation under pressure"
-        title="Sort the backlog with MoSCoW."
-        sub="The PO has narrowed the backlog to seven representative items. Place them by business necessity, not personal preference."
+        eyebrow="Stage 2 · scope under pressure"
+        title="Prioritize the build with Must / Should / Could / Won't."
+        sub="The first release cannot include everything. Place each service module by business necessity, not shiny-object appeal."
       />
 
       <div className="moscow-layout">
@@ -996,7 +997,7 @@ function StageMoSCoW({ onNext, idx, total, onImpact }) {
           onDrop={onDropPool}
         >
           <div className="moscow-pool-head">
-            <span>Product backlog · raw</span>
+            <span>Service backlog · raw</span>
             <span className="moscow-pool-count">{pool.length} unsorted</span>
           </div>
           <div className="moscow-pool-list">
@@ -1049,7 +1050,7 @@ function StageMoSCoW({ onNext, idx, total, onImpact }) {
                       <div className="backlog-card-title" dangerouslySetInnerHTML={{ __html: b.title }} />
                       {isWrong && (
                         <div className="backlog-card-correction">
-                          PO would call this a <em>{BUCKETS.find(x => x.id === b.bucket).name}</em>
+                          FocusChain would call this a <em>{BUCKETS.find(x => x.id === b.bucket).name}</em>
                         </div>
                       )}
                     </div>
@@ -1081,12 +1082,12 @@ function StageMoSCoW({ onNext, idx, total, onImpact }) {
             anim
           >
             {feedback.wrong === 0
-              ? "Your Musts are the ones that, if cut, sink the sprint. Your Won'ts are honest — not hopeful. That's the discipline MoSCoW exists to enforce."
-              : "Ask: ‘if I remove this, does the audit workflow still work end-to-end?' If yes → Should/Could. If no → Must. Mobile-responsive is a Should, not a Must, when desktop is the default user surface."}
+              ? "Your Musts prove the first operating workflow. Your Won'ts are honest — not postponed fantasies. That focus is how service builds ship."
+              : "Ask: if I remove this, can a lead still move from capture to credit score to decision dashboard? If yes, it is Should or Could. If no, it is Must."}
           </CoachLine>
           <div className="pg-stage-actions">
             <button className="pg-btn pg-btn-primary" onClick={onNext}>
-              Run the sprint board <span className="arr">→</span>
+              Run the build board <span className="arr">→</span>
             </button>
           </div>
         </>
@@ -1116,7 +1117,7 @@ function StageEstimate({ onNext, idx, total, onImpact }) {
         targets: ["devs"],
         deltas: { devs: ok ? +3 : -2, sm: ok ? +1 : -1 },
         sound: delta === 0 ? "ding" : "tick",
-        note: delta === 0 ? "Calibrated estimate" : `${delta} step${delta === 1 ? "" : "s"} off team consensus`,
+        note: delta === 0 ? "Calibrated estimate" : `${delta} step${delta === 1 ? "" : "s"} off build-team consensus`,
       });
     }
     setTimeout(() => {
@@ -1159,9 +1160,9 @@ function StageEstimate({ onNext, idx, total, onImpact }) {
       <StageHeader
         idx={idx}
         total={total}
-        eyebrow="Stage 3 · planning poker"
-        title="Estimate each story in Fibonacci points."
-        sub="Click the chip you'd hold up in planning. Your accuracy meter and a velocity bar chart update live."
+        eyebrow="Stage 3 · delivery forecast"
+        title="Estimate each build module in Fibonacci points."
+        sub="Click the chip you'd use for effort and integration risk. Your accuracy meter and delivery forecast update live."
       />
 
       <div className="est-layout">
@@ -1199,8 +1200,8 @@ function StageEstimate({ onNext, idx, total, onImpact }) {
                 {myPick !== undefined && (
                   <div className={classes("est-feedback", myPick === story.truth ? "is-spot" : "")}>
                     {myPick === story.truth
-                      ? <>Spot on — team consensus was <strong>{story.truth}</strong>.</>
-                      : <>You picked <strong>{myPick}</strong>; team consensus was <strong>{story.truth}</strong> ({stepLabel(Math.abs(stepIdx(myPick) - stepIdx(story.truth)))}).</>
+                      ? <>Spot on — build-team consensus was <strong>{story.truth}</strong>.</>
+                      : <>You picked <strong>{myPick}</strong>; build-team consensus was <strong>{story.truth}</strong> ({stepLabel(Math.abs(stepIdx(myPick) - stepIdx(story.truth)))}).</>
                     }
                   </div>
                 )}
@@ -1209,7 +1210,7 @@ function StageEstimate({ onNext, idx, total, onImpact }) {
           ) : (
             <div className="est-card est-card-done">
               <div className="est-card-tag">Round complete</div>
-              <div className="est-card-title">Your sprint forecast</div>
+              <div className="est-card-title">Your delivery forecast</div>
               <div className="est-summary">
                 <div className="est-summary-row"><span>Your committed velocity</span><strong>{velocity} pts</strong></div>
                 <div className="est-summary-row"><span>Team consensus velocity</span><strong>{truthVel} pts</strong></div>
@@ -1217,10 +1218,10 @@ function StageEstimate({ onNext, idx, total, onImpact }) {
               </div>
               <CoachLine tone={accuracy >= 80 ? "green" : accuracy >= 60 ? "navy" : "amber"} title="What the gap means" anim>
                 {accuracy >= 80
-                  ? "You're calibrated. Your forecast would land — team commits what it can ship."
+                  ? "You're calibrated. The build plan protects what can actually launch."
                   : accuracy >= 60
-                  ? "Mostly aligned. The misses are usually on stories with hidden complexity — ask 'what could go wrong?' before sizing."
-                  : "Over- or under-estimating both hurt — under-committing wastes capacity, over-committing burns morale. Use the Fibonacci jumps deliberately: 3 means small, 8 means big, 13 means 'too big, split it.'"}
+                  ? "Mostly aligned. The misses are usually on modules with hidden integration complexity — ask what data, API, or adoption risk is hiding."
+                  : "Over- or under-estimating both hurt. Use the Fibonacci jumps deliberately: 3 means small, 8 means complex, 13 means too broad for a safe first release."}
               </CoachLine>
             </div>
           )}
@@ -1248,7 +1249,7 @@ function StageEstimate({ onNext, idx, total, onImpact }) {
               </svg>
             </div>
 
-            <div className="est-bars-head">Your estimate vs team</div>
+            <div className="est-bars-head">Your estimate vs build team</div>
             <div className="est-bars">
               {STORIES.map((s, i) => {
                 const p = picks[s.id];
@@ -1268,7 +1269,7 @@ function StageEstimate({ onNext, idx, total, onImpact }) {
             </div>
             <div className="est-bars-legend">
               <span><i className="lg-mine" /> your pick</span>
-              <span><i className="lg-truth" /> team consensus</span>
+              <span><i className="lg-truth" /> build-team consensus</span>
             </div>
           </div>
         </aside>
@@ -1277,18 +1278,18 @@ function StageEstimate({ onNext, idx, total, onImpact }) {
       {done && (
         <div className="pg-stage-actions">
           <button className="pg-btn pg-btn-ghost" onClick={() => { setPicks({}); setActive(0); setDone(false); }}>Re-estimate</button>
-          <button className="pg-btn pg-btn-primary" onClick={onNext}>Onto the sprint board <span className="arr">→</span></button>
+          <button className="pg-btn pg-btn-primary" onClick={onNext}>Onto the build board <span className="arr">→</span></button>
         </div>
       )}
     </div>
   );
 }
 
-/* ─────────────────────────── STAGE 4: SPRINT BOARD ─────────────────────────── */
+/* ─────────────────────────── STAGE 4: BUILD BOARD ─────────────────────────── */
 
 function StageBoard({ onNext, idx, total, onImpact }) {
   const [tickets, setTickets] = useState(() => TICKETS.map(t => ({ ...t })));
-  const [day, setDay] = useState(0); // 0 = sprint not started yet
+  const [day, setDay] = useState(0); // 0 = build cycle not started yet
   const [eventIdx, setEventIdx] = useState(-1);
   const [seenEvents, setSeenEvents] = useState([]); // ids of events advanced past
   const [dragId, setDragId] = useState(null);
@@ -1305,7 +1306,7 @@ function StageBoard({ onNext, idx, total, onImpact }) {
   const activeEvent = eventIdx >= 0 ? EVENTS[eventIdx] : null;
   const isLastDay = day >= 10;
 
-  // burndown trajectory — recorded each day
+  // delivery burn trajectory — recorded each day
   const [burndown, setBurndown] = useState([{ day: 0, remaining: TICKETS.reduce((s, t) => s + t.pts, 0) }]);
 
   const advanceToNextEvent = () => {
@@ -1357,15 +1358,15 @@ function StageBoard({ onNext, idx, total, onImpact }) {
       <StageHeader
         idx={idx}
         total={total}
-        eyebrow="Stage 5 · sprint mechanics"
-        title="Run the sprint — day by day."
-        sub={`${TICKETS.length} essential tickets, ten days. Make four sprint calls, move work across the board, and watch the burndown react.`}
+        eyebrow="Stage 5 · build mechanics"
+        title="Run the build — day by day."
+        sub={`${TICKETS.length} essential modules, ten days. Make four delivery calls, move work across the board, and watch launch confidence react.`}
       />
 
       <div className="board-meta">
         <div className="board-meta-l">
           <div className="board-day">
-            <div className="board-day-lbl">Sprint day</div>
+            <div className="board-day-lbl">Build day</div>
             <div className="board-day-num">{day} <span>/ 10</span></div>
           </div>
           <div className="board-pts">
@@ -1384,7 +1385,7 @@ function StageBoard({ onNext, idx, total, onImpact }) {
           )}
           {isLastDay && (
             <button className="pg-btn pg-btn-primary pg-btn-sm" onClick={finishSprint}>
-              End sprint &amp; go to retro <span className="arr">→</span>
+              End build &amp; improve <span className="arr">→</span>
             </button>
           )}
         </div>
@@ -1476,15 +1477,15 @@ function StageBoard({ onNext, idx, total, onImpact }) {
                   )}
                 </div>
               )}
-              <CoachLine tone="navy" title="Scrum Master scaffold">
+              <CoachLine tone="navy" title="Solution lead scaffold">
                 {activeEvent.coach}
               </CoachLine>
             </div>
           ) : (
             <div className="board-event board-event-intro">
-              <div className="board-event-title">Sprint ready to start</div>
+              <div className="board-event-title">Build cycle ready to start</div>
             <div className="board-event-body">
-                You have {TICKETS.length} tickets totalling {totalPts} story points and 10 working days.
+                You have {TICKETS.length} modules totalling {totalPts} delivery points and 10 working days.
                 Hit <em>Start day 1</em> when ready.
               </div>
             </div>
@@ -1509,8 +1510,8 @@ function Burndown({ points, total }) {
   return (
     <div className="burn">
       <div className="burn-head">
-        <div className="burn-title">Sprint burndown</div>
-        <div className="burn-sub">remaining story points · days 0 → 10</div>
+        <div className="burn-title">Build burn-down</div>
+        <div className="burn-sub">remaining delivery points · days 0 → 10</div>
       </div>
       <svg viewBox={`0 0 ${W} ${H}`} className="burn-svg">
         {/* grid */}
@@ -1535,7 +1536,7 @@ function Burndown({ points, total }) {
   );
 }
 
-/* ─────────────────────────── STAGE 5: RETRO + REPORT ─────────────────────────── */
+/* ─────────────────────────── STAGE 5: IMPROVE + BLUEPRINT ─────────────────────────── */
 
 function StageRetro({ onNext, idx, total, onImpact }) {
   const [pool, setPool] = useState(() => RETRO_CARDS.map(c => c.id));
@@ -1548,7 +1549,7 @@ function StageRetro({ onNext, idx, total, onImpact }) {
 
   const onDrop = (bucket) => {
     if (!dragId) return;
-    // Per-drop impact — pulses the SM node, the one running retro.
+    // Per-drop impact — pulses the Solution Lead node, the one running improvement.
     if (onImpact) {
       const c = cardById(dragId);
       const correct = c && c.target === bucket;
@@ -1596,9 +1597,9 @@ function StageRetro({ onNext, idx, total, onImpact }) {
       <StageHeader
         idx={idx}
         total={total}
-        eyebrow="Stage 6 · close the loop"
-        title="Run the retrospective."
-        sub="Four sprint observations are enough to teach the retro muscle: Start, Stop, Continue."
+        eyebrow="Stage 6 · improve the system"
+        title="Run the improvement loop."
+        sub="Four build observations are enough to decide what to start, stop, and continue in the next release."
       />
 
       <div className="retro-layout">
@@ -1607,7 +1608,7 @@ function StageRetro({ onNext, idx, total, onImpact }) {
           onDragOver={e => e.preventDefault()}
           onDrop={() => {}}
         >
-          <div className="retro-pool-head">Sprint observations</div>
+          <div className="retro-pool-head">Build observations</div>
           <div className="retro-pool-list">
             {pool.length === 0 && <div className="retro-pool-empty">All observations sorted.</div>}
             {pool.map(id => (
@@ -1675,12 +1676,12 @@ function StageRetro({ onNext, idx, total, onImpact }) {
             anim
           >
             {feedback.correct === feedback.total
-              ? "You separated process from outcome — the hardest retro skill. Blameless reflection is what compounds team performance sprint over sprint."
-              : "Habits to build go in Start. Patterns hurting you go in Stop. Wins to protect go in Continue. The trap is putting outcomes in Continue when the behaviour that caused them belongs there instead."}
+              ? "You separated the delivery habit from the output. That is how systems keep improving after launch."
+              : "Habits to add go in Start. Patterns slowing delivery go in Stop. Wins to protect go in Continue. The trap is celebrating outcomes without naming the operating habit behind them."}
           </CoachLine>
           <div className="pg-stage-actions">
             <button className="pg-btn pg-btn-primary" onClick={onNext}>
-              See your scorecard <span className="arr">→</span>
+              See your build blueprint <span className="arr">→</span>
             </button>
           </div>
         </>
@@ -1689,7 +1690,7 @@ function StageRetro({ onNext, idx, total, onImpact }) {
   );
 }
 
-/* ─────────────────────────── FINAL REPORT ─────────────────────────── */
+/* ─────────────────────────── FINAL BLUEPRINT ─────────────────────────── */
 
 function StageReport({ onRestart, idx, total, kpis }) {
   // Derive scorecard values from the live KPI state so the report reflects
@@ -1697,20 +1698,20 @@ function StageReport({ onRestart, idx, total, kpis }) {
   const k = kpis || INITIAL_KPIS;
   const overall = Math.round((k.partner + k.po + k.sm + k.devs + k.design) / 5);
   const scores = [
-    { name: "Role clarity",            val: k.po,      body: "How cleanly you separated PO / SM / Dev work." },
-    { name: "Prioritisation",          val: k.partner, body: "How well your MoSCoW call matched partner intent." },
-    { name: "Sprint mechanics",        val: k.sm,      body: "WIP discipline and how you handled blockers." },
-    { name: "Team morale",             val: k.devs,    body: "How the build team finished the sprint." },
-    { name: "Overall Scrum readiness", val: overall,   body: overall >= 80 ? "Ready to coach a new team through a first sprint." : overall >= 65 ? "Solid grasp. One more run and you're coaching." : "Useful first pass. Try the run again and watch the org chart move." },
+    { name: "Outcome clarity",         val: k.po,      body: "How cleanly the first business metric shaped the build." },
+    { name: "Client confidence",       val: k.partner, body: "How credible the first release path feels to leadership." },
+    { name: "Solution flow",           val: k.sm,      body: "Sequencing, blocker handling, and launch-path discipline." },
+    { name: "Build health",            val: k.devs,    body: "How stable the cloud, app, automation, and analytics work became." },
+    { name: "Overall launch readiness", val: overall,  body: overall >= 80 ? "Ready for a focused production build cycle." : overall >= 65 ? "Strong first blueprint. One refinement pass will sharpen it." : "Useful first pass. Tighten scope and integration assumptions before launch." },
   ];
   return (
     <div className="pg-stage pg-stage-report">
       <StageHeader
         idx={idx}
         total={total}
-        eyebrow="Stage 7 · scorecard"
-        title="Your Scrum readiness — first run."
-        sub="Every stage feeds a different dimension. In a real cohort, your CHRO sees these scores aggregated across the team."
+        eyebrow="Stage 7 · blueprint"
+        title="Your service build blueprint."
+        sub="Every stage feeds a delivery dimension. In a real engagement, this becomes the architecture, roadmap, automation map, and success dashboard."
       />
 
       <div className="report-grid">
@@ -1726,16 +1727,16 @@ function StageReport({ onRestart, idx, total, kpis }) {
         ))}
       </div>
 
-      <CoachLine tone="navy" title="What this means for a real pilot" anim>
-        In the FocusChain platform, this scorecard becomes your skill profile.
-        The dimensions you scored lowest on auto-prescribe modules in your
-        personalised learning path — and reassess every quarter to prove lift.
+      <CoachLine tone="navy" title="What this means for a real build" anim>
+        In a FocusChain engagement, this blueprint becomes a practical delivery
+        plan: cloud architecture, app surface, AI workflow automation, predictive
+        dashboard, and the first outcome metric we improve after launch.
       </CoachLine>
 
       <div className="pg-stage-actions">
         <button className="pg-btn pg-btn-ghost" onClick={onRestart}>Play again</button>
-        <a className="pg-btn pg-btn-primary" href="mailto:queries@focuschainlabs.com?subject=FocusChain%20Labs%20Project%20Pilot&body=Hi%20FocusChain%20Labs%2C%0D%0A%0D%0AI%27d%20like%20to%20bring%20this%20simulation%20to%20my%20team.%0D%0A%0D%0ACompany%3A%0D%0AUse%20case%3A%0D%0ACohort%20size%3A">
-          Bring this to my team <span className="arr">→</span>
+        <a className="pg-btn pg-btn-primary" href="mailto:queries@focuschainlabs.com?subject=FocusChain%20Labs%20Service%20Build&body=Hi%20FocusChain%20Labs%2C%0D%0A%0D%0AI%27d%20like%20to%20scope%20a%20service%20build.%0D%0A%0D%0ACompany%3A%0D%0AProblem%3A%0D%0AUse%20case%3A">
+          Scope a real build <span className="arr">→</span>
         </a>
       </div>
     </div>
@@ -1751,7 +1752,7 @@ function EntryCard({ onLaunch }) {
       <div className="pg-entry-bar">
         <div className="pg-entry-bar-l">
           <span className="pg-entry-dot" />
-          <span>Compass · sprint simulation</span>
+          <span>Command Center · service build lab</span>
         </div>
         <div className="pg-entry-bar-r">
           <span>~12 min</span><span>·</span><span>7 stages</span>
@@ -1759,43 +1760,43 @@ function EntryCard({ onLaunch }) {
       </div>
 
       <div className="pg-entry-body">
-        <div className="pg-entry-eyebrow">Interactive sprint room</div>
+        <div className="pg-entry-eyebrow">Interactive service lab</div>
         <h2 className="pg-entry-title">
-          Step into the Compass sprint room.<br/>
-          <span className="pg-entry-title-soft">Run three sprints in twelve minutes.</span>
+          Step into the Command Center build.<br/>
+          <span className="pg-entry-title-soft">Connect cloud, apps, automation, and insight.</span>
         </h2>
         <p className="pg-entry-lede">
-          A fullscreen, Harvard-style decision room. You play the Scrum Master on a
-          live audit-evidence MVP. Every drag, drop, match and call updates the
-          team org chart and the partner-trust meter in real time.
+          A fullscreen decision room for a real service build. You shape the first
+          release for a credit analyzer, IoT mobile app, predictive dashboard, and
+          automated lead funnel while the live system map reacts to every call.
         </p>
 
         <div className="pg-entry-tiles">
           <div className="pg-entry-tile">
             <div className="pg-entry-tile-num">07</div>
-            <div className="pg-entry-tile-lbl">stages · brief → scorecard</div>
+            <div className="pg-entry-tile-lbl">stages · brief → blueprint</div>
           </div>
           <div className="pg-entry-tile">
             <div className="pg-entry-tile-num">05</div>
-            <div className="pg-entry-tile-lbl">team nodes pulse on each choice</div>
+            <div className="pg-entry-tile-lbl">system nodes pulse on each choice</div>
           </div>
           <div className="pg-entry-tile">
             <div className="pg-entry-tile-num">04</div>
-            <div className="pg-entry-tile-lbl">live KPIs: trust · flow · morale · scope</div>
+            <div className="pg-entry-tile-lbl">live KPIs: confidence · flow · build · adoption</div>
           </div>
         </div>
 
         <button className="pg-entry-cta" onClick={onLaunch}>
           <span className="pg-entry-cta-l">
             <span className="pg-entry-cta-eyebrow">Launch immersive sim</span>
-            <span className="pg-entry-cta-title">Roll tape on the sprint room</span>
+            <span className="pg-entry-cta-title">Open the build room</span>
           </span>
           <span className="pg-entry-cta-r">
             <span className="pg-entry-cta-rec">REC</span>
             <span className="pg-entry-cta-arrow">▶</span>
           </span>
         </button>
-        <div className="pg-entry-fine">7-second countdown · cassette intro · sound on</div>
+        <div className="pg-entry-fine">7-second countdown · build-room intro · sound on</div>
       </div>
     </div>
   );
@@ -1859,9 +1860,9 @@ function Countdown({ onDone, audio, onCancel }) {
     };
   }, []);
 
-  const titleByN = n >= 4 ? "Loading the Compass case file"
-                 : n >= 2 ? "Three sprints · one partner demo"
-                 : "Steady — you're the Scrum Master";
+  const titleByN = n >= 4 ? "Loading the service build file"
+                 : n >= 2 ? "Cloud · app · automation · analytics"
+                 : "Steady — you're the solution lead";
   const R = 90, C = 2 * Math.PI * R;
   const frac = Math.max(0, n) / 5;
 
@@ -1872,10 +1873,10 @@ function Countdown({ onDone, audio, onCancel }) {
       </div>
 
       <div className="pg-cd-eyebrow">
-        {phase === "rolling" ? "Briefing tape · loaded" : "FocusChain Labs · case loader"}
+        {phase === "rolling" ? "Build brief · loaded" : "FocusChain Labs · build loader"}
       </div>
       <div className="pg-cd-title">
-        {phase === "rolling" ? "Case loaded. Boardroom is open." : titleByN}
+        {phase === "rolling" ? "Build file loaded. Command room is open." : titleByN}
       </div>
 
       {phase === "count" ? (
@@ -1906,7 +1907,7 @@ function Countdown({ onDone, audio, onCancel }) {
 
       <div className="pg-cd-sub">
         {phase === "rolling"
-          ? "Brief · backlog · board · retro — your call from here"
+          ? "Brief · scope · build · blueprint — your call from here"
           : "5 seconds to the brief. Sound on for the full effect."}
       </div>
       {phase === "count" && (
@@ -1924,8 +1925,8 @@ function CassetteVisual() {
     <div className="cassette" aria-hidden="true">
       <div className="cassette-body">
         <div className="cassette-label">
-          <span className="cassette-label-l">COMPASS · CASE TAPE</span>
-          <span className="cassette-label-r">RISK ADVISORY · SPRINT 1</span>
+          <span className="cassette-label-l">COMMAND CENTER · BUILD TAPE</span>
+          <span className="cassette-label-r">CLOUD · AI · ANALYTICS</span>
         </div>
         <div className="cassette-window">
           <div className="cassette-reel cassette-reel-l">
@@ -2018,7 +2019,7 @@ function HintIntro({ stageId, stageIdx, totalStages, onDone }) {
           <span className="hint-intro-stage-name">{intro.eyebrow}</span>
         </div>
         <div className="hint-intro-head-r">
-          <span className="hint-intro-doc">CASE · COMPASS</span>
+          <span className="hint-intro-doc">CASE · COMMAND CENTER</span>
         </div>
       </header>
 
@@ -2081,7 +2082,7 @@ function HintIntro({ stageId, stageIdx, totalStages, onDone }) {
           <button className="hint-intro-ctrl hint-intro-ctrl-ghost" onClick={skip}>Skip briefing</button>
           {idx < cards.length && (
             <button className="hint-intro-ctrl hint-intro-ctrl-primary" onClick={advance}>
-              {idx + 1 >= cards.length ? "Open the boardroom" : "Next hint"} <span className="hint-intro-ctrl-arrow">→</span>
+              {idx + 1 >= cards.length ? "Open the build room" : "Next hint"} <span className="hint-intro-ctrl-arrow">→</span>
             </button>
           )}
         </div>
@@ -2156,11 +2157,11 @@ function HintsFAB({ stageId }) {
 /* ─────────────────────────── ORG IMPACT POPUP (auto-slides in) ─────────────────────────── */
 
 const NODE_LABELS = {
-  partner: "Client Partner",
-  po:      "Anjali R. · PO",
-  sm:      "You · Scrum Master",
-  devs:    "Engineering team",
-  design:  "Devika · Designer",
+  partner: "Client leadership",
+  po:      "Maya · Business Owner",
+  sm:      "You · Solution Lead",
+  devs:    "Build team",
+  design:  "Tara · Experience",
 };
 
 function OrgImpactPopup({ pulse, kpis }) {
@@ -2172,11 +2173,11 @@ function OrgImpactPopup({ pulse, kpis }) {
 
   // Full team chart: every node always rendered, affected ones pulse +
   // get a delta badge. This is the org chart the user has been missing.
-  const PartnerNode = { id: "partner", name: "Client Partner",   sub: "Risk Advisory", kpiLbl: "trust" };
-  const POnode      = { id: "po",      name: "Anjali R.",        sub: "Product Owner", kpiLbl: "scope" };
-  const SMnode      = { id: "sm",      name: "You",              sub: "Scrum Master",  kpiLbl: "flow" };
-  const Devsnode    = { id: "devs",    name: "Engineers",        sub: "K · R · S",     kpiLbl: "morale" };
-  const Designnode  = { id: "design",  name: "Devika S.",        sub: "Designer",      kpiLbl: "clarity" };
+  const PartnerNode = { id: "partner", name: "Client Leadership", sub: "Service business", kpiLbl: "confidence" };
+  const POnode      = { id: "po",      name: "Maya R.",          sub: "Business Owner",   kpiLbl: "outcome" };
+  const SMnode      = { id: "sm",      name: "You",              sub: "Solution Lead",    kpiLbl: "flow" };
+  const Devsnode    = { id: "devs",    name: "Build Team",       sub: "Cloud · AI · App", kpiLbl: "build" };
+  const Designnode  = { id: "design",  name: "Tara S.",          sub: "Experience",       kpiLbl: "adoption" };
 
   const renderNode = (node, compact = false) => {
     const v = Math.max(0, Math.min(100, Math.round(kpis[node.id])));
@@ -2225,11 +2226,11 @@ function OrgImpactPopup({ pulse, kpis }) {
 
       <div className="org-popup-foot">
         <div className="org-popup-foot-row">
-          <span className="org-popup-foot-lbl">Delivery confidence</span>
+          <span className="org-popup-foot-lbl">Launch confidence</span>
           <span className="org-popup-foot-val">{avg}<span>/100</span></span>
         </div>
         <div className="org-popup-foot-row">
-          <span className="org-popup-foot-lbl">Sprint risk</span>
+          <span className="org-popup-foot-lbl">Build risk</span>
           <span className={classes("org-popup-foot-val", risk < 30 ? "is-good" : risk < 50 ? "is-ok" : "is-warn")}>
             {risk}<span>/100</span>
           </span>
@@ -2248,7 +2249,7 @@ function HintsRail({ stageId }) {
     <aside className="hints-rail">
       <div className="hints-rail-head">
         <span className="hints-rail-tag">Coach guide</span>
-        <div className="hints-rail-title">Agile · Scrum hints</div>
+        <div className="hints-rail-title">Service build hints</div>
       </div>
       <div className="hints-rail-list">
         {cards.map((h, i) => (
@@ -2285,11 +2286,11 @@ function OrgNodeCard({ node, kpis, pulse }) {
 }
 
 function OrgChart({ kpis, pulse }) {
-  const partner = { id: "partner", name: "Client Partner",  sub: "Big-4 Risk Advisory", kpiLbl: "trust" };
-  const po      = { id: "po",      name: "Anjali R.",        sub: "Product Owner",       kpiLbl: "scope" };
-  const sm      = { id: "sm",      name: "You",              sub: "Scrum Master",        kpiLbl: "flow" };
-  const devs    = { id: "devs",    name: "Karthik · Riya · Sahil", sub: "Engineers",     kpiLbl: "morale" };
-  const design  = { id: "design",  name: "Devika S.",        sub: "Designer",            kpiLbl: "clarity" };
+  const partner = { id: "partner", name: "Client Leadership", sub: "Service business",   kpiLbl: "confidence" };
+  const po      = { id: "po",      name: "Maya R.",           sub: "Business Owner",     kpiLbl: "outcome" };
+  const sm      = { id: "sm",      name: "You",               sub: "Solution Lead",      kpiLbl: "flow" };
+  const devs    = { id: "devs",    name: "Arjun · Isha · Neil", sub: "Build Team",       kpiLbl: "build" };
+  const design  = { id: "design",  name: "Tara S.",           sub: "Experience",         kpiLbl: "adoption" };
 
   const avg = Math.round((kpis.partner + kpis.po + kpis.sm + kpis.devs + kpis.design) / 5);
   const risk = Math.max(0, 100 - avg);
@@ -2298,7 +2299,7 @@ function OrgChart({ kpis, pulse }) {
     <aside className="org-rail">
       <div className="org-rail-head">
         <span className="org-rail-tag">Live impact</span>
-        <div className="org-rail-title">Compass team chart</div>
+        <div className="org-rail-title">Command Center system map</div>
       </div>
 
       <div className="org-tree">
@@ -2321,11 +2322,11 @@ function OrgChart({ kpis, pulse }) {
 
       <div className="org-summary">
         <div className="org-summary-row">
-          <div className="org-summary-lbl">Delivery confidence</div>
+          <div className="org-summary-lbl">Launch confidence</div>
           <div className="org-summary-val org-summary-val-good">{avg}<span>/100</span></div>
         </div>
         <div className="org-summary-row">
-          <div className="org-summary-lbl">Sprint risk</div>
+          <div className="org-summary-lbl">Build risk</div>
           <div className={classes("org-summary-val", risk < 30 ? "org-summary-val-good" : risk < 50 ? "org-summary-val-ok" : "org-summary-val-warn")}>
             {risk}<span>/100</span>
           </div>
@@ -2344,7 +2345,7 @@ function OrgChart({ kpis, pulse }) {
 /* ─────────────────────────── AUTOPLAY SHOWCASE ─────────────────────────── */
 
 /* Plays the scripted remaining-stage sequence after the user either
-   chooses Autopilot or finishes MoSCoW, then hands off to the scorecard. Each scripted
+   chooses Autopilot or finishes Scope, then hands off to the blueprint. Each scripted
    action fires onImpact() so the same OrgImpactPopup the user has been
    seeing keeps reacting in real time. */
 function AutoplayShowcase({ startStageId = "estimate", onDone, onImpact, onStageFlush }) {
@@ -2404,7 +2405,7 @@ function AutoplayShowcase({ startStageId = "estimate", onDone, onImpact, onStage
     return (
       <div className="autoplay autoplay-finished">
         <div className="autoplay-finished-eyebrow">Autopilot complete</div>
-        <div className="autoplay-finished-title">Rolling into your scorecard…</div>
+        <div className="autoplay-finished-title">Rolling into your blueprint...</div>
       </div>
     );
   }
@@ -2417,9 +2418,9 @@ function AutoplayShowcase({ startStageId = "estimate", onDone, onImpact, onStage
       <header className="autoplay-head">
         <div className="autoplay-head-l">
           <span className="autoplay-head-tag">Autopilot · demo mode</span>
-          <div className="autoplay-head-sub">Stages {firstAutoStage}–{lastAutoStage} play themselves so you can watch the full Scrum loop close</div>
+          <div className="autoplay-head-sub">Stages {firstAutoStage}–{lastAutoStage} play themselves so you can watch the full service build close</div>
         </div>
-        <button className="autoplay-skip" onClick={onDone}>Skip to scorecard →</button>
+        <button className="autoplay-skip" onClick={onDone}>Skip to blueprint →</button>
       </header>
 
       {/* Stage progress strip — one pill per autoplay step */}
@@ -2480,8 +2481,8 @@ function AutoplayShowcase({ startStageId = "estimate", onDone, onImpact, onStage
 /* ─────────────────────────── APP ─────────────────────────── */
 
 /* Stage index after which the system takes over the keyboard. The user
-   plays Brief (0), Roles (1), and MoSCoW (2) hands-on; autoplay then drives
-   Estimate (3), Board (4), Retro (5), and the Scorecard (6) opens itself. */
+   plays Brief (0), Team (1), and Scope (2) hands-on; autoplay then drives
+   Estimate (3), Build (4), Improve (5), and the Blueprint (6) opens itself. */
 const PLAYABLE_THROUGH_STAGE = 2;
 
 function PlaygroundApp() {
@@ -2615,8 +2616,8 @@ function PlaygroundApp() {
     }, 250);
   };
   const finishAutoplay = () => {
-    // Land on the scorecard. Mark intervening intros as seen so the
-    // scorecard appears immediately rather than re-running their briefings.
+    // Land on the blueprint. Mark intervening intros as seen so it appears
+    // immediately rather than re-running their briefings.
     setIntroShownIds(prev => {
       const merged = new Set(prev);
       ["moscow", "estimate", "board", "retro"].forEach(id => merged.add(id));
@@ -2645,16 +2646,16 @@ function PlaygroundApp() {
       <div className="pg-overlay-bg" aria-hidden="true" />
 
       <header className="pg-overlay-head">
-        <button className="pg-overlay-exit" onClick={exitOverlay} aria-label="Exit sprint room">
+        <button className="pg-overlay-exit" onClick={exitOverlay} aria-label="Exit build room">
           <span className="pg-overlay-exit-x">✕</span>
           <span>Exit room</span>
         </button>
         <div className="pg-overlay-title">
-          <span className="pg-overlay-eyebrow">Compass · sprint simulation</span>
+          <span className="pg-overlay-eyebrow">Command Center · service build lab</span>
           <span className="pg-overlay-name">{mode === "countdown" ? "Booting…" : STAGES[stage].name}</span>
         </div>
         <div className="pg-overlay-actions">
-          {mode === "playing" && stage >= 2 && stage < STAGES.length - 1 && (
+          {mode === "playing" && stage >= 1 && stage < STAGES.length - 1 && (
             <button className="pg-overlay-auto" onClick={automateCurrentOrRest}>
               Automate rest <span>→</span>
             </button>
