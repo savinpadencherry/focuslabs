@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FocusChain Labs — booting the system</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F4F0E7;
+    --cream-2:#EFEADE;
+    --ink:#0F2A33;
+    --ink-soft:#3C5158;
+    --ink-muted:rgba(15,42,51,.55);
+    --green:#1F9F5F;
+    --green-bright:#37A85C;
+    --green-glow:rgba(31,159,95,.30);
+    --line:rgba(15,42,51,.16);
+    --line-soft:rgba(15,42,51,.08);
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:"Bricolage Grotesque",sans-serif;
+    overflow:hidden;
+    display:grid;
+    place-items:center;
+    position:relative;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ── ambient layers ── */
+  .bg-grid{
+    position:fixed;inset:0;pointer-events:none;
+    background-image:
+      linear-gradient(to right, rgba(15,42,51,.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(15,42,51,.04) 1px, transparent 1px);
+    background-size:56px 56px;
+    mask-image:radial-gradient(closest-side at 50% 50%, black 30%, transparent 80%);
+    -webkit-mask-image:radial-gradient(closest-side at 50% 50%, black 30%, transparent 80%);
+    opacity:.65;
+  }
+  .bg-orb{
+    position:fixed;inset:auto;left:50%;top:50%;
+    width:780px;height:780px;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(closest-side, rgba(31,159,95,.10), transparent 70%);
+    filter:blur(20px);
+    pointer-events:none;
+    animation:orbBreathe 6.5s ease-in-out infinite;
+  }
+  .bg-noise{
+    position:fixed;inset:0;opacity:.55;mix-blend-mode:multiply;pointer-events:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='0.045'/></svg>");
+  }
+  .bg-vignette{
+    position:fixed;inset:0;pointer-events:none;
+    background:
+      radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,.55), transparent 60%),
+      radial-gradient(130% 110% at 50% 110%, rgba(15,42,51,.07), transparent 55%);
+  }
+  .bg-scan{
+    position:fixed;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:.45;
+    background:linear-gradient(112deg, transparent 0 34%, rgba(31,159,95,.18) 50%, transparent 66% 100%);
+    transform:translateX(-50%);
+    animation:scanSweep 6.2s var(--ease) infinite;
+  }
+
+  /* ── corner chrome ── */
+  .corner{
+    position:fixed;
+    font-family:"JetBrains Mono",monospace;
+    font-size:10.5px;font-weight:600;
+    letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ink-muted);
+    display:flex;align-items:center;gap:8px;
+    opacity:0;animation:fadeUp .8s ease .25s forwards;
+  }
+  .corner b{color:var(--green);font-weight:700;letter-spacing:.18em}
+  .corner .cdot{
+    width:6px;height:6px;border-radius:50%;background:var(--green);
+    box-shadow:0 0 0 3px rgba(31,159,95,.18);
+    animation:dotPulse 1.6s ease-in-out infinite;
+  }
+  .corner-tl{top:22px;left:24px}
+  .corner-tr{top:22px;right:24px}
+  .corner-bl{bottom:78px;left:24px}
+  .corner-br{bottom:78px;right:24px;color:var(--ink)}
+
+  /* ── stage ── */
+  .stage{
+    position:relative;z-index:2;
+    width:min(720px,92vw);
+    text-align:center;
+    transition:opacity .55s ease, filter .55s ease, transform .55s ease;
+  }
+  .stage.leaving{opacity:0;filter:blur(8px);transform:scale(1.025)}
+
+  /* mark above wordmark — animated chain glyph */
+  .mark{
+    width:56px;height:56px;margin:0 auto 14px;
+    display:grid;place-items:center;position:relative;
+    opacity:0;animation:fadeUp .8s ease .08s forwards;
+  }
+  .mark svg{width:100%;height:100%;overflow:visible}
+  .mark .ring{
+    fill:none;stroke:var(--green);stroke-width:1.6;
+    stroke-dasharray:170;stroke-dashoffset:170;
+    animation:draw 1.1s var(--ease) .25s forwards;
+  }
+  .mark .link{
+    fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;
+    stroke-dasharray:60;stroke-dashoffset:60;
+    animation:draw .9s var(--ease) .55s forwards;
+  }
+  .mark .pulse{
+    fill:var(--green);transform-box:fill-box;transform-origin:center;
+    opacity:0;animation:markPulse 1.6s ease-out 1.1s infinite;
+  }
+
+  /* ── eyebrow ── */
+  .eyebrow{
+    font-family:"JetBrains Mono",monospace;
+    font-size:11.5px;font-weight:600;
+    letter-spacing:.46em;
+    color:var(--green);
+    text-transform:uppercase;
+    display:flex;align-items:center;justify-content:center;gap:14px;
+    opacity:0;animation:fadeUp .7s ease .2s forwards;
+  }
+  .eyebrow .dash{
+    width:34px;height:1.5px;background:var(--green);
+    position:relative;overflow:hidden;
+  }
+  .eyebrow .dash::after{
+    content:"";position:absolute;inset:0;background:var(--cream);
+    transform:translateX(-100%);animation:wipe .8s ease .42s forwards;
+  }
+  .eyebrow .dot{
+    width:5px;height:5px;border-radius:50%;background:var(--green);
+    box-shadow:0 0 0 4px rgba(31,159,95,.16);
+  }
+
+  /* ── wordmark ── */
+  .wordmark{
+    margin:24px 0 6px;
+    font-weight:800;
+    font-size:clamp(40px,8vw,86px);
+    letter-spacing:-.038em;
+    line-height:.95;
+    color:var(--ink);
+    position:relative;
+  }
+  .wordmark .row{display:inline-block;overflow:hidden;vertical-align:bottom;position:relative}
+  .wordmark .row i{
+    font-style:normal;display:inline-block;
+    transform:translateY(110%);
+    animation:rise .95s var(--ease) forwards;
+  }
+  .wordmark .w2 i{animation-delay:.14s}
+  .wordmark .w2{color:var(--green);position:relative}
+  .wordmark .underline{
+    position:absolute;left:0;right:0;bottom:-6px;
+    height:3px;background:var(--green);border-radius:999px;
+    transform:scaleX(0);transform-origin:left;
+    animation:underlineDraw .9s var(--ease) 1.05s forwards;
+  }
+  .wordmark .sheen{
+    position:absolute;inset:-4% -2%;
+    background:linear-gradient(110deg, transparent 0 40%, rgba(255,255,255,.6) 50%, transparent 60% 100%);
+    mix-blend-mode:overlay;
+    transform:translateX(-120%);
+    animation:sheen 1.6s var(--ease) 1.4s forwards;
+    pointer-events:none;
+  }
+
+  .tagline{
+    margin-top:14px;
+    font-family:"JetBrains Mono",monospace;
+    font-size:13px;color:var(--ink-soft);
+    letter-spacing:.04em;
+    opacity:0;animation:fadeUp .7s ease .65s forwards;
+  }
+  .tagline .arr{color:var(--green);font-weight:700;margin:0 6px}
+  .tagline .caret{
+    display:inline-block;width:7px;height:14px;vertical-align:-2px;
+    background:var(--green);margin-left:6px;
+    animation:caretBlink 1s steps(2) infinite;
+  }
+
+  /* ── pipeline ── */
+  .pipe{
+    margin:46px auto 0;
+    width:100%;max-width:580px;
+    opacity:0;animation:fadeUp .7s ease .9s forwards;
+    position:relative;
+  }
+  .pipe svg{width:100%;height:auto;overflow:visible;display:block}
+
+  .track{fill:none;stroke:var(--line);stroke-width:2}
+  .flow{
+    fill:none;stroke:var(--green);stroke-width:2.5;stroke-linecap:round;
+    stroke-dasharray:520;stroke-dashoffset:520;
+    filter:drop-shadow(0 4px 12px rgba(31,159,95,.35));
+    animation:draw 3.55s cubic-bezier(.65,0,.35,1) 1.1s forwards;
+  }
+  /* traveling packet that races along the pipe */
+  .packet{
+    fill:var(--green);filter:drop-shadow(0 0 8px rgba(31,159,95,.7));
+    opacity:0;
+    animation:packetRun 3.55s cubic-bezier(.65,0,.35,1) 1.1s forwards;
+  }
+  .node{
+    fill:var(--cream);stroke:var(--line);stroke-width:2;
+    transform-box:fill-box;transform-origin:center;
+  }
+  .node.on{animation:pop .55s cubic-bezier(.34,1.56,.64,1) forwards}
+  .node-ring{
+    fill:none;stroke:var(--green);stroke-width:1.5;opacity:0;
+    transform-box:fill-box;transform-origin:center;transform:scale(.5);
+  }
+  .node-ring.on{animation:ringOut 1.4s ease-out forwards}
+  .node-core{
+    fill:var(--green);opacity:0;
+    transform-box:fill-box;transform-origin:center;transform:scale(0);
+  }
+  .node-core.on{animation:popCore .55s cubic-bezier(.34,1.56,.64,1) forwards}
+
+  .lbl{
+    font-family:"JetBrains Mono",monospace;
+    font-size:11px;font-weight:600;letter-spacing:.08em;
+    fill:var(--ink-soft);opacity:0;
+  }
+  .lbl.on{animation:fadeUp .45s ease forwards}
+  .lbl.green{fill:var(--green);font-weight:700}
+
+  .step-num{
+    font-family:"JetBrains Mono",monospace;
+    font-size:8.5px;font-weight:700;letter-spacing:.14em;
+    fill:var(--ink-muted);opacity:0;
+  }
+  .step-num.on{animation:fadeUp .45s ease forwards}
+
+  /* ── capability chips (icon + label) ── */
+  .caps{
+    margin:46px auto 0;
+    display:flex;justify-content:center;
+    gap:clamp(18px,4vw,46px);flex-wrap:wrap;
+  }
+  .cap{
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+    opacity:0;transform:translateY(14px);
+    position:relative;
+  }
+  .cap.on{animation:capIn .65s var(--ease) forwards}
+  .cap .icon{
+    width:48px;height:48px;border-radius:14px;
+    display:grid;place-items:center;
+    background:rgba(15,42,51,.04);
+    border:1px solid var(--line-soft);
+    transition:background .4s ease, border-color .4s ease,
+               box-shadow .4s ease, transform .4s var(--ease);
+  }
+  .cap svg{width:22px;height:22px;display:block}
+  .cap svg *{
+    stroke:var(--ink);stroke-width:1.7;fill:none;
+    stroke-linecap:round;stroke-linejoin:round;
+    transition:stroke .4s ease;
+  }
+  .cap.lit .icon{
+    background:rgba(31,159,95,.10);
+    border-color:rgba(31,159,95,.32);
+    box-shadow:0 12px 28px -18px rgba(31,159,95,.55), 0 0 0 1px rgba(31,159,95,.18);
+    transform:translateY(-2px);
+  }
+  .cap.lit svg *{stroke:var(--green)}
+  .cap span{
+    font-family:"JetBrains Mono",monospace;
+    font-size:10px;font-weight:600;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--ink-soft);
+    transition:color .4s ease;
+  }
+  .cap.lit span{color:var(--green)}
+
+  /* ── system ready pill (climax) ── */
+  .ready{
+    margin:26px auto 0;
+    display:inline-flex;align-items:center;gap:10px;
+    padding:8px 14px;border-radius:999px;
+    background:rgba(31,159,95,.10);
+    border:1px solid rgba(31,159,95,.32);
+    color:var(--green);
+    font-family:"JetBrains Mono",monospace;
+    font-size:11px;font-weight:700;letter-spacing:.22em;
+    text-transform:uppercase;
+    opacity:0;transform:translateY(8px) scale(.96);
+    box-shadow:0 18px 38px -22px rgba(31,159,95,.45);
+  }
+  .ready.on{animation:readyIn .6s var(--ease) forwards}
+  .ready .checkwrap{
+    width:18px;height:18px;border-radius:50%;
+    background:var(--green);display:grid;place-items:center;
+    box-shadow:0 0 0 4px rgba(31,159,95,.18);
+  }
+  .ready .checkwrap svg{width:10px;height:10px}
+  .ready .checkwrap svg path{
+    fill:none;stroke:var(--cream);stroke-width:2.6;
+    stroke-linecap:round;stroke-linejoin:round;
+    stroke-dasharray:24;stroke-dashoffset:24;
+  }
+  .ready.on .checkwrap svg path{animation:draw .5s ease .15s forwards}
+
+  /* ── footer (progress + skip) ── */
+  .foot{
+    position:fixed;left:0;right:0;bottom:0;z-index:3;
+    display:flex;align-items:center;gap:18px;
+    padding:0 clamp(20px,5vw,56px) 26px;
+    opacity:0;animation:fadeUp .7s ease 1s forwards;
+  }
+  .bar{
+    flex:1;height:2px;background:var(--line);
+    position:relative;overflow:hidden;border-radius:2px;
+  }
+  .bar::after{
+    content:"";position:absolute;left:0;top:0;height:100%;width:100%;
+    background:linear-gradient(90deg, var(--green-bright), var(--green));
+    transform:translateX(-100%);
+    animation:fill 7s cubic-bezier(.45,.05,.2,1) forwards;
+    box-shadow:0 0 18px rgba(31,159,95,.55);
+  }
+  .bar::before{
+    content:"";position:absolute;top:-3px;height:8px;width:60px;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.7), transparent);
+    transform:translateX(-100px);
+    animation:shimmer 1.4s linear .8s infinite;
+  }
+  .count{
+    font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;
+    color:var(--ink);min-width:46px;text-align:right;
+    font-variant-numeric:tabular-nums;letter-spacing:.05em;
+  }
+  .skip{
+    font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:600;
+    letter-spacing:.18em;text-transform:uppercase;
+    color:var(--ink-soft);background:none;border:1px solid transparent;cursor:pointer;
+    padding:6px 12px;border-radius:999px;
+    transition:color .2s, border-color .2s, background .2s;
+  }
+  .skip:hover{color:var(--green);border-color:rgba(31,159,95,.32);background:rgba(31,159,95,.06)}
+  .skip kbd{
+    font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:700;
+    margin-left:8px;padding:2px 5px;border-radius:4px;
+    background:rgba(15,42,51,.07);border:1px solid var(--line);color:var(--ink);
+    letter-spacing:.05em;
+  }
+
+  /* ── keyframes ── */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes rise{to{transform:translateY(0)}}
+  @keyframes wipe{to{transform:translateX(100%)}}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes fill{to{transform:translateX(0)}}
+  @keyframes pop{0%{transform:scale(1)}55%{transform:scale(1.32)}100%{transform:scale(1.12)}}
+  @keyframes popCore{0%{opacity:0;transform:scale(0)}60%{opacity:1;transform:scale(1.3)}100%{opacity:1;transform:scale(1)}}
+  @keyframes ringOut{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(2.2)}}
+  @keyframes capIn{to{opacity:1;transform:translateY(0)}}
+  @keyframes readyIn{to{opacity:1;transform:translateY(0) scale(1)}}
+  @keyframes underlineDraw{to{transform:scaleX(1)}}
+  @keyframes sheen{
+    0%{opacity:0;transform:translateX(-120%)}
+    35%{opacity:1}
+    100%{opacity:0;transform:translateX(120%)}
+  }
+  @keyframes caretBlink{0%,50%{opacity:1}50.1%,100%{opacity:0}}
+  @keyframes dotPulse{
+    0%,100%{box-shadow:0 0 0 3px rgba(31,159,95,.18)}
+    50%{box-shadow:0 0 0 7px rgba(31,159,95,.02)}
+  }
+  @keyframes markPulse{
+    0%{opacity:.9;transform:scale(1)}
+    100%{opacity:0;transform:scale(2.4)}
+  }
+  @keyframes orbBreathe{
+    0%,100%{opacity:.85;transform:translate(-50%,-50%) scale(1)}
+    50%{opacity:1;transform:translate(-50%,-50%) scale(1.06)}
+  }
+  @keyframes scanSweep{
+    0%,52%{transform:translateX(-60%);opacity:0}
+    62%{opacity:.7}
+    88%,100%{transform:translateX(60%);opacity:0}
+  }
+  @keyframes shimmer{
+    0%{transform:translateX(-100px)}
+    100%{transform:translateX(calc(100vw + 100px))}
+  }
+  @keyframes packetRun{
+    0%{opacity:0}
+    6%{opacity:1}
+    96%{opacity:1}
+    100%{opacity:0}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.01ms!important;animation-iteration-count:1!important}
+  }
+  @media (max-width:600px){
+    .corner-bl,.corner-br{display:none}
+    .cap span{font-size:9.5px}
+    .ready{font-size:10px;letter-spacing:.16em}
+  }
+</style>
+</head>
+<body>
+
+  <div class="bg-orb"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-scan"></div>
+  <div class="bg-vignette"></div>
+  <div class="bg-noise"></div>
+
+  <span class="corner corner-tl"><span class="cdot"></span>FocusChain&nbsp;OS &nbsp;·&nbsp; <b>v2026.5</b></span>
+  <span class="corner corner-tr">Booting&nbsp;·&nbsp;<b>secure</b></span>
+
+  <main class="stage" id="stage">
+
+    <div class="mark" aria-hidden="true">
+      <svg viewBox="0 0 56 56">
+        <circle class="ring" cx="28" cy="28" r="26"/>
+        <path class="link" d="M19 24a6 6 0 0 1 6-6h3M37 32a6 6 0 0 1-6 6h-3M22 28h12"/>
+        <circle class="pulse" cx="28" cy="28" r="3"/>
+      </svg>
+    </div>
+
+    <div class="eyebrow">
+      <span class="dot"></span>
+      <span class="dash"></span>
+      AI&nbsp;Product&nbsp;Engineering
+      <span class="dash"></span>
+      <span class="dot"></span>
+    </div>
+
+    <h1 class="wordmark">
+      <span class="row w1"><i>FocusChain</i></span>
+      <span class="row w2"><i>Labs</i><span class="underline"></span></span>
+      <span class="sheen"></span>
+    </h1>
+
+    <p class="tagline">
+      problem.intake() <span class="arr">→</span> workflow.map <span class="arr">→</span> system.deploy<span class="caret"></span>
+    </p>
+
+    <div class="pipe">
+      <svg viewBox="0 0 580 110" role="img" aria-label="Build pipeline">
+        <line class="track" x1="40" y1="48" x2="540" y2="48"/>
+        <line class="flow"  x1="40" y1="48" x2="540" y2="48"/>
+
+        <circle class="packet" cx="40" cy="48" r="4.5">
+          <animate attributeName="cx" from="40" to="540" dur="3.55s" begin="1.1s" fill="freeze"/>
+        </circle>
+
+        <text class="step-num n1-num" x="40"  y="22" text-anchor="middle">01</text>
+        <text class="step-num n2-num" x="290" y="22" text-anchor="middle">02</text>
+        <text class="step-num n3-num" x="540" y="22" text-anchor="middle">03</text>
+
+        <circle class="node-ring r1" cx="40"  cy="48" r="14"/>
+        <circle class="node-ring r2" cx="290" cy="48" r="14"/>
+        <circle class="node-ring r3" cx="540" cy="48" r="14"/>
+
+        <circle class="node n1" cx="40"  cy="48" r="11"/>
+        <circle class="node n2" cx="290" cy="48" r="11"/>
+        <circle class="node n3" cx="540" cy="48" r="11"/>
+
+        <circle class="node-core c1" cx="40"  cy="48" r="4.5"/>
+        <circle class="node-core c2" cx="290" cy="48" r="4.5"/>
+        <circle class="node-core c3" cx="540" cy="48" r="4.5"/>
+
+        <text class="lbl l1"        x="40"  y="86" text-anchor="middle">PROBLEM</text>
+        <text class="lbl l2"        x="290" y="86" text-anchor="middle">AUTOMATE</text>
+        <text class="lbl l3 green"  x="540" y="86" text-anchor="middle">SYSTEM</text>
+      </svg>
+    </div>
+
+    <div class="caps" id="caps">
+      <div class="cap" data-i="1">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.5A3.8 3.8 0 0 1 18 18Z"/></svg></div>
+        <span>Cloud</span>
+      </div>
+      <div class="cap" data-i="2">
+        <div class="icon"><svg viewBox="0 0 24 24"><rect x="2.5" y="4" width="13" height="10" rx="1.2"/><path d="M5.5 17.5h7"/><rect x="16.5" y="9" width="5.5" height="11" rx="1.2"/></svg></div>
+        <span>Apps</span>
+      </div>
+      <div class="cap" data-i="3">
+        <div class="icon"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.4"/><circle cx="6" cy="18" r="2.4"/><circle cx="18" cy="12" r="2.4"/><path d="M8.3 7.3 15.8 11M8.3 16.7 15.8 13"/></svg></div>
+        <span>AI / ML</span>
+      </div>
+      <div class="cap" data-i="4">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M3 20h18M5 20V9M5 15l5-5 4 3 6-7"/><circle cx="20" cy="6" r="1.3"/></svg></div>
+        <span>Predict</span>
+      </div>
+      <div class="cap" data-i="5">
+        <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M3 8.5h18M7 12v4.5M11 14v2.5M15 11v5.5"/></svg></div>
+        <span>Dashboard</span>
+      </div>
+    </div>
+
+    <div class="ready" id="ready">
+      <span class="checkwrap"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+      System ready
+    </div>
+
+  </main>
+
+  <footer class="foot">
+    <button class="skip" id="skip">Enter site <kbd>↵</kbd></button>
+    <div class="bar"></div>
+    <div class="count" id="count">0%</div>
+  </footer>
+
+<script>
+  var DURATION = 7000;
+  var REDIRECT = "https://focuschainlabs.com/";
+
+  var stage = document.getElementById('stage');
+  var count = document.getElementById('count');
+  var ready = document.getElementById('ready');
+  var done  = false;
+
+  // Animated percentage counter
+  var start = performance.now();
+  (function tick(now){
+    var t = Math.min((now - start) / DURATION, 1);
+    var eased = t < .5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
+    count.textContent = Math.round(eased*100) + '%';
+    if(t < 1 && !done) requestAnimationFrame(tick);
+  })(start);
+
+  // Light up pipeline nodes in sync with the line draw
+  function lightNode(i, delay){
+    setTimeout(function(){
+      document.querySelector('.n'+i).classList.add('on');
+      document.querySelector('.c'+i).classList.add('on');
+      document.querySelector('.r'+i).classList.add('on');
+      document.querySelector('.l'+i).classList.add('on');
+      document.querySelector('.n'+i+'-num').classList.add('on');
+    }, delay);
+  }
+  lightNode(1, 1150);
+  lightNode(2, 2850);
+  lightNode(3, 4600);
+
+  // Capability chips: stagger in, then sweep to green
+  var caps = document.querySelectorAll('.cap');
+  caps.forEach(function(cap, idx){
+    setTimeout(function(){ cap.classList.add('on'); },  2100 + idx*420);
+    setTimeout(function(){ cap.classList.add('lit'); }, 4300 + idx*175);
+  });
+
+  // System-ready badge at the climax
+  setTimeout(function(){ ready.classList.add('on'); }, 5350);
+
+  function go(){
+    if(done) return;
+    done = true;
+    stage.classList.add('leaving');
+    var foot = document.querySelector('.foot');
+    foot.style.transition = 'opacity .4s';
+    foot.style.opacity = '0';
+    setTimeout(function(){
+      try { window.top.location.replace(REDIRECT); }
+      catch(e){ window.location.replace(REDIRECT); }
+    }, 520);
+  }
+
+  setTimeout(go, DURATION);
+  document.getElementById('skip').addEventListener('click', go);
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') go();
+  });
+</script>
+</body>
+</html>
