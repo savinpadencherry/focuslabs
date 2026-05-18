@@ -10,9 +10,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-<link rel="stylesheet" href="intro.css" />
+<link rel="stylesheet" href="intro.css?v=20260518-clarity" />
 <link rel="stylesheet" href="styles.css" />
-<link rel="stylesheet" href="styles-extra.css" />
+<link rel="stylesheet" href="styles-extra.css?v=20260518-polish" />
 <link rel="stylesheet" href="playground.css" />
 
 <script>
@@ -48,6 +48,7 @@
   <div class="intro-scan"></div>
   <div class="intro-particles" id="introParticles" aria-hidden="true"></div>
   <div class="intro-vignette"></div>
+  <div class="intro-noise"></div>
 
   <span class="intro-corner intro-corner-tl"><span class="cdot"></span>FocusChain&nbsp;OS &nbsp;·&nbsp; <b>v2026.5</b></span>
   <span class="intro-corner intro-corner-tr">Booting&nbsp;·&nbsp;<b>secure</b></span>
@@ -3463,16 +3464,15 @@ if (_pgRoot) {
 
     // Floating ambient particles
     if (particles) {
-      const N = 22;
+      const N = 12;
       for (let i = 0; i < N; i++) {
         const p = document.createElement('span');
         p.className = 'intro-particle';
         const left = Math.random() * 100;
-        const size = 2 + Math.random() * 4;
+        const size = 1.5 + Math.random() * 2.4;
         const dur = 8 + Math.random() * 7;
         const delay = -Math.random() * 9;
         const dx = (Math.random() - 0.5) * 80;
-        const hueShift = Math.random() > 0.7;
         p.style.left = left + 'vw';
         p.style.bottom = '-10px';
         p.style.width = size + 'px';
@@ -3480,10 +3480,6 @@ if (_pgRoot) {
         p.style.setProperty('--dur', dur + 's');
         p.style.setProperty('--delay', delay + 's');
         p.style.setProperty('--dx', dx + 'px');
-        if (hueShift) {
-          p.style.background = 'rgba(247, 243, 236, 0.45)';
-          p.style.boxShadow = '0 0 10px rgba(247, 243, 236, 0.45)';
-        }
         particles.appendChild(p);
       }
     }
@@ -3522,12 +3518,12 @@ if (_pgRoot) {
     // Capability chips reveal + light
     const caps = overlay.querySelectorAll('.intro-cap');
     caps.forEach((cap, idx) => {
-      setTimeout(() => cap.classList.add('on'),  2100 + idx * 420);
-      setTimeout(() => cap.classList.add('lit'), 4300 + idx * 180);
+      setTimeout(() => cap.classList.add('on'),  1900 + idx * 260);
+      setTimeout(() => cap.classList.add('lit'), 3300 + idx * 150);
     });
 
     // System-ready badge
-    setTimeout(() => ready && ready.classList.add('on'), 5400);
+    setTimeout(() => ready && ready.classList.add('on'), 4750);
 
     // Percent counter
     const startedAt = performance.now();
@@ -3546,6 +3542,10 @@ if (_pgRoot) {
       counterDone = true;
       try { sessionStorage.setItem('fcl_intro_seen', '1'); } catch (e) {}
       window.removeEventListener('mousemove', onMove);
+      if (stage) {
+        stage.style.setProperty('--tx', '0');
+        stage.style.setProperty('--ty', '0');
+      }
       overlay.classList.add('is-leaving');
       setTimeout(() => {
         overlay.remove();
