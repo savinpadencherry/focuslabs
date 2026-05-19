@@ -10,9 +10,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-<link rel="stylesheet" href="intro.css?v=20260518-clarity" />
+<link rel="stylesheet" href="intro.css?v=20260519-animated-minimal" />
 <link rel="stylesheet" href="styles.css" />
-<link rel="stylesheet" href="styles-extra.css?v=20260518-polish" />
+<link rel="stylesheet" href="styles-extra.css?v=20260519-node-spacing" />
 <link rel="stylesheet" href="playground.css" />
 
 <script>
@@ -43,43 +43,28 @@
 <!-- ═══════════════════════════════ INTRO SPLASH (overlay) ═══════════════════════════════ -->
 <div class="intro-overlay" id="introOverlay" role="dialog" aria-label="FocusChain Labs intro" aria-modal="true">
   <div class="intro-grid"></div>
-  <div class="intro-rays"></div>
-  <div class="intro-orb"></div>
-  <div class="intro-scan"></div>
-  <div class="intro-particles" id="introParticles" aria-hidden="true"></div>
   <div class="intro-vignette"></div>
   <div class="intro-noise"></div>
 
-  <span class="intro-corner intro-corner-tl"><span class="cdot"></span>FocusChain&nbsp;OS &nbsp;·&nbsp; <b>v2026.5</b></span>
-  <span class="intro-corner intro-corner-tr">Booting&nbsp;·&nbsp;<b>secure</b></span>
-
   <main class="intro-stage" id="introStage">
-    <div class="intro-mark" aria-hidden="true">
-      <svg viewBox="0 0 64 64">
-        <circle class="ring-outer" cx="32" cy="32" r="30"/>
-        <circle class="ring-inner" cx="32" cy="32" r="22"/>
-        <path class="link" d="M22 27a7 7 0 0 1 7-7h3M42 37a7 7 0 0 1-7 7h-3M25 32h14"/>
-        <circle class="core" cx="32" cy="32" r="3.4"/>
-        <circle class="core-pulse" cx="32" cy="32" r="3.4"/>
-      </svg>
-    </div>
-
     <div class="intro-eyebrow">
       <span class="dot"></span>
       <span class="dash"></span>
-      AI&nbsp;Product&nbsp;Engineering
+      Connected&nbsp;Intelligence
       <span class="dash"></span>
       <span class="dot"></span>
     </div>
 
-    <h1 class="intro-wordmark" id="introWordmark">
-      <span class="word word-1" data-word="FocusChain"></span>
-      <span class="word word-2" data-word="Labs"><span class="underline"></span></span>
-      <span class="sheen"></span>
+    <h1 class="intro-logo-wrap" aria-label="FocusChain Labs">
+      <img src="logo-mark.png" alt="" class="intro-brand-icon" aria-hidden="true" />
+      <span class="intro-wordmark" aria-hidden="true">
+        <span class="word word-1"><span class="word-inner">FocusChain</span></span>
+        <span class="word word-2"><span class="word-inner">Labs</span></span>
+      </span>
     </h1>
 
     <p class="intro-tagline">
-      problem.intake() <span class="arr">→</span> workflow.map <span class="arr">→</span> system.deploy<span class="caret"></span>
+      problem.intake() <span class="arr">→</span> automate <span class="arr">→</span> deploy<span class="caret"></span>
     </p>
 
     <div class="intro-pipe">
@@ -96,7 +81,7 @@
         <line class="intro-flow"  x1="40" y1="48" x2="560" y2="48"/>
 
         <circle class="intro-packet" cx="40" cy="48" r="4.5">
-          <animate attributeName="cx" from="40" to="560" dur="3.55s" begin="1.2s" fill="freeze"/>
+          <animate attributeName="cx" from="40" to="560" dur="2.85s" begin="1.38s" fill="freeze"/>
         </circle>
 
         <text class="intro-step intro-n1-num" x="40"  y="20" text-anchor="middle">01</text>
@@ -119,34 +104,6 @@
         <text class="intro-lbl intro-l2"       x="300" y="86" text-anchor="middle">AUTOMATE</text>
         <text class="intro-lbl intro-l3 green" x="560" y="86" text-anchor="middle">SYSTEM</text>
       </svg>
-    </div>
-
-    <div class="intro-caps" id="introCaps">
-      <div class="intro-cap" data-i="1">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.5A3.8 3.8 0 0 1 18 18Z"/></svg></div>
-        <span>Cloud</span>
-      </div>
-      <div class="intro-cap" data-i="2">
-        <div class="icon"><svg viewBox="0 0 24 24"><rect x="2.5" y="4" width="13" height="10" rx="1.2"/><path d="M5.5 17.5h7"/><rect x="16.5" y="9" width="5.5" height="11" rx="1.2"/></svg></div>
-        <span>Apps</span>
-      </div>
-      <div class="intro-cap" data-i="3">
-        <div class="icon"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.4"/><circle cx="6" cy="18" r="2.4"/><circle cx="18" cy="12" r="2.4"/><path d="M8.3 7.3 15.8 11M8.3 16.7 15.8 13"/></svg></div>
-        <span>AI / ML</span>
-      </div>
-      <div class="intro-cap" data-i="4">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M3 20h18M5 20V9M5 15l5-5 4 3 6-7"/><circle cx="20" cy="6" r="1.3"/></svg></div>
-        <span>Predict</span>
-      </div>
-      <div class="intro-cap" data-i="5">
-        <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M3 8.5h18M7 12v4.5M11 14v2.5M15 11v5.5"/></svg></div>
-        <span>Dashboard</span>
-      </div>
-    </div>
-
-    <div class="intro-ready" id="introReady">
-      <span class="checkwrap"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
-      System ready
     </div>
   </main>
 
@@ -3433,70 +3390,14 @@ if (_pgRoot) {
       return;
     }
 
-    const DURATION = 7000;
+    const DURATION = 6000;
     const stage      = document.getElementById('introStage');
-    const wordmark   = document.getElementById('introWordmark');
-    const particles  = document.getElementById('introParticles');
-    const ready      = document.getElementById('introReady');
     const count      = document.getElementById('introCount');
     const skip       = document.getElementById('introSkip');
 
     overlay.style.setProperty('--intro-duration', DURATION + 'ms');
     document.body.classList.add('intro-active');
     overlay.classList.add('is-active');
-
-    // Split wordmark into per-character spans so each letter rises in
-    if (wordmark) {
-      wordmark.querySelectorAll('.word').forEach((word) => {
-        const text = word.dataset.word || '';
-        const inner = document.createDocumentFragment();
-        Array.from(text).forEach((ch, i) => {
-          const span = document.createElement('span');
-          span.className = 'char';
-          span.textContent = ch === ' ' ? ' ' : ch;
-          span.style.animationDelay = (0.55 + i * 0.045) + 's';
-          inner.appendChild(span);
-        });
-        const underline = word.querySelector('.underline');
-        word.insertBefore(inner, underline || null);
-      });
-    }
-
-    // Floating ambient particles
-    if (particles) {
-      const N = 12;
-      for (let i = 0; i < N; i++) {
-        const p = document.createElement('span');
-        p.className = 'intro-particle';
-        const left = Math.random() * 100;
-        const size = 1.5 + Math.random() * 2.4;
-        const dur = 8 + Math.random() * 7;
-        const delay = -Math.random() * 9;
-        const dx = (Math.random() - 0.5) * 80;
-        p.style.left = left + 'vw';
-        p.style.bottom = '-10px';
-        p.style.width = size + 'px';
-        p.style.height = size + 'px';
-        p.style.setProperty('--dur', dur + 's');
-        p.style.setProperty('--delay', delay + 's');
-        p.style.setProperty('--dx', dx + 'px');
-        particles.appendChild(p);
-      }
-    }
-
-    // 3D tilt on mouse move
-    let raf = null;
-    function onMove(e) {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        const x = (e.clientX / window.innerWidth - 0.5);
-        const y = (e.clientY / window.innerHeight - 0.5);
-        stage.style.setProperty('--tx', x.toFixed(3));
-        stage.style.setProperty('--ty', y.toFixed(3));
-        raf = null;
-      });
-    }
-    window.addEventListener('mousemove', onMove);
 
     // Light the pipeline nodes in sequence
     function lightNode(i, delay) {
@@ -3511,19 +3412,9 @@ if (_pgRoot) {
         if (stepNum) stepNum.classList.add('on');
       }, delay);
     }
-    lightNode(1, 1200);
-    lightNode(2, 2850);
-    lightNode(3, 4600);
-
-    // Capability chips reveal + light
-    const caps = overlay.querySelectorAll('.intro-cap');
-    caps.forEach((cap, idx) => {
-      setTimeout(() => cap.classList.add('on'),  1900 + idx * 260);
-      setTimeout(() => cap.classList.add('lit'), 3300 + idx * 150);
-    });
-
-    // System-ready badge
-    setTimeout(() => ready && ready.classList.add('on'), 4750);
+    lightNode(1, 1500);
+    lightNode(2, 2920);
+    lightNode(3, 4300);
 
     // Percent counter
     const startedAt = performance.now();
@@ -3541,11 +3432,7 @@ if (_pgRoot) {
       dismissed = true;
       counterDone = true;
       try { sessionStorage.setItem('fcl_intro_seen', '1'); } catch (e) {}
-      window.removeEventListener('mousemove', onMove);
-      if (stage) {
-        stage.style.setProperty('--tx', '0');
-        stage.style.setProperty('--ty', '0');
-      }
+      if (stage) stage.style.transform = 'translate3d(0, 0, 0)';
       overlay.classList.add('is-leaving');
       setTimeout(() => {
         overlay.remove();
@@ -3553,7 +3440,7 @@ if (_pgRoot) {
         document.documentElement.classList.remove('intro-pending');
         document.documentElement.classList.add('intro-skipped');
         if (typeof window.__scanReveals === 'function') window.__scanReveals();
-      }, 760);
+      }, 620);
     }
 
     setTimeout(dismiss, DURATION);
@@ -3721,7 +3608,9 @@ if (_pgRoot) {
   // Subtle parallax on hero hex floats
   const heroMark = document.querySelector('.hero-mark');
   const hero = document.querySelector('.hero');
-  if (heroMark && hero) {
+  const canUsePointerMotion = window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (heroMark && hero && canUsePointerMotion) {
     let raf;
     window.addEventListener('mousemove', e => {
       if (raf) return;
@@ -3840,17 +3729,19 @@ if (_pgRoot) {
   if (hubNodes.length && hubDevice) {
     let autoTimer = null;
     let userLocked = false;
+    let hubInView = true;
     const order = ['cloud', 'app', 'automation', 'analytics', 'funnel'];
     let idx = 0;
 
     function tick() {
-      if (userLocked) return;
+      if (userLocked || !hubInView || document.hidden) return;
       idx = (idx + 1) % order.length;
       applyHubScene(order[idx]);
     }
     function startAuto() {
+      if (userLocked || !hubInView || document.hidden) return;
       stopAuto();
-      autoTimer = setInterval(tick, 4200);
+      autoTimer = setInterval(tick, 6800);
     }
     function stopAuto() {
       if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
@@ -3873,6 +3764,20 @@ if (_pgRoot) {
         if (userLocked) return;
         startAuto();
       });
+    });
+
+    if ('IntersectionObserver' in window) {
+      const hubObserver = new IntersectionObserver((entries) => {
+        hubInView = entries.some((entry) => entry.isIntersecting);
+        if (hubInView) startAuto();
+        else stopAuto();
+      }, { threshold: 0.35 });
+      hubObserver.observe(hubDevice.closest('.service-hub') || hubDevice);
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stopAuto();
+      else startAuto();
     });
 
     startAuto();
