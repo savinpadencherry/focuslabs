@@ -3280,3 +3280,140 @@
     border-radius: 14px;
   }
 }
+
+/* ═══════════════════════ REACH OUT / CONTACT FORM ═══════════════════════ */
+
+.reach-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 40px;
+  align-items: start;
+}
+
+/* ── form side ── */
+.reach-form-wrap {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(247,243,236,0.10);
+  border-radius: 18px;
+  padding: 28px 26px 24px;
+}
+
+.reach-form-head {
+  font-family: var(--sans-tight);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: #42C883;
+  margin-bottom: 20px;
+}
+
+.reach-form { display: flex; flex-direction: column; gap: 16px; }
+
+.rf-row { display: flex; flex-direction: column; gap: 6px; }
+
+.rf-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(247,243,236,0.60);
+  letter-spacing: 0.02em;
+}
+
+.rf-input {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(247,243,236,0.14);
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-family: var(--sans);
+  font-size: 14px;
+  color: #F7F3EC;
+  outline: none;
+  transition: border-color 180ms, background 180ms;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.rf-input::placeholder { color: rgba(247,243,236,0.30); }
+
+.rf-input:focus {
+  border-color: rgba(66,200,131,0.60);
+  background: rgba(255,255,255,0.09);
+}
+
+.rf-textarea {
+  resize: vertical;
+  min-height: 108px;
+  line-height: 1.5;
+}
+
+.rf-submit { width: 100%; justify-content: center; margin-top: 4px; }
+
+.rf-note {
+  font-size: 12px;
+  min-height: 18px;
+  margin-top: 2px;
+  text-align: center;
+}
+.rf-note-error { color: #f87171; }
+.rf-note-ok    { color: #42C883; }
+
+/* ── channels side ── */
+.reach-channels {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.reach-channel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(247,243,236,0.08);
+}
+.reach-channel:last-of-type { border-bottom: none; padding-bottom: 0; }
+
+.reach-channel-lbl {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: rgba(247,243,236,0.44);
+}
+
+.reach-channel-val {
+  font-family: var(--sans-tight);
+  font-size: 17px;
+  font-weight: 600;
+  color: #F7F3EC;
+  text-decoration: none;
+  transition: color 160ms;
+}
+.reach-channel-val:hover { color: #42C883; }
+
+.reach-wa-btn {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 9px 16px;
+  font-size: 13px;
+}
+
+.reach-email-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+/* ── responsive ── */
+@media (max-width: 860px) {
+  .reach-grid { grid-template-columns: 1fr; gap: 24px; }
+}
+
+@media (max-width: 720px) {
+  .reach-form-wrap { padding: 22px 18px 20px; }
+  .reach-grid { margin-top: 28px; }
+  .reach-channel-val { font-size: 15px; }
+  .reach-email-btns { flex-direction: column; }
+}
