@@ -309,7 +309,8 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
   align-items: center;
   max-width: none;
   margin: 0 auto;
-  overflow: clip;
+  overflow-x: visible;
+  overflow-y: clip;
   isolation: isolate;
   color: var(--hero-paper);
   background:
@@ -1196,6 +1197,7 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
   aspect-ratio: 1.05;
   display: grid;
   place-items: center;
+  overflow: visible;
 }
 .service-hub::before {
   content: "";
