@@ -523,14 +523,76 @@
         <div class="pilot-item"><span class="pilot-check">✓</span>Implementation roadmap with launch support</div>
       </div>
 
-      <div class="cta-actions">
-        <a href="mailto:queries@focuschainlabs.com?subject=FocusChain%20Labs%20Build%20Query&amp;body=Hi%20FocusChain%20Labs%2C%0D%0A%0D%0AI%27d%20like%20to%20discuss%20a%20service%20build.%0D%0A%0D%0ACompany%3A%0D%0AProblem%20to%20solve%3A%0D%0AService%20area%20%28cloud%2Fapp%2Fautomation%2Fanalytics%2Ffunnel%29%3A" class="btn btn-primary btn-lg">Book a scoping call <span class="btn-arrow">→</span></a>
-        <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=queries@focuschainlabs.com&amp;su=FocusChain%20Labs%20Build%20Query&amp;body=Hi%20FocusChain%20Labs%2C%0A%0AI%27d%20like%20to%20discuss%20a%20service%20build.%0A%0ACompany%3A%0AProblem%20to%20solve%3A%0AService%20area%20%28cloud%2Fapp%2Fautomation%2Fanalytics%2Ffunnel%29%3A" class="btn btn-ghost btn-lg" target="_blank" rel="noopener">Open in Gmail</a>
-      </div>
-      <p class="pilot-foot">Email <a href="mailto:queries@focuschainlabs.com">queries@focuschainlabs.com</a> · Cloud · apps · automation · analytics · dashboards · lead funnels</p>
+      <!-- REACH OUT GRID -->
+      <div class="reach-grid">
+
+        <!-- LEFT: quick form -->
+        <div class="reach-form-wrap">
+          <div class="reach-form-head">Quick reach out</div>
+          <form class="reach-form" id="reachForm" novalidate>
+            <div class="rf-row">
+              <label class="rf-label" for="rf-phone">Your phone number</label>
+              <input class="rf-input" type="tel" id="rf-phone" name="phone" placeholder="+91 98765 43210" autocomplete="tel" />
+            </div>
+            <div class="rf-row">
+              <label class="rf-label" for="rf-problem">What problem should we solve?</label>
+              <textarea class="rf-input rf-textarea" id="rf-problem" name="problem" rows="4" placeholder="Describe your workflow, what's breaking, or what you'd like to automate…"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg rf-submit">Send to us <span class="btn-arrow">→</span></button>
+            <p class="rf-note" id="rfNote" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <!-- RIGHT: contact channels -->
+        <div class="reach-channels">
+          <div class="reach-channel">
+            <span class="reach-channel-lbl">Email</span>
+            <a href="mailto:queries@focuschainlabs.com" class="reach-channel-val">queries@focuschainlabs.com</a>
+          </div>
+          <div class="reach-channel">
+            <span class="reach-channel-lbl">Phone · WhatsApp</span>
+            <a href="tel:+919938341236" class="reach-channel-val">+91 99383 41236</a>
+            <a href="https://wa.me/919938341236?text=Hi%20FocusChain%20Labs%2C%20I%27d%20like%20to%20discuss%20a%20build." class="btn btn-ghost reach-wa-btn" target="_blank" rel="noopener">Chat on WhatsApp <span class="btn-arrow">→</span></a>
+          </div>
+          <div class="reach-email-btns">
+            <a href="mailto:queries@focuschainlabs.com?subject=FocusChain%20Labs%20Build%20Query&amp;body=Hi%20FocusChain%20Labs%2C%0D%0A%0D%0AI%27d%20like%20to%20discuss%20a%20service%20build.%0D%0A%0D%0ACompany%3A%0D%0AProblem%20to%20solve%3A%0D%0AService%20area%20%28cloud%2Fapp%2Fautomation%2Fanalytics%2Ffunnel%29%3A" class="btn btn-primary btn-lg">Book a scoping call <span class="btn-arrow">→</span></a>
+            <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=queries@focuschainlabs.com&amp;su=FocusChain%20Labs%20Build%20Query&amp;body=Hi%20FocusChain%20Labs%2C%0A%0AI%27d%20like%20to%20discuss%20a%20service%20build.%0A%0ACompany%3A%0AProblem%20to%20solve%3A%0AService%20area%20%28cloud%2Fapp%2Fautomation%2Fanalytics%2Ffunnel%29%3A" class="btn btn-ghost btn-lg" target="_blank" rel="noopener">Open in Gmail</a>
+          </div>
+        </div>
+
+      </div><!-- /reach-grid -->
+
     </div>
   </div>
 </section>
+
+<script>
+(function () {
+  var form = document.getElementById('reachForm');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var phone   = document.getElementById('rf-phone').value.trim();
+    var problem = document.getElementById('rf-problem').value.trim();
+    var note    = document.getElementById('rfNote');
+    if (!problem) {
+      note.textContent = 'Please describe the problem so we can respond usefully.';
+      note.className = 'rf-note rf-note-error';
+      document.getElementById('rf-problem').focus();
+      return;
+    }
+    var body = 'Hi FocusChain Labs,\n\nPhone: ' + (phone || 'Not provided') +
+               '\n\nProblem to solve:\n' + problem +
+               '\n\nLooking forward to hearing from you.';
+    var url  = 'mailto:queries@focuschainlabs.com' +
+               '?subject=' + encodeURIComponent('FocusChain Labs Build Enquiry') +
+               '&body='    + encodeURIComponent(body);
+    window.location.href = url;
+    note.textContent = 'Opening your email client…';
+    note.className = 'rf-note rf-note-ok';
+  });
+})();
+</script>
 
 <!-- ═══════════════════════════════ TAB 2 — BUILD LAB ═══════════════════════════════ -->
 <section class="tab-panel" data-panel="playground" data-screen-label="02 Build lab">
