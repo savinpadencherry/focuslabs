@@ -299,13 +299,13 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
   --hero-paper: #F7F3EC;
   --hero-muted: rgba(247, 243, 236, 0.66);
   padding:
-    clamp(28px, 4vh, 50px)
+    clamp(18px, 2.8vh, 40px)
     max(44px, calc((100vw - 1320px) / 2 + 44px))
-    clamp(40px, 5vh, 60px);
+    clamp(22px, 3vh, 44px);
   min-height: calc(100vh - var(--nav-height));
   display: grid;
   grid-template-columns: 1.2fr 1fr;
-  gap: clamp(18px, 2.6vw, 34px);
+  gap: clamp(40px, 5vw, 72px);
   align-items: center;
   max-width: none;
   margin: 0 auto;
@@ -399,7 +399,7 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
   background: rgba(255, 255, 255, 0.07);
   border: 1px solid var(--hero-line);
   border-radius: 999px;
-  margin-bottom: clamp(10px, 1.6vh, 16px);
+  margin-bottom: clamp(8px, 1.2vh, 13px);
   backdrop-filter: blur(18px);
 }
 .eyebrow-dot {
@@ -415,7 +415,7 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
 .hero-diagnostic-panel {
   position: relative;
   max-width: 640px;
-  margin-top: clamp(12px, 1.8vh, 18px);
+  margin-top: clamp(10px, 1.4vh, 16px);
   padding: 14px;
   border-radius: 16px;
   border: 1px solid var(--hero-line);
@@ -455,7 +455,7 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 .diagnostic-kicker {
   display: block;
@@ -505,7 +505,7 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
   grid-template-columns: 1fr auto;
   gap: 12px;
   align-items: center;
-  padding: 10px 0;
+  padding: 7px 0;
   border-top: 1px solid var(--hero-line-soft);
 }
 .diagnostic-copy {
@@ -559,7 +559,7 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
 }
 
 .hero-actions {
-  margin-top: clamp(12px, 1.7vh, 18px);
+  margin-top: clamp(10px, 1.4vh, 16px);
   display: flex; gap: 12px; flex-wrap: wrap;
 }
 .hero .btn-primary {
@@ -581,7 +581,7 @@ em { font-style: italic; color: var(--green-deep); font-weight: 500; }
 }
 
 .hero-meta {
-  margin-top: clamp(12px, 1.8vh, 18px);
+  margin-top: clamp(10px, 1.4vh, 16px);
   display: grid;
   grid-template-columns: 1fr auto 1fr auto 1fr;
   align-items: center;

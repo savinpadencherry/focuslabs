@@ -1340,7 +1340,7 @@
 .copy-field-hero { --copy-label: "Build brief"; --copy-accent: #42C883; --copy-warm: #F7F3EC; max-width: 670px; }
 .hero .copy-field-hero {
   max-width: 650px;
-  padding: 31px 20px 17px 20px;
+  padding: 26px 20px 14px 20px;
   border-radius: 14px;
   background:
     linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.035)),
@@ -2563,21 +2563,21 @@
 /* ═══════════════════════ HERO IMPACT + OBVIOUS ANIMATION BOOST ═══════════════════════ */
 @media (min-width: 1101px) {
   .hero .display {
-    font-size: clamp(72px, 6.75vw, 108px);
-    line-height: 0.86;
+    font-size: clamp(60px, 5.4vw, 84px);
+    line-height: 0.88;
     letter-spacing: -0.025em;
   }
 }
 @media (min-width: 1101px) and (max-height: 860px) {
   .hero .display {
-    font-size: clamp(66px, 6.15vw, 92px);
-    line-height: 0.86;
+    font-size: clamp(56px, 5.0vw, 74px);
+    line-height: 0.88;
   }
   .hero .copy-field-hero {
-    margin-top: clamp(14px, 2.2vh, 22px);
+    margin-top: clamp(12px, 1.8vh, 18px);
   }
   .hero-diagnostic-panel {
-    margin-top: clamp(14px, 2.2vh, 22px);
+    margin-top: clamp(12px, 1.8vh, 18px);
   }
 }
 
@@ -2699,17 +2699,17 @@
 @media (min-width: 1101px) and (max-height: 820px) {
   .hero {
     padding:
-      12px
+      10px
       max(34px, calc((100vw - 1320px) / 2 + 34px))
-      14px;
+      12px;
     grid-template-columns: minmax(0, 1.32fr) minmax(390px, 0.88fr);
-    gap: clamp(14px, 2vw, 24px);
+    gap: clamp(28px, 3.5vw, 52px);
     align-items: center;
   }
 
   .hero .display {
     max-width: 720px;
-    font-size: clamp(52px, 5.05vw, 66px);
+    font-size: clamp(48px, 4.6vw, 60px);
     line-height: 0.9;
   }
 
@@ -2853,7 +2853,7 @@
 @media (min-width: 1101px) and (max-height: 740px) {
   .hero .display {
     max-width: 680px;
-    font-size: clamp(48px, 4.8vw, 62px);
+    font-size: clamp(44px, 4.2vw, 54px);
   }
 
   .hero .copy-field-hero {
