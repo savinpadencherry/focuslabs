@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Privacy Policy | FocusChain Labs</title>
+<meta name="description" content="Privacy Policy for FocusChain Labs, including how we collect, use, protect, and process information across our website and service build workflows." />
+<link rel="canonical" href="https://focuschainlabs.com/privacy_policy.html" />
+<meta property="og:title" content="Privacy Policy | FocusChain Labs" />
+<meta property="og:description" content="How FocusChain Labs collects, uses, protects, and processes information." />
+<meta property="og:url" content="https://focuschainlabs.com/privacy_policy.html" />
+<meta property="og:type" content="website" />
+
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V8CHBM579Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-V8CHBM579Z');
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="styles-extra.css?v=20260519-node-spacing" />
+<style>
+  body {
+    min-height: 100vh;
+  }
+
+  .privacy-nav {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .privacy-nav-links {
+    justify-self: center;
+    display: flex;
+    align-items: center;
+    gap: 26px;
+  }
+
+  .privacy-nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-3);
+    transition: color 0.2s var(--ease);
+  }
+
+  .privacy-nav-links a:hover {
+    color: var(--navy);
+  }
+
+  .privacy-page {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .privacy-page::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 420px;
+    background:
+      linear-gradient(135deg, rgba(31, 165, 101, 0.10), transparent 48%),
+      linear-gradient(180deg, var(--paper-2), var(--paper));
+    border-bottom: 1px solid var(--line);
+    pointer-events: none;
+  }
+
+  .privacy-hero {
+    position: relative;
+    padding: 92px 0 56px;
+  }
+
+  .privacy-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--green-deep);
+    margin-bottom: 20px;
+  }
+
+  .privacy-kicker::before {
+    content: '';
+    width: 22px;
+    height: 1px;
+    background: var(--green);
+  }
+
+  .privacy-title {
+    max-width: 760px;
+    font-family: var(--display);
+    font-size: clamp(48px, 7vw, 86px);
+    line-height: 0.96;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    color: var(--navy-deep);
+    margin-bottom: 24px;
+  }
+
+  .privacy-updated {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(247, 243, 236, 0.72);
+    color: var(--ink-3);
+    font-size: 13px;
+  }
+
+  .privacy-layout {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 56px;
+    align-items: start;
+    padding-bottom: 110px;
+  }
+
+  .privacy-content {
+    background: rgba(247, 243, 236, 0.72);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 48px;
+    box-shadow: 0 34px 80px -54px rgba(20, 60, 92, 0.35);
+  }
+
+  .privacy-content > p:first-child {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--ink-2);
+  }
+
+  .privacy-content h2 {
+    font-family: var(--display);
+    font-size: 28px;
+    line-height: 1.15;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--navy-deep);
+    margin: 46px 0 16px;
+  }
+
+  .privacy-content h2:first-child {
+    margin-top: 0;
+  }
+
+  .privacy-content h3 {
+    font-family: var(--display);
+    font-size: 19px;
+    line-height: 1.3;
+    font-weight: 500;
+    color: var(--navy);
+    margin: 28px 0 10px;
+  }
+
+  .privacy-content p,
+  .privacy-content li {
+    color: var(--ink-3);
+    font-size: 15px;
+    line-height: 1.72;
+  }
+
+  .privacy-content p + p {
+    margin-top: 14px;
+  }
+
+  .privacy-content ul {
+    display: grid;
+    gap: 10px;
+    margin: 14px 0 0;
+    padding-left: 20px;
+  }
+
+  .privacy-content li::marker {
+    color: var(--green-deep);
+  }
+
+  .privacy-content strong {
+    color: var(--ink-2);
+    font-weight: 600;
+  }
+
+  .privacy-content a,
+  .privacy-aside a {
+    color: var(--green-deep);
+    font-weight: 500;
+  }
+
+  .privacy-content a:hover,
+  .privacy-aside a:hover {
+    color: var(--navy);
+  }
+
+  .privacy-contact {
+    margin-top: 48px;
+    padding: 30px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+  }
+
+  .privacy-contact h2 {
+    margin-top: 0;
+  }
+
+  .privacy-aside {
+    position: sticky;
+    top: calc(var(--nav-height) + 28px);
+    border-left: 1px solid var(--line);
+    padding-left: 28px;
+  }
+
+  .privacy-aside-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--green-deep);
+    margin-bottom: 16px;
+  }
+
+  .privacy-aside ol {
+    list-style: decimal-leading-zero;
+    padding-left: 22px;
+    display: grid;
+    gap: 10px;
+  }
+
+  .privacy-aside li {
+    color: var(--ink-4);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .privacy-aside li::marker {
+    color: var(--ink-4);
+    font-family: var(--mono);
+    font-size: 10px;
+  }
+
+  @media (max-width: 960px) {
+    .privacy-layout {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .privacy-aside {
+      position: static;
+      border-left: 0;
+      border-top: 1px solid var(--line);
+      padding: 24px 0 0;
+      order: -1;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .privacy-nav {
+      grid-template-columns: 1fr auto;
+    }
+
+    .privacy-nav-links {
+      order: 3;
+      grid-column: 1 / -1;
+      justify-self: stretch;
+      justify-content: space-between;
+      gap: 16px;
+      overflow-x: auto;
+    }
+
+    .privacy-hero {
+      padding: 64px 0 38px;
+    }
+
+    .privacy-title {
+      font-size: clamp(40px, 13vw, 54px);
+    }
+
+    .privacy-content {
+      padding: 30px 22px;
+      border-radius: var(--r);
+    }
+
+    .privacy-content > p:first-child {
+      font-size: 16px;
+    }
+
+    .privacy-content h2 {
+      font-size: 24px;
+      margin-top: 38px;
+    }
+
+    .privacy-contact {
+      padding: 24px 18px;
+    }
+  }
+</style>
+</head>
+<body>
+<header class="nav privacy-nav">
+  <a href="./" class="brand" aria-label="FocusChain Labs home">
+    <img src="logo-wordmark.png" alt="FocusChain Labs" class="brand-logo" />
+  </a>
+
+  <nav class="privacy-nav-links" aria-label="Site">
+    <a href="./">Services</a>
+    <a href="./?tab=playground">Build lab</a>
+    <a href="./#contact">Contact</a>
+  </nav>
+
+  <div class="nav-cta">
+    <a href="./#contact" class="btn btn-primary">Start a build <span class="btn-arrow">-&gt;</span></a>
+  </div>
+</header>
+
+<main class="privacy-page">
+  <section class="privacy-hero">
+    <div class="container">
+      <span class="privacy-kicker">FocusChain Labs</span>
+      <h1 class="privacy-title">Privacy Policy</h1>
+      <p class="privacy-updated">Last Updated: July 3, 2026</p>
+    </div>
+  </section>
+
+  <div class="container privacy-layout">
+    <article class="privacy-content">
+      <p>Welcome to <strong>FocusChain Labs</strong> ("we," "our," or "us"). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website (<a href="https://focuschainlabs.com">www.focuschainlabs.com</a>) and engage with our services, including AI Product Engineering, Cloud Architecture, Workflow Automation, and Predictive Analytics.</p>
+
+      <h2 id="information-we-collect">1. Information We Collect</h2>
+      <p>We collect personal information that you voluntarily provide to us when you express an interest in obtaining information about us or our products and services. The personal information that we collect depends on the context of your interactions with us and the website.</p>
+
+      <h3>A. Information You Provide to Us</h3>
+      <ul>
+        <li><strong>Contact Information:</strong> Phone numbers, email addresses, and any details you provide via our contact forms, such as scoping calls or queries.</li>
+        <li><strong>Business Information:</strong> Details about your company, workflows, and the specific business problems you are looking to solve using our platforms.</li>
+      </ul>
+
+      <h3>B. Information Collected Automatically</h3>
+      <ul>
+        <li><strong>Usage Data:</strong> We automatically collect certain information when you visit, use, or navigate the site, including our Live Build Lab and Command Center simulators. This includes device and usage information, such as your IP address, browser and device characteristics, operating system, language preferences, referring URLs, and information about how and when you use our site.</li>
+      </ul>
+
+      <h2 id="how-we-use-your-information">2. How We Use Your Information</h2>
+      <p>We use the information we collect or receive for the following business purposes:</p>
+      <ul>
+        <li><strong>To provide and manage our services:</strong> Designing, building, and deploying cloud applications, AI/ML workflows, and dashboards tailored to your requirements.</li>
+        <li><strong>To communicate with you:</strong> Responding to your inquiries, scheduling scoping calls, and providing implementation and launch support.</li>
+        <li><strong>To improve our platform:</strong> Analyzing how users interact with our Live Build Lab and website to optimize user experience and service delivery.</li>
+        <li><strong>For marketing and lead funnel automation:</strong> Sending administrative information, service updates, and relevant marketing communications. You can opt out at any time.</li>
+      </ul>
+
+      <h2 id="ai-cloud-processing">3. Data Processing for AI and Cloud Services</h2>
+      <p>As a provider of AI/ML workflow automation and predictive analytics, such as credit analyzers and churn signals, we often process data on behalf of our clients. In these instances, FocusChain Labs acts as a <strong>Data Processor</strong>, and our clients act as the <strong>Data Controllers</strong>.</p>
+      <ul>
+        <li>We do not use your proprietary business data or your customers' data to train public AI models without your explicit consent.</li>
+        <li>All client data processed through our secure cloud backends and IoT-connected mobile experiences is handled in strict compliance with the architecture and security guardrails agreed upon during the scoping and blueprint phase.</li>
+      </ul>
+
+      <h2 id="data-sharing">4. Data Sharing and Disclosure</h2>
+      <p>We only share information with your consent, to comply with laws, to provide you with services, to protect your rights, or to fulfill business obligations. We may share your data with:</p>
+      <ul>
+        <li><strong>Cloud Service Providers:</strong> Third-party vendors who host our servers and cloud infrastructure, such as AWS, GCP, or Azure.</li>
+        <li><strong>Analytics Providers:</strong> Tools that help us measure website performance and consumer insights.</li>
+        <li><strong>Legal Requirements:</strong> When reasonably necessary to comply with applicable law, regulation, legal process, or governmental request.</li>
+      </ul>
+
+      <h2 id="data-security">5. Data Security</h2>
+      <p>We prioritize the security of the systems we build and the data we hold. We have implemented appropriate technical and organizational security measures designed to protect the security of any personal information we process. This includes secure cloud architectures, authentication, Role-Based Access Control (RBAC), and multi-region databases. However, despite our safeguards, no internet transmission is 100% secure, so we cannot promise or guarantee that hackers, cybercriminals, or other unauthorized third parties will not be able to defeat our security.</p>
+
+      <h2 id="data-retention">6. Data Retention</h2>
+      <p>We will only keep your personal information for as long as it is necessary for the purposes set out in this privacy notice, unless a longer retention period is required or permitted by law, such as tax, accounting, or other legal requirements.</p>
+
+      <h2 id="privacy-rights">7. Your Privacy Rights</h2>
+      <p>Depending on your geographic location, you may have the following rights regarding your personal data:</p>
+      <ul>
+        <li>The right to access the personal information we hold about you.</li>
+        <li>The right to request that we correct any inaccurate information.</li>
+        <li>The right to request the deletion of your personal information.</li>
+        <li>The right to opt out of marketing communications.</li>
+      </ul>
+      <p>To exercise any of these rights, please contact us using the details provided below.</p>
+
+      <h2 id="updates">8. Updates to This Policy</h2>
+      <p>We may update this privacy notice from time to time to reflect changes to our practices, operational requirements, or legal regulations. The updated version will be indicated by an updated "Last Updated" date at the top of this document.</p>
+
+      <section class="privacy-contact" id="contact-us">
+        <h2>9. Contact Us</h2>
+        <p>If you have questions or comments about this notice, or if you wish to exercise your data rights, you may contact us at:</p>
+        <p><strong>FocusChain Labs</strong></p>
+        <p>Email: <a href="mailto:queries@focuschainlabs.com">queries@focuschainlabs.com</a></p>
+        <p>Phone / WhatsApp: <a href="tel:+919938341236">+91 99383 41236</a></p>
+      </section>
+    </article>
+
+    <aside class="privacy-aside" aria-label="Privacy policy sections">
+      <div class="privacy-aside-title">On this page</div>
+      <ol>
+        <li><a href="#information-we-collect">Information We Collect</a></li>
+        <li><a href="#how-we-use-your-information">How We Use Information</a></li>
+        <li><a href="#ai-cloud-processing">AI and Cloud Processing</a></li>
+        <li><a href="#data-sharing">Data Sharing</a></li>
+        <li><a href="#data-security">Data Security</a></li>
+        <li><a href="#data-retention">Data Retention</a></li>
+        <li><a href="#privacy-rights">Privacy Rights</a></li>
+        <li><a href="#updates">Updates</a></li>
+        <li><a href="#contact-us">Contact Us</a></li>
+      </ol>
+    </aside>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <img src="logo-wordmark.png" alt="FocusChain Labs" class="footer-logo" />
+    </div>
+    <div class="footer-links">
+      <a href="./">Services</a>
+      <a href="./?tab=playground">Build lab</a>
+      <a href="privacy_policy.html">Privacy</a>
+      <a href="mailto:queries@focuschainlabs.com">Contact</a>
+    </div>
+    <div class="footer-meta">
+      <div>&copy; 2026 FocusChain Labs</div>
+      <div class="footer-fine">All rights reserved · Built in India</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
